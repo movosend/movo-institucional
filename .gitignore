@@ -20,7 +20,10 @@
 
 # misc
 .DS_Store
+.claude
 *.pem
+movo-design-system.md
+skills-lock.json
 
 # debug
 npm-debug.log*
