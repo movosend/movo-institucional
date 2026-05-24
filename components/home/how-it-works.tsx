@@ -42,23 +42,10 @@ export function HowItWorks() {
       className="relative overflow-hidden"
       style={{
         padding: "100px 40px",
+        background: "#0D0D0F",
         borderTop: "1px solid rgba(255,255,255,0.06)",
       }}
     >
-      {/* Subtle grid texture */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        aria-hidden
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-          maskImage:
-            "radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%)",
-        }}
-      />
 
       <div className="max-w-[1200px] mx-auto w-full relative z-10">
         {/* Header */}

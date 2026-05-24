@@ -202,22 +202,12 @@ export function Hero() {
                   background: "#0A0A0B",
                 }}
               >
-                {/* Dynamic island */}
-                <div
-                  className="absolute z-10"
-                  style={{
-                    top: 12,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    width: 100,
-                    height: 30,
-                    background: "#000",
-                    borderRadius: 20,
-                  }}
-                  aria-hidden
+                {/* App screenshot */}
+                <img
+                  src="/movo-hero-send.png"
+                  alt="Pantalla de seguimiento Movo"
+                  className="absolute inset-0 w-full h-full object-cover object-top"
                 />
-                {/* App UI placeholder */}
-                <PhoneScreenPlaceholder />
               </div>
             </div>
           </div>
@@ -374,90 +364,6 @@ function TrustItem({
         {icon}
       </svg>
       {children}
-    </div>
-  )
-}
-
-function PhoneScreenPlaceholder() {
-  return (
-    <div className="absolute inset-0 pt-12 flex flex-col" style={{ background: "#0D0D10" }}>
-      {/* Map area */}
-      <div className="relative flex-1 overflow-hidden">
-        {/* Faint grid */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
-          }}
-        />
-        {/* Route line */}
-        <svg
-          className="absolute inset-0 w-full h-full"
-          viewBox="0 0 268 300"
-          fill="none"
-        >
-          <path
-            d="M80 260 C80 200, 140 180, 160 120 C180 60, 200 50, 200 40"
-            stroke="#2B6BFF"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeDasharray="6 4"
-          />
-          <circle cx="80" cy="260" r="6" fill="#C6F24A" />
-          <circle cx="200" cy="40" r="6" fill="white" fillOpacity="0.6" />
-          {/* courier dot */}
-          <circle cx="155" cy="140" r="8" fill="#2B6BFF" />
-          <circle cx="155" cy="140" r="12" fill="#2B6BFF" fillOpacity="0.25" />
-        </svg>
-      </div>
-
-      {/* Bottom card */}
-      <div
-        className="flex-shrink-0 p-4"
-        style={{
-          background: "rgba(18,18,22,0.95)",
-          borderTop: "1px solid rgba(255,255,255,0.07)",
-        }}
-      >
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <div className="text-white text-sm font-semibold">En camino</div>
-            <div className="text-[11px] mt-0.5" style={{ color: "rgba(255,255,255,0.4)" }}>
-              Llega en aprox. 9 min
-            </div>
-          </div>
-          <div
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold"
-            style={{
-              background: "rgba(198,242,74,0.12)",
-              color: "#C6F24A",
-            }}
-          >
-            <span
-              className="inline-block w-1.5 h-1.5 rounded-full animate-glow-pulse"
-              style={{ background: "#C6F24A" }}
-            />
-            Live
-          </div>
-        </div>
-        <div
-          className="flex items-center gap-2 p-2.5 rounded-lg"
-          style={{ background: "rgba(255,255,255,0.05)" }}
-        >
-          <div
-            className="w-8 h-8 rounded-full flex-shrink-0"
-            style={{ background: "rgba(255,255,255,0.1)" }}
-          />
-          <div>
-            <div className="text-white text-xs font-medium">Marcos R.</div>
-            <div className="text-[10px]" style={{ color: "rgba(255,255,255,0.4)" }}>
-              Renault Kangoo · ★ 4.8
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   )
 }
