@@ -224,6 +224,62 @@
 }
 
 @layer utilities {
+    /* Landing page animations */
+    @keyframes gridPan {
+        0%   { background-position: 0 0, 0 0; }
+        100% { background-position: 40px 40px, 40px 40px; }
+    }
+    @keyframes glowPulse {
+        0%   { opacity: 0.6; transform: scale(1); }
+        100% { opacity: 1;   transform: scale(1.08); }
+    }
+    @keyframes floatPhone {
+        0%, 100% { transform: translateY(0px) rotate(-1deg); }
+        50%       { transform: translateY(-14px) rotate(1deg); }
+    }
+    @keyframes shadowBreath {
+        0%, 100% { opacity: 0.8; width: 180px; }
+        50%       { opacity: 0.5; width: 140px; }
+    }
+    @keyframes floatCardA {
+        0%, 100% { transform: translateY(0); }
+        50%       { transform: translateY(-8px); }
+    }
+    @keyframes floatCardB {
+        0%, 100% { transform: translateY(0); }
+        50%       { transform: translateY(8px); }
+    }
+    @keyframes scrollFade {
+        0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+        50%       { opacity: 0.2; transform: translateX(-50%) translateY(6px); }
+    }
+    @keyframes livePulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(198,242,74,0.5); opacity: 1; }
+        50%       { box-shadow: 0 0 0 6px rgba(198,242,74,0); opacity: 0.8; }
+    }
+
+    .animate-grid-pan { animation: gridPan 28s linear infinite; }
+    .animate-glow-pulse { animation: glowPulse 6s ease-in-out infinite alternate; }
+    .animate-float-phone { animation: floatPhone 6s ease-in-out infinite; }
+    .animate-shadow-breath { animation: shadowBreath 6s ease-in-out infinite; }
+    .animate-float-a { animation: floatCardA 5s ease-in-out infinite; }
+    .animate-float-b { animation: floatCardB 6s ease-in-out infinite; }
+    .animate-scroll-fade { animation: scrollFade 2s ease-in-out infinite; }
+    .live-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--lime-500);
+        animation: livePulse 2s ease-in-out infinite;
+        flex-shrink: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .animate-grid-pan, .animate-glow-pulse, .animate-float-phone,
+        .animate-shadow-breath, .animate-float-a, .animate-float-b,
+        .animate-scroll-fade, .live-dot { animation: none; }
+    }
+
     /* Live status dot */
     .dot-live {
         width: 10px;
