@@ -211,7 +211,7 @@ export function HowItWorks() {
         {/* CTA link */}
         <div className="flex justify-center">
           <a
-            href="#"
+            href="/como-funciona"
             className="inline-flex items-center gap-2.5 rounded-md font-medium transition-all duration-[120ms] active:scale-[0.98] group"
             style={{
               padding: "14px 28px",

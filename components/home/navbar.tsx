@@ -10,29 +10,21 @@ const NAV_MENUS = {
     cols: 2,
     items: [
       {
-        icon: (
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-        ),
+        icon: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />,
         title: "Verificación de identidad",
-        desc: "KYC biométrico, DID y onboarding seguro.",
-        href: "#kyc",
+        desc: "KYC biométrico, liveness detection y DID descentralizado.",
+        href: "/como-funciona",
       },
       {
         icon: (
           <>
-            <path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
-            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+            <circle cx="12" cy="10" r="3" />
           </>
         ),
-        title: "Solicitud de envío",
-        desc: "El emisor crea el envío y el receptor lo acepta.",
-        href: "#solicitud",
-      },
-      {
-        icon: <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />,
-        title: "Motor de precios dinámico",
-        desc: "Tarifa calculada por distancia, peso y demanda.",
-        href: "#precios",
+        title: "Solicitud y precio dinámico",
+        desc: "El emisor define el paquete y el receptor lo acepta antes de publicarlo.",
+        href: "/como-funciona",
       },
       {
         icon: (
@@ -43,44 +35,44 @@ const NAV_MENUS = {
             <path d="M16 3.13a4 4 0 0 1 0 7.75" />
           </>
         ),
-        title: "Asignación y ruta óptima",
-        desc: "El sistema elige la ruta de menor desvío.",
-        href: "#asignacion",
+        title: "Selección del transportista",
+        desc: "Subasta abierta con score de reputación y hold de fondos automático.",
+        href: "/como-funciona",
+      },
+      {
+        icon: <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />,
+        title: "Ruta optimizada",
+        desc: "El motor sugiere paradas que maximizan ingresos con mínimo desvío.",
+        href: "/como-funciona",
+      },
+      {
+        icon: (
+          <>
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </>
+        ),
+        title: "Retiro verificado",
+        desc: "Primer handshake criptográfico: QR firmado + validación GPS en 60 s.",
+        href: "/como-funciona",
       },
       {
         icon: (
           <>
             <circle cx="12" cy="12" r="10" />
-            <polyline points="12 6 12 12 16 14" />
+            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+            <path d="M2 12h20" />
           </>
         ),
         title: "Seguimiento en tiempo real",
-        desc: "GPS en vivo con ETA y registro fotográfico.",
-        href: "#tracking",
+        desc: "GPS en vivo, ETA dinámica y chat entre las tres partes.",
+        href: "/como-funciona",
       },
       {
-        icon: (
-          <>
-            <rect x="3" y="3" width="7" height="7" />
-            <rect x="14" y="3" width="7" height="7" />
-            <rect x="14" y="14" width="7" height="7" />
-            <path d="M3 17h3v3H3z" />
-          </>
-        ),
-        title: "Cryptographic Handshake",
-        desc: "Entrega verificada con firma digital y GPS.",
-        href: "#handshake",
-      },
-      {
-        icon: (
-          <>
-            <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
-            <line x1="1" y1="10" x2="23" y2="10" />
-          </>
-        ),
-        title: "Sistema de pagos",
-        desc: "Hold, captura y split payment automático.",
-        href: "#pago",
+        icon: <polyline points="20 6 9 17 4 12" />,
+        title: "Entrega y pago automático",
+        desc: "Segundo handshake criptográfico y split payment liberado al instante.",
+        href: "/como-funciona",
       },
     ],
   },
@@ -96,9 +88,9 @@ const NAV_MENUS = {
             <polyline points="9 22 9 12 15 12 15 22" />
           </>
         ),
-        title: "Nuestra historia",
-        desc: "Cómo nació Movo y para qué existe.",
-        href: "#historia",
+        title: "El proyecto",
+        desc: "Cómo nació Movo, nuestro PF de Ingenieria",
+        href: "#proyecto",
       },
       {
         icon: (
@@ -112,17 +104,6 @@ const NAV_MENUS = {
         title: "El equipo",
         desc: "Las personas que construyen la red.",
         href: "#equipo",
-      },
-      {
-        icon: (
-          <>
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-            <circle cx="12" cy="10" r="3" />
-          </>
-        ),
-        title: "Prensa",
-        desc: "Recursos y contacto para medios.",
-        href: "#prensa",
       },
     ],
   },
@@ -172,22 +153,44 @@ export function Navbar() {
     <nav
       ref={navRef}
       className={cn(
-        "fixed top-0 left-0 right-0 z-[100] h-16 flex items-center px-10 transition-all duration-200",
+        "fixed top-0 right-0 left-0 z-[100] flex h-16 items-center px-10 transition-all duration-200",
         scrolled
-          ? "bg-ink-950/82 backdrop-blur-xl border-b border-white/[0.07]"
+          ? "border-b border-white/[0.07] bg-ink-950/82 backdrop-blur-xl"
           : "border-b border-transparent"
       )}
       style={scrolled ? { background: "rgba(10,10,11,0.82)" } : undefined}
     >
-      <div className="max-w-[1200px] mx-auto w-full flex items-center">
+      <div className="mx-auto flex w-full max-w-[1200px] items-center">
         {/* Logo */}
-        <a href="#" className="flex items-center flex-shrink-0 mr-10" aria-label="Movo">
+        <a
+          href="/"
+          className="mr-10 flex flex-shrink-0 items-center"
+          aria-label="Movo"
+        >
           <svg viewBox="0 0 220 56" fill="none" height="30" width="118">
             <rect x="0" y="4" width="48" height="48" rx="12" fill="#0A0A0B" />
             <circle cx="24" cy="28" r="24" fill="#FFFFFF" fillOpacity="0.15" />
-            <circle cx="24" cy="28" r="22.5" fill="#FFFFFF" fillOpacity="0.30" />
-            <circle cx="24" cy="28" r="20.7" fill="#FFFFFF" fillOpacity="0.58" />
-            <circle cx="24" cy="28" r="18.6" fill="#FFFFFF" fillOpacity="0.90" />
+            <circle
+              cx="24"
+              cy="28"
+              r="22.5"
+              fill="#FFFFFF"
+              fillOpacity="0.30"
+            />
+            <circle
+              cx="24"
+              cy="28"
+              r="20.7"
+              fill="#FFFFFF"
+              fillOpacity="0.58"
+            />
+            <circle
+              cx="24"
+              cy="28"
+              r="18.6"
+              fill="#FFFFFF"
+              fillOpacity="0.90"
+            />
             <circle cx="24" cy="28" r="16.3" fill="#0A0A0B" />
             <text
               x="62"
@@ -204,102 +207,148 @@ export function Navbar() {
         </a>
 
         {/* Nav links */}
-        <ul className="flex items-center gap-0 list-none flex-1">
-          {(Object.entries(NAV_MENUS) as [keyof typeof NAV_MENUS, (typeof NAV_MENUS)[keyof typeof NAV_MENUS]][]).map(
-            ([key, menu]) => (
-              <li key={key} className="relative">
-                <button
-                  onClick={() => toggle(key)}
+        <ul className="flex flex-1 list-none items-center gap-0">
+          {(
+            Object.entries(NAV_MENUS) as [
+              keyof typeof NAV_MENUS,
+              (typeof NAV_MENUS)[keyof typeof NAV_MENUS],
+            ][]
+          ).map(([key, menu]) => (
+            <li key={key} className="relative">
+              <button
+                onClick={() => toggle(key)}
+                className={cn(
+                  "mr-2 flex items-center gap-[5px] rounded-md px-4 py-2 text-sm font-medium",
+                  "cursor-pointer transition-colors duration-[120ms] select-none",
+                  openMenu === key
+                    ? "bg-white/[0.06] text-white"
+                    : "text-white/70 hover:bg-white/[0.06] hover:text-white"
+                )}
+              >
+                {menu.label}
+                <svg
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
                   className={cn(
-                    "flex items-center gap-[5px] px-4 py-2 text-sm font-medium rounded-md",
-                    "transition-colors duration-[120ms] cursor-pointer select-none",
-                    openMenu === key
-                      ? "text-white bg-white/[0.06]"
-                      : "text-white/70 hover:text-white hover:bg-white/[0.06]"
+                    "h-[14px] w-[14px] opacity-50 transition-transform duration-200",
+                    openMenu === key && "rotate-180 opacity-100"
                   )}
                 >
-                  {menu.label}
-                  <svg
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    className={cn(
-                      "w-[14px] h-[14px] opacity-50 transition-transform duration-200",
-                      openMenu === key && "rotate-180 opacity-100"
-                    )}
-                  >
-                    <polyline points="4,6 8,10 12,6" />
-                  </svg>
-                </button>
+                  <polyline points="4,6 8,10 12,6" />
+                </svg>
+              </button>
 
-                {/* Submenu dropdown */}
-                <div
-                  className={cn(
-                    "absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2",
-                    "border border-white/[0.09] rounded-[14px]",
-                    "p-5 transition-all duration-200 z-[200]",
-                    menu.cols === 2
-                      ? "grid grid-cols-2 gap-x-8 gap-y-1 min-w-[560px]"
-                      : "grid grid-cols-1 gap-y-1 min-w-[320px]",
-                    openMenu === key
-                      ? "opacity-100 visible pointer-events-auto translate-y-0"
-                      : "opacity-0 invisible pointer-events-none -translate-y-1.5"
-                  )}
-                  style={{
-                    background: "rgba(18,18,22,0.97)",
-                    backdropFilter: "blur(24px)",
-                    WebkitBackdropFilter: "blur(24px)",
-                    boxShadow: "0 24px 60px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3)",
-                  }}
+              {/* Submenu dropdown */}
+              <div
+                className={cn(
+                  "absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2",
+                  "rounded-[14px] border border-white/[0.09]",
+                  "z-[200] p-5 transition-all duration-200",
+                  menu.cols === 2
+                    ? "grid min-w-[560px] grid-cols-2 gap-x-8 gap-y-1"
+                    : "grid min-w-[320px] grid-cols-1 gap-y-1",
+                  openMenu === key
+                    ? "pointer-events-auto visible translate-y-0 opacity-100"
+                    : "pointer-events-none invisible -translate-y-1.5 opacity-0"
+                )}
+                style={{
+                  background: "rgba(18,18,22,0.97)",
+                  backdropFilter: "blur(24px)",
+                  WebkitBackdropFilter: "blur(24px)",
+                  boxShadow:
+                    "0 24px 60px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3)",
+                }}
+              >
+                <p
+                  className="col-span-full px-3 pt-1 pb-2 text-[11px] font-semibold tracking-[0.08em] uppercase"
+                  style={{ color: "rgba(255,255,255,0.35)" }}
                 >
-                  <p
-                    className="col-span-full text-[11px] font-semibold tracking-[0.08em] uppercase px-3 pb-2 pt-1"
-                    style={{ color: "rgba(255,255,255,0.35)" }}
+                  {menu.colTitle}
+                </p>
+                {menu.items.map((item) => (
+                  <a
+                    key={item.title}
+                    href={item.href}
+                    className="group flex cursor-pointer items-start gap-3 rounded-[10px] px-3 py-2.5"
+                    style={{ transition: "background 120ms" }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.background =
+                        "rgba(255,255,255,0.06)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.background = "transparent")
+                    }
                   >
-                    {menu.colTitle}
-                  </p>
-                  {menu.items.map((item) => (
+                    <div
+                      className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md"
+                      style={{
+                        background: "rgba(255,255,255,0.06)",
+                        color: "rgba(255,255,255,0.6)",
+                      }}
+                    >
+                      <NavIcon>{item.icon}</NavIcon>
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      <span
+                        className="text-sm font-medium transition-colors duration-[120ms] group-hover:text-[#C6F24A]"
+                        style={{ color: "rgba(255,255,255,0.88)" }}
+                      >
+                        {item.title}
+                      </span>
+                      <span
+                        className="text-xs leading-snug"
+                        style={{ color: "rgba(255,255,255,0.38)" }}
+                      >
+                        {item.desc}
+                      </span>
+                    </div>
+                  </a>
+                ))}
+
+                {key === "como" && (
+                  <div
+                    className="col-span-full mt-2 pt-2"
+                    style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}
+                  >
                     <a
-                      key={item.title}
-                      href={item.href}
-                      className="flex items-start gap-3 px-3 py-2.5 rounded-[10px] cursor-pointer group"
+                      href="/como-funciona"
+                      className="group flex items-center justify-between rounded-[10px] px-3 py-2.5"
                       style={{ transition: "background 120ms" }}
                       onMouseEnter={(e) =>
-                        (e.currentTarget.style.background = "rgba(255,255,255,0.06)")
+                        (e.currentTarget.style.background =
+                          "rgba(198,242,74,0.07)")
                       }
                       onMouseLeave={(e) =>
                         (e.currentTarget.style.background = "transparent")
                       }
                     >
-                      <div
-                        className="w-9 h-9 rounded-md flex items-center justify-center flex-shrink-0"
-                        style={{
-                          background: "rgba(255,255,255,0.06)",
-                          color: "rgba(255,255,255,0.6)",
-                        }}
+                      <span
+                        className="text-sm font-medium"
+                        style={{ color: "#C6F24A" }}
                       >
-                        <NavIcon>{item.icon}</NavIcon>
-                      </div>
-                      <div className="flex flex-col gap-0.5">
-                        <span
-                          className="text-sm font-medium transition-colors duration-[120ms] group-hover:text-[#C6F24A]"
-                          style={{ color: "rgba(255,255,255,0.88)" }}
-                        >
-                          {item.title}
-                        </span>
-                        <span className="text-xs leading-snug" style={{ color: "rgba(255,255,255,0.38)" }}>
-                          {item.desc}
-                        </span>
-                      </div>
+                        Ver el proceso completo — 7 etapas
+                      </span>
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#C6F24A"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="transition-transform duration-200 group-hover:translate-x-1"
+                        style={{ width: 14, height: 14 }}
+                      >
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
                     </a>
-                  ))}
-                </div>
-              </li>
-            )
-          )}
-
+                  </div>
+                )}
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
     </nav>
