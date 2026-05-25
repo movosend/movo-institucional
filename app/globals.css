@@ -274,10 +274,44 @@
         flex-shrink: 0;
     }
 
+    @keyframes routeDraw {
+        0%   { stroke-dashoffset: 900; }
+        100% { stroke-dashoffset: 0; }
+    }
+    @keyframes pinBounce {
+        0%, 100% { transform: translateY(0); }
+        40%       { transform: translateY(-10px); }
+        60%       { transform: translateY(-6px); }
+    }
+    @keyframes pinShadow {
+        0%, 100% { transform: scaleX(1); opacity: 0.4; }
+        40%       { transform: scaleX(0.5); opacity: 0.15; }
+        60%       { transform: scaleX(0.7); opacity: 0.25; }
+    }
+    @keyframes errorPulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(229,72,77,0.4); }
+        50%       { box-shadow: 0 0 0 6px rgba(229,72,77,0); }
+    }
+    @keyframes glitchSlide {
+        0%, 90%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+        92%            { clip-path: inset(20% 0 60% 0); transform: translate(-3px, 1px); }
+        94%            { clip-path: inset(50% 0 30% 0); transform: translate(3px, -1px); }
+        96%            { clip-path: inset(70% 0 5%  0); transform: translate(-2px, 2px); }
+        98%            { clip-path: inset(0  0 80% 0); transform: translate(2px, -2px); }
+    }
+
+    .animate-route-draw { animation: routeDraw 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+    .animate-pin-bounce  { animation: pinBounce 1.6s ease-in-out infinite; }
+    .animate-pin-shadow  { animation: pinShadow 1.6s ease-in-out infinite; }
+    .animate-error-pulse { animation: errorPulse 2s ease-in-out infinite; }
+    .animate-glitch      { animation: glitchSlide 5s ease-in-out infinite; }
+
     @media (prefers-reduced-motion: reduce) {
         .animate-grid-pan, .animate-glow-pulse, .animate-float-phone,
         .animate-shadow-breath, .animate-float-a, .animate-float-b,
-        .animate-scroll-fade, .live-dot { animation: none; }
+        .animate-scroll-fade, .live-dot,
+        .animate-route-draw, .animate-pin-bounce, .animate-pin-shadow,
+        .animate-error-pulse, .animate-glitch { animation: none; }
     }
 
     /* Live status dot */
