@@ -3,8 +3,7 @@
 export function Hero() {
   return (
     <section
-      className="relative min-h-svh flex items-center overflow-hidden"
-      style={{ padding: "120px 40px 80px" }}
+      className="relative min-h-svh flex items-center overflow-hidden px-5 pt-24 pb-16 md:px-10 md:pt-[120px] md:pb-20"
       id="hero"
     >
       {/* Lime orb glow */}
@@ -21,17 +20,14 @@ export function Hero() {
         aria-hidden
       />
 
-      <div
-        className="max-w-[1200px] mx-auto w-full grid items-center gap-20"
-        style={{ gridTemplateColumns: "1fr 420px" }}
-      >
+      <div className="max-w-[1200px] mx-auto w-full grid items-center gap-10 md:gap-20 grid-cols-1 md:grid-cols-[1fr_420px]">
         {/* Left: copy + CTAs */}
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6 md:gap-8">
           {/* Headline */}
           <h1
             className="font-display text-white"
             style={{
-              fontSize: "clamp(2.5rem, 4.5vw, 4rem)",
+              fontSize: "clamp(2.2rem, 4.5vw, 4rem)",
               fontWeight: 600,
               lineHeight: 1.05,
               letterSpacing: "-0.04em",
@@ -68,7 +64,7 @@ export function Hero() {
           <p
             className="font-sans"
             style={{
-              fontSize: 18,
+              fontSize: 17,
               lineHeight: 1.6,
               color: "rgba(255,255,255,0.5)",
               maxWidth: 480,
@@ -79,9 +75,8 @@ export function Hero() {
             días. Sin sucursales, sin esperas.
           </p>
 
-
           {/* App store badges */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 flex-wrap">
             <StoreBadge
               label="Disponible en"
               name="App Store"
@@ -99,9 +94,9 @@ export function Hero() {
           </div>
 
           {/* Trust strip */}
-          <div className="flex items-center gap-6 pt-2">
+          <div className="flex items-center gap-4 md:gap-6 pt-2 flex-wrap">
             <TrustItem icon={<polyline points="20 6 9 17 4 12" />}>KYC verificado</TrustItem>
-            <div className="w-px h-4 bg-white/10" />
+            <div className="w-px h-4 bg-white/10 hidden sm:block" />
             <TrustItem
               icon={
                 <>
@@ -111,15 +106,15 @@ export function Hero() {
             >
               Pagos seguros
             </TrustItem>
-            <div className="w-px h-4 bg-white/10" />
+            <div className="w-px h-4 bg-white/10 hidden sm:block" />
             <TrustItem icon={<circle cx="12" cy="12" r="10" />}>
               GPS en tiempo real
             </TrustItem>
           </div>
         </div>
 
-        {/* Right: iPhone mockup */}
-        <div className="flex justify-center items-center relative">
+        {/* Right: iPhone mockup — hidden on mobile */}
+        <div className="hidden md:flex justify-center items-center relative">
           {/* Stat floater top-left */}
           <div
             className="absolute z-10 animate-float-a"

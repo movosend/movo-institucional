@@ -65,13 +65,13 @@ function PracticeIcon({ children }: { children: React.ReactNode }) {
 
 function MemberCard({ name, id, photo }: (typeof MEMBERS)[0]) {
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-3 md:gap-4">
       {/* Grayscale photo */}
       <div
         style={{
           width: "100%",
           aspectRatio: "1 / 1",
-          borderRadius: 16,
+          borderRadius: 12,
           border: "1px solid rgba(255,255,255,0.08)",
           overflow: "hidden",
           position: "relative",
@@ -95,12 +95,12 @@ function MemberCard({ name, id, photo }: (typeof MEMBERS)[0]) {
       <div className="text-center">
         <div
           style={{
-            fontSize: 15,
+            fontSize: 13,
             fontWeight: 600,
             color: "rgba(255,255,255,0.88)",
             letterSpacing: "-0.01em",
             lineHeight: 1.3,
-            marginBottom: 4,
+            marginBottom: 3,
           }}
         >
           {name}
@@ -108,7 +108,7 @@ function MemberCard({ name, id, photo }: (typeof MEMBERS)[0]) {
         <div
           style={{
             fontFamily: "var(--font-mono)",
-            fontSize: 12,
+            fontSize: 11,
             color: "rgba(255,255,255,0.28)",
             letterSpacing: "0.04em",
           }}
@@ -124,7 +124,7 @@ export function TeamBody() {
   return (
     <>
       {/* ── Team members ─────────────────────────────────────────── */}
-      <section style={{ padding: "0 40px 96px" }}>
+      <section className="px-5 pb-16 md:px-10 md:pb-24">
         <div className="mx-auto w-full" style={{ maxWidth: 1200 }}>
           {/* Lime rule */}
           <div
@@ -133,17 +133,11 @@ export function TeamBody() {
               height: 3,
               background: "#C6F24A",
               borderRadius: 2,
-              marginBottom: 52,
+              marginBottom: 40,
             }}
           />
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(5, 1fr)",
-              gap: 20,
-            }}
-          >
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 md:gap-5">
             {MEMBERS.map((m) => (
               <MemberCard key={m.id} {...m} />
             ))}
@@ -153,20 +147,13 @@ export function TeamBody() {
 
       {/* ── Methodology ──────────────────────────────────────────── */}
       <section
+        className="px-5 py-16 md:px-10 md:py-20"
         style={{
-          padding: "80px 40px",
           borderTop: "1px solid rgba(255,255,255,0.06)",
         }}
       >
         <div className="mx-auto w-full" style={{ maxWidth: 1200 }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 80,
-              alignItems: "start",
-            }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-start">
             {/* Left */}
             <div>
               <p
@@ -285,20 +272,13 @@ export function TeamBody() {
 
       {/* ── Tooling: Linear ──────────────────────────────────────── */}
       <section
+        className="px-5 py-16 md:px-10 md:py-20 md:pb-24"
         style={{
-          padding: "80px 40px 100px",
           borderTop: "1px solid rgba(255,255,255,0.06)",
         }}
       >
         <div className="mx-auto w-full" style={{ maxWidth: 1200 }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 80,
-              alignItems: "center",
-            }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
             {/* Left: tooling text */}
             <div>
               <p
@@ -350,10 +330,10 @@ export function TeamBody() {
                   background: "rgba(255,255,255,0.03)",
                   border: "1px solid rgba(255,255,255,0.07)",
                   borderRadius: 18,
-                  padding: "32px 36px",
+                  padding: "28px 28px",
                   display: "flex",
                   flexDirection: "column",
-                  gap: 28,
+                  gap: 24,
                 }}
               >
                 {/* Linear logo + name */}
@@ -370,7 +350,6 @@ export function TeamBody() {
                       flexShrink: 0,
                     }}
                   >
-                    {/* Linear logomark approximation */}
                     <img
                       src="/linear-logo.webp"
                       className="w-6 invert"
@@ -414,18 +393,18 @@ export function TeamBody() {
                   {[
                     {
                       value: "+35",
-                      label: "User Stories iniciales prev. refinamiento",
+                      label: "User Stories iniciales",
                     },
-                    { value: "9 meses", label: "Duracion est. del proyecto" },
+                    { value: "9 meses", label: "Duración estimada" },
                     {
                       value: "Control",
-                      label: "Seguimiento total del progreso",
+                      label: "Seguimiento total",
                     },
                   ].map((s, i) => (
                     <div
                       key={s.label}
                       style={{
-                        padding: "14px 16px",
+                        padding: "12px 12px",
                         background: "rgba(255,255,255,0.03)",
                         borderLeft:
                           i > 0 ? "1px solid rgba(255,255,255,0.07)" : "none",
@@ -434,7 +413,7 @@ export function TeamBody() {
                       <div
                         style={{
                           fontFamily: "var(--font-mono)",
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: 500,
                           color: "rgba(255,255,255,0.75)",
                           letterSpacing: "-0.02em",
@@ -446,9 +425,10 @@ export function TeamBody() {
                       </div>
                       <div
                         style={{
-                          fontSize: 11,
+                          fontSize: 10,
                           color: "rgba(255,255,255,0.28)",
-                          letterSpacing: "0.03em",
+                          letterSpacing: "0.02em",
+                          lineHeight: 1.4,
                         }}
                       >
                         {s.label}

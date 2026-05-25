@@ -86,7 +86,7 @@ export function ProjectPageBody() {
   return (
     <>
       {/* ── Section: La motivación ───────────────────────────────── */}
-      <section style={{ padding: "80px 40px" }}>
+      <section className="px-5 py-16 md:px-10 md:py-20">
         <div className="mx-auto w-full" style={{ maxWidth: 1200 }}>
           {/* Lime rule */}
           <div
@@ -99,14 +99,7 @@ export function ProjectPageBody() {
             }}
           />
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 80,
-              alignItems: "start",
-            }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-start">
             {/* Left: heading */}
             <div>
               <p
@@ -186,8 +179,8 @@ export function ProjectPageBody() {
 
       {/* ── Section: Las disciplinas ─────────────────────────────── */}
       <section
+        className="px-5 py-16 md:px-10 md:py-20"
         style={{
-          padding: "80px 40px",
           borderTop: "1px solid rgba(255,255,255,0.06)",
         }}
       >
@@ -223,7 +216,7 @@ export function ProjectPageBody() {
               lineHeight: 1.75,
               color: "rgba(255,255,255,0.42)",
               maxWidth: 520,
-              marginBottom: 52,
+              marginBottom: 44,
             }}
           >
             Elegimos este problema porque no hay forma de resolverlo bien sin
@@ -233,13 +226,7 @@ export function ProjectPageBody() {
           </p>
 
           {/* Grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: 14,
-            }}
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-3.5">
             {DISCIPLINES.map((d) => (
               <div
                 key={d.title}
@@ -247,7 +234,7 @@ export function ProjectPageBody() {
                   background: "rgba(255,255,255,0.03)",
                   border: "1px solid rgba(255,255,255,0.07)",
                   borderRadius: 14,
-                  padding: "26px 26px 24px",
+                  padding: "22px 22px 20px",
                   display: "flex",
                   flexDirection: "column",
                   gap: 14,
@@ -297,20 +284,13 @@ export function ProjectPageBody() {
 
       {/* ── Section: La carrera ──────────────────────────────────── */}
       <section
+        className="px-5 py-16 md:px-10 md:py-20"
         style={{
-          padding: "80px 40px",
           borderTop: "1px solid rgba(255,255,255,0.06)",
         }}
       >
         <div className="mx-auto w-full" style={{ maxWidth: 1200 }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 80,
-              alignItems: "center",
-            }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
             {/* Left */}
             <div>
               <p
@@ -388,7 +368,7 @@ export function ProjectPageBody() {
                     background: "rgba(255,255,255,0.03)",
                     border: "1px solid rgba(255,255,255,0.07)",
                     borderRadius: 12,
-                    padding: "22px 24px",
+                    padding: "20px 22px",
                     display: "flex",
                     alignItems: "center",
                     gap: 20,
@@ -397,19 +377,19 @@ export function ProjectPageBody() {
                   <div
                     style={{
                       fontFamily: "var(--font-mono)",
-                      fontSize: 28,
+                      fontSize: 26,
                       fontWeight: 500,
                       color: "rgba(255,255,255,0.88)",
                       letterSpacing: "-0.02em",
                       lineHeight: 1,
-                      minWidth: 56,
+                      minWidth: 52,
                     }}
                   >
                     {s.number}
                     {s.unit && (
                       <span
                         style={{
-                          fontSize: 14,
+                          fontSize: 13,
                           color: "rgba(255,255,255,0.38)",
                           marginLeft: 4,
                           fontWeight: 400,
@@ -436,12 +416,12 @@ export function ProjectPageBody() {
       </section>
 
       {/* ── Section: Cierre ─────────────────────────────────────── */}
-      <section style={{ padding: "60px 40px 100px" }}>
+      <section className="px-5 py-12 pb-20 md:px-10 md:py-16 md:pb-24">
         <div className="mx-auto w-full" style={{ maxWidth: 1200 }}>
           <div
             style={{
               borderRadius: 18,
-              padding: "56px 64px",
+              padding: "40px 28px",
               position: "relative",
               overflow: "hidden",
               background:
@@ -494,7 +474,7 @@ export function ProjectPageBody() {
               <p
                 className="text-white"
                 style={{
-                  fontSize: "clamp(1.4rem, 2.5vw, 2rem)",
+                  fontSize: "clamp(1.2rem, 2.5vw, 2rem)",
                   fontWeight: 600,
                   letterSpacing: "-0.02em",
                   lineHeight: 1.3,
@@ -534,8 +514,6 @@ export function ProjectPageBody() {
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  style={{ transition: "transform 200ms ease" }}
-                  className="arr"
                 >
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>

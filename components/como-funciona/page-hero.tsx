@@ -3,8 +3,7 @@
 export function PageHero() {
   return (
     <section
-      className="relative overflow-hidden"
-      style={{ paddingTop: 140, paddingBottom: 80, paddingLeft: 40, paddingRight: 40 }}
+      className="relative overflow-hidden px-5 pt-28 pb-16 md:px-10 md:pt-[140px] md:pb-20"
     >
       {/* Wave motif background */}
       <div
@@ -53,7 +52,7 @@ export function PageHero() {
         <h1
           className="text-white mb-6"
           style={{
-            fontSize: "clamp(2.8rem, 6vw, 5rem)",
+            fontSize: "clamp(2.4rem, 6vw, 5rem)",
             fontWeight: 600,
             letterSpacing: "-0.04em",
             lineHeight: 1.04,
@@ -61,12 +60,12 @@ export function PageHero() {
           }}
         >
           Cómo Movo mueve{" "}
-          <br />
+          <br className="hidden sm:block" />
           un paquete de{" "}
           <em className="not-italic" style={{ color: "#C6F24A" }}>
             punto A
           </em>{" "}
-          <br />a{" "}
+          <br className="hidden sm:block" />a{" "}
           <em className="not-italic" style={{ color: "#C6F24A" }}>
             punto B.
           </em>
@@ -74,12 +73,12 @@ export function PageHero() {
 
         {/* Subtitle */}
         <p
+          className="mb-12 md:mb-16"
           style={{
-            fontSize: 18,
+            fontSize: 17,
             lineHeight: 1.7,
             color: "rgba(255,255,255,0.5)",
             maxWidth: 600,
-            marginBottom: 64,
           }}
         >
           Desde que el emisor abre la app hasta que el receptor firma la entrega.
@@ -97,22 +96,13 @@ export function PageHero() {
             border: "1px solid rgba(255,255,255,0.6)",
           }}
         >
-          {/* Column grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr",
-            }}
-          >
-            {PERSONAS.map((p, i) => (
+          {/* Personas — stack on mobile, 3-col on desktop */}
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y divide-black/[0.09] md:divide-y-0 md:divide-x">
+            {PERSONAS.map((p) => (
               <div
                 key={p.role}
                 style={{
-                  padding: "32px 36px 28px",
-                  borderRight:
-                    i < PERSONAS.length - 1
-                      ? "1px solid rgba(0,0,0,0.09)"
-                      : undefined,
+                  padding: "28px 28px 24px",
                   display: "flex",
                   flexDirection: "column",
                   gap: 0,
@@ -130,7 +120,7 @@ export function PageHero() {
                 <div
                   className="mb-3"
                   style={{
-                    fontSize: 28,
+                    fontSize: 26,
                     fontWeight: 700,
                     letterSpacing: "-0.04em",
                     color: "#0A0A0B",
@@ -147,7 +137,7 @@ export function PageHero() {
                     lineHeight: 1.65,
                     color: "rgba(10,10,11,0.6)",
                     flexGrow: 1,
-                    marginBottom: 24,
+                    marginBottom: 20,
                   }}
                 >
                   {p.desc}
@@ -171,7 +161,6 @@ export function PageHero() {
               </div>
             ))}
           </div>
-
         </div>
       </div>
     </section>

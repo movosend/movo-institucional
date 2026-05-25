@@ -6,7 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 
 gsap.registerPlugin(ScrollTrigger)
 
-// Unique "deck" transform per card when it gets pushed into the stack
 const STACK_OFFSETS = [
   { rotate: -0.7, x: -5 },
   { rotate: 0.9, x: 6 },
@@ -178,7 +177,6 @@ export function StackedCards() {
       cardsRef.current.forEach((card, i) => {
         if (!card) return
 
-        // Entry: slide up from below, no opacity change (card bg is solid)
         gsap.fromTo(
           card,
           { y: 70, scale: 0.97 },
@@ -195,8 +193,6 @@ export function StackedCards() {
           }
         )
 
-        // Push into deck when next card enters:
-        // only scale + rotation + translation — NO opacity change so bg stays solid
         if (i < STAGES.length - 1) {
           const offset = STACK_OFFSETS[i % STACK_OFFSETS.length]
           gsap.to(card, {
@@ -221,13 +217,11 @@ export function StackedCards() {
   return (
     <section
       ref={sectionRef}
-      style={{
-        padding: "60px 40px 120px",
-        position: "relative",
-      }}
+      className="px-5 pt-10 pb-20 md:px-10 md:pt-[60px] md:pb-[120px]"
+      style={{ position: "relative" }}
     >
       {/* Section header */}
-      <div className="max-w-[1200px] mx-auto mb-16">
+      <div className="max-w-[1200px] mx-auto mb-10 md:mb-16">
         <div
           className="font-mono text-[11px] font-semibold tracking-[0.1em] uppercase mb-4"
           style={{ color: "rgba(255,255,255,0.3)" }}
@@ -266,41 +260,27 @@ export function StackedCards() {
             }}
             style={{
               position: "sticky",
-              // Each card sticks slightly lower, so the deck "fans" visually
-              top: 72 + i * 18,
-              // Critical: later cards render ON TOP of earlier ones
+              top: 72 + i * 14,
               zIndex: i + 1,
               borderRadius: 16,
               background: "#111113",
               border: "1px solid rgba(255,255,255,0.08)",
               overflow: "hidden",
-              // transformOrigin center so rotations look natural
               transformOrigin: "top center",
             }}
           >
-            {/* Card inner layout */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                minHeight: 360,
-              }}
-            >
+            {/* Card inner — stacks on mobile */}
+            <div className="grid grid-cols-1 md:grid-cols-2 md:min-h-[360px]">
               {/* Left: business content */}
               <div
+                className="relative overflow-hidden flex flex-col justify-between border-b border-white/[0.06] md:border-b-0 md:border-r md:border-white/[0.06]"
                 style={{
-                  padding: "44px 48px",
-                  borderRight: "1px solid rgba(255,255,255,0.06)",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  position: "relative",
-                  overflow: "hidden",
+                  padding: "32px 28px",
                 }}
               >
                 {/* Watermark icon */}
                 <div
-                  className="absolute right-6 bottom-6 pointer-events-none"
+                  className="absolute right-6 bottom-6 pointer-events-none hidden md:block"
                   aria-hidden
                   style={{
                     width: 140,
@@ -313,7 +293,7 @@ export function StackedCards() {
 
                 <div>
                   {/* Step number + domain badge */}
-                  <div className="flex items-center gap-3 mb-5">
+                  <div className="flex items-center gap-3 mb-5 flex-wrap">
                     <span
                       className="font-mono text-[13px] font-semibold"
                       style={{ color: stage.domainColor }}
@@ -336,7 +316,7 @@ export function StackedCards() {
                   <h3
                     className="text-white mb-4"
                     style={{
-                      fontSize: "clamp(1.3rem, 2vw, 1.75rem)",
+                      fontSize: "clamp(1.15rem, 2vw, 1.75rem)",
                       fontWeight: 600,
                       letterSpacing: "-0.03em",
                       lineHeight: 1.2,
@@ -348,7 +328,7 @@ export function StackedCards() {
                   {/* Business description */}
                   <p
                     style={{
-                      fontSize: 16,
+                      fontSize: 15,
                       lineHeight: 1.7,
                       color: "rgba(255,255,255,0.55)",
                     }}
@@ -360,12 +340,11 @@ export function StackedCards() {
 
               {/* Right: technical details */}
               <div
+                className="flex flex-col justify-center"
                 style={{
-                  padding: "44px 48px",
+                  padding: "32px 28px",
                   background: "rgba(255,255,255,0.018)",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
+                  borderTop: "none",
                 }}
               >
                 <div
@@ -374,13 +353,13 @@ export function StackedCards() {
                 >
                   Detalle técnico
                 </div>
-                <ul style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <ul style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                   {stage.technical.map((item, j) => (
                     <li
                       key={j}
                       className="flex gap-3"
                       style={{
-                        fontSize: 13.5,
+                        fontSize: 13,
                         lineHeight: 1.65,
                         color: "rgba(255,255,255,0.45)",
                       }}
@@ -416,11 +395,10 @@ export function StackedCards() {
 
       {/* Closing note */}
       <div
-        className="max-w-[1200px] mx-auto mt-20 text-center"
-        style={{ padding: "0 40px" }}
+        className="max-w-[1200px] mx-auto mt-16 md:mt-20 text-center px-0"
       >
         <div
-          className="inline-flex items-center gap-3 px-6 py-4 rounded-2xl"
+          className="inline-flex items-center gap-3 px-5 py-4 rounded-2xl text-left"
           style={{
             background: "rgba(198,242,74,0.06)",
             border: "1px solid rgba(198,242,74,0.15)",
@@ -437,7 +415,7 @@ export function StackedCards() {
           />
           <span
             style={{
-              fontSize: 15,
+              fontSize: 14,
               color: "rgba(255,255,255,0.6)",
               letterSpacing: "-0.01em",
             }}

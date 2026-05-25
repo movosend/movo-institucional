@@ -39,17 +39,15 @@ const STEPS = [
 export function HowItWorks() {
   return (
     <section
-      className="relative overflow-hidden"
+      className="relative overflow-hidden px-5 py-16 md:px-10 md:py-[100px]"
       style={{
-        padding: "100px 40px",
         background: "#0D0D0F",
         borderTop: "1px solid rgba(255,255,255,0.06)",
       }}
     >
-
       <div className="max-w-[1200px] mx-auto w-full relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 md:mb-16">
           <div
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-6"
             style={{
@@ -96,24 +94,21 @@ export function HowItWorks() {
         </div>
 
         {/* Steps grid */}
-        <div
-          className="mb-14"
-          style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 2 }}
-        >
+        <div className="mb-10 md:mb-14 grid grid-cols-1 md:grid-cols-3 gap-[2px]">
           {STEPS.map((step, i) => (
             <div
               key={step.num}
               className="relative group"
               style={{
-                padding: "36px 36px 40px",
+                padding: "32px 28px 36px",
                 background: "rgba(255,255,255,0.025)",
                 border: "1px solid rgba(255,255,255,0.07)",
                 transition: "background 200ms",
                 borderRadius:
                   i === 0
-                    ? "10px 0 0 10px"
+                    ? "10px 10px 0 0"
                     : i === STEPS.length - 1
-                    ? "0 10px 10px 0"
+                    ? "0 0 10px 10px"
                     : undefined,
               }}
               onMouseEnter={(e) =>
@@ -178,10 +173,10 @@ export function HowItWorks() {
                 {step.desc}
               </p>
 
-              {/* Connector arrow between steps */}
+              {/* Connector arrow — shown on desktop between steps */}
               {step.connector && (
                 <div
-                  className="absolute right-[-14px] top-1/2 -translate-y-1/2 z-10 flex items-center justify-center"
+                  className="hidden md:flex absolute right-[-14px] top-1/2 -translate-y-1/2 z-10 items-center justify-center"
                   aria-hidden
                   style={{
                     width: 28,
