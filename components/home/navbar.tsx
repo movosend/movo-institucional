@@ -90,7 +90,7 @@ const NAV_MENUS = {
         ),
         title: "El proyecto",
         desc: "Cómo nació Movo, nuestro PF de Ingenieria",
-        href: "#proyecto",
+        href: "/el-proyecto",
       },
       {
         icon: (
@@ -102,8 +102,8 @@ const NAV_MENUS = {
           </>
         ),
         title: "El equipo",
-        desc: "Las personas que construyen la red.",
-        href: "#equipo",
+        desc: "Las 5 personas detras del proyecto.",
+        href: "/el-equipo",
       },
     ],
   },
