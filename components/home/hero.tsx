@@ -76,6 +76,8 @@ export function Hero() {
           </p>
 
           {/* App store badges */}
+          <div className="flex flex-col gap-3">
+          <span className="text-xs uppercase tracking-[0.08em] font-medium" style={{ color: "rgba(255,255,255,0.35)" }}>Próximamente</span>
           <div className="flex items-center gap-2.5 flex-wrap">
             <StoreBadge
               label="Disponible en"
@@ -91,6 +93,7 @@ export function Hero() {
                 <path d="M3.18 23.76c.35.2.77.2 1.12 0l10.2-5.9-2.24-2.24L3.18 23.76zM.1 1.06C.04 1.28 0 1.52 0 1.76v20.48c0 .24.04.48.1.7l11.58-11.59L.1 1.06zM20.93 9.5l-2.43-1.4-2.52 2.52 2.52 2.52 2.45-1.41c.7-.4.7-1.43-.02-1.83zM4.3.24L14.5 6.14l-2.24 2.24L4.3.24C3.95.04 3.53.04 3.18.24L4.3.24z" />
               }
             />
+          </div>
           </div>
 
           {/* Trust strip */}

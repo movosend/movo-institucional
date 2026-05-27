@@ -3,7 +3,7 @@ import { PageHero } from "@/components/como-funciona/page-hero"
 import { StackedCards } from "@/components/como-funciona/stacked-cards"
 
 export const metadata = {
-  title: "Cómo funciona — Movo",
+  title: "Cómo funciona",
   description:
     "El proceso punta a punta de un envío en Movo. Desde que el emisor abre la app hasta que el receptor firma la entrega.",
 }

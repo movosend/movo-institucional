@@ -3,7 +3,7 @@ import { TeamPageHero } from "@/components/el-equipo/page-hero"
 import { TeamBody } from "@/components/el-equipo/team-body"
 
 export const metadata = {
-  title: "El Equipo — Movo",
+  title: "El Equipo",
   description:
     "Cinco estudiantes de Ingeniería en Sistemas de la UTN Córdoba. Un equipo plano, dinámico y autogestionado.",
 }

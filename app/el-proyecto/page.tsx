@@ -3,7 +3,7 @@ import { ProjectPageHero } from "@/components/el-proyecto/page-hero"
 import { ProjectPageBody } from "@/components/el-proyecto/page-body"
 
 export const metadata = {
-  title: "El Proyecto — Movo",
+  title: "El Proyecto",
   description:
     "Movo es el Proyecto Final Integrador de Ingeniería en Sistemas de Información de la UTN Facultad Regional Córdoba. Un sistema real, para un problema real.",
 }
