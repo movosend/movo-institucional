@@ -35,8 +35,8 @@ const STAGES = [
     technical: [
       "KYC delegado a Didit.me (POST /sessions). Movo no almacena imágenes de documentos ni biometría.",
       "Liveness detection: verifica presencia física, previene bypass con fotos o videos.",
-      "Se genera un DID (Decentralized Identifier, estándar W3C) post-verificación, almacenado en el backend de Movo.",
-      "El DID es el ancla criptográfica de toda transacción: firma, custodia, reputación.",
+      "Post-verificación se genera un perfil de identidad confirmada vinculado al usuario en el backend de Movo.",
+      "Ese perfil es el ancla de toda transacción: firma, custodia y reputación quedan asociadas a una persona real.",
     ],
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
@@ -73,7 +73,7 @@ const STAGES = [
     technical: [
       "Sistema de subastas: el transportista puede aceptar tarifa sugerida o enviar contraoferta con precio y justificación.",
       "Score de reputación visible por calificación ponderada de transacciones anteriores (emisores y receptores).",
-      "Hold de fondos (Auth & Capture): al confirmar transportista, se reserva el monto en la tarjeta del emisor. No se debita hasta la entrega.",
+      "Al confirmar transportista el emisor da su consentimiento de pago, pero el hold no se activa hasta el retiro físico del paquete.",
       "Validación adicional para transportistas: licencia de conducir verificada + tarjeta precargada para comisiones en efectivo.",
     ],
     icon: (
@@ -113,7 +113,8 @@ const STAGES = [
       "El emisor genera un nonce único (256 bits) firmado con su clave privada: firma = sign(privateKey, nonce).",
       "El nonce + firma se codifican en un QR con TTL de 60 segundos.",
       "El transportista escanea el QR. El backend verifica: (a) firma válida con clave pública del emisor, (b) nonce no reutilizado, (c) TTL no expirado, (d) distancia GPS entre ambos ≤ 100m.",
-      "Si todo pasa: se registra evento de transferencia con timestamp, coordenadas, hash del nonce y referencias a ambos DIDs.",
+      "Si todo pasa: se activa el hold de fondos (Auth & Capture) sobre la tarjeta del emisor — minimizando el tiempo de hold dado que Mercado Pago los cancela a los 7 días.",
+      "Se registra evento de transferencia con timestamp, coordenadas, hash del nonce y referencias a ambos perfiles verificados.",
       "Post-MVP: NFC como alternativa al QR, mismo protocolo criptográfico subyacente.",
     ],
     icon: (
