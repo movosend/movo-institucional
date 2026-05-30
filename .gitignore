@@ -22,7 +22,7 @@
 .DS_Store
 .claude
 *.pem
-movo-design-system.md
+.movo
 skills-lock.json
 
 # debug
