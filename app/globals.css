@@ -221,6 +221,10 @@
         font-weight: 600;
         letter-spacing: -0.02em;
     }
+    ::selection {
+        background-color: var(--lime-500);
+        color: var(--ink-950);
+    }
 }
 
 @layer utilities {
