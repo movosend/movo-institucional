@@ -34,7 +34,7 @@ export function Footer() {
         </a>
 
         {/* Links legales */}
-        <nav className="flex flex-wrap items-center gap-x-6 gap-y-3">
+        <nav className="flex flex-col gap-3 md:flex-row md:flex-wrap md:items-center md:gap-x-6 md:gap-y-3">
           <Link
             href="/politica-de-privacidad"
             className="text-sm transition-colors duration-150 hover:text-white"
@@ -74,7 +74,7 @@ export function Footer() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Instagram de Movo"
-          className="flex h-9 w-9 items-center justify-center rounded-lg transition-colors duration-150 hover:bg-white/[0.08]"
+          className="flex h-9 w-9 items-center justify-center self-center rounded-lg transition-colors duration-150 hover:bg-white/[0.08] md:self-auto"
           style={{ color: "rgba(255,255,255,0.5)" }}
         >
           <svg
