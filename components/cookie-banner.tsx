@@ -9,18 +9,20 @@ export function CookieBanner() {
   const [visible, setVisible] = useState(false)
   const [expanded, setExpanded] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
-  // Track position so we only animate on actual direction change
   const atBottom = useRef(false)
 
   useEffect(() => {
     if (getConsent() === null) setVisible(true)
   }, [])
 
+  // Desktop-only: scroll-aware position toggle
   useEffect(() => {
     if (!visible || !ref.current) return
 
+    const mq = window.matchMedia("(min-width: 768px)")
+    if (!mq.matches) return
+
     const el = ref.current
-    // Place banner at top initially without animation
     gsap.set(el, { top: 16, bottom: "auto", y: 0 })
 
     const onScroll = () => {
@@ -28,12 +30,10 @@ export function CookieBanner() {
 
       if (shouldBeBottom && !atBottom.current) {
         atBottom.current = true
-        // Animate down: switch anchor to bottom, use y to slide in from above
         gsap.set(el, { bottom: 16, top: "auto", y: -80 })
         gsap.to(el, { y: 0, duration: 0.45, ease: "power2.out" })
       } else if (!shouldBeBottom && atBottom.current) {
         atBottom.current = false
-        // Animate up: switch anchor to top, use y to slide in from below
         gsap.set(el, { top: 16, bottom: "auto", y: 80 })
         gsap.to(el, { y: 0, duration: 0.45, ease: "power2.out" })
       }
@@ -58,9 +58,51 @@ export function CookieBanner() {
       ref={ref}
       role="dialog"
       aria-label="Aviso de cookies"
-      className="fixed right-4 z-50 w-full max-w-md rounded-xl border border-white/5 bg-white/5 px-4 py-3 shadow-lg backdrop-blur-md"
+      // Mobile: full-width bottom bar. Desktop: floating card top-right (position overridden by GSAP)
+      className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/5 bg-ink-950/95 px-4 py-4 shadow-lg backdrop-blur-md md:bottom-auto md:left-auto md:right-4 md:top-4 md:w-full md:max-w-md md:rounded-xl md:border md:border-white/5 md:bg-white/5 md:px-4 md:py-3"
     >
-      <div className="flex items-center gap-3">
+      {/* Mobile layout: stacked text + action row */}
+      <div className="flex flex-col gap-3 md:hidden">
+        <div className="flex items-start gap-2">
+          <p className="flex-1 text-sm leading-relaxed text-ink-300">
+            Este sitio usa tecnologías de seguimiento para mejorar la
+            experiencia.
+          </p>
+          <button
+            onClick={() => setExpanded((v) => !v)}
+            aria-label="Más información"
+            className="mt-0.5 shrink-0 text-ink-500 transition-colors hover:text-ink-300"
+          >
+            <Info className="h-4 w-4" />
+          </button>
+        </div>
+
+        {expanded && (
+          <p className="text-sm text-ink-500">
+            <span className="text-ink-400">Microsoft Clarity:</span> registra
+            interacciones anónimas (clics, scroll) para mejorar el sitio. Sin
+            datos personales.
+          </p>
+        )}
+
+        <div className="flex gap-2">
+          <button
+            onClick={() => dispatch("accepted")}
+            className="flex-1 rounded-lg border border-ink-600 bg-transparent px-4 py-2.5 text-sm font-medium text-ink-200 transition-colors hover:border-ink-400 hover:text-white"
+          >
+            Aceptar
+          </button>
+          <button
+            onClick={() => dispatch("denied")}
+            className="flex-1 rounded-lg px-4 py-2.5 text-sm text-ink-500 transition-colors hover:text-ink-300"
+          >
+            Denegar
+          </button>
+        </div>
+      </div>
+
+      {/* Desktop layout: single row */}
+      <div className="hidden items-center gap-3 md:flex">
         <p className="min-w-0 flex-1 text-xs leading-relaxed text-ink-400">
           Este sitio usa tecnologías de seguimiento.
         </p>
@@ -88,7 +130,7 @@ export function CookieBanner() {
       </div>
 
       {expanded && (
-        <p className="mt-2 text-xs text-ink-500">
+        <p className="mt-2 hidden text-xs text-ink-500 md:block">
           <span className="text-ink-400">Microsoft Clarity:</span> registra
           interacciones anónimas (clics, scroll) para mejorar el sitio. Sin
           datos personales.
