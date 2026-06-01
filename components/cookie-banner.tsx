@@ -1,16 +1,47 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Info } from "lucide-react"
+import { gsap } from "gsap"
 import { getConsent, setConsent } from "@/lib/consent"
 
 export function CookieBanner() {
   const [visible, setVisible] = useState(false)
   const [expanded, setExpanded] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  // Track position so we only animate on actual direction change
+  const atBottom = useRef(false)
 
   useEffect(() => {
     if (getConsent() === null) setVisible(true)
   }, [])
+
+  useEffect(() => {
+    if (!visible || !ref.current) return
+
+    const el = ref.current
+    // Place banner at top initially without animation
+    gsap.set(el, { top: 16, bottom: "auto", y: 0 })
+
+    const onScroll = () => {
+      const shouldBeBottom = window.scrollY > 20
+
+      if (shouldBeBottom && !atBottom.current) {
+        atBottom.current = true
+        // Animate down: switch anchor to bottom, use y to slide in from above
+        gsap.set(el, { bottom: 16, top: "auto", y: -80 })
+        gsap.to(el, { y: 0, duration: 0.45, ease: "power2.out" })
+      } else if (!shouldBeBottom && atBottom.current) {
+        atBottom.current = false
+        // Animate up: switch anchor to top, use y to slide in from below
+        gsap.set(el, { top: 16, bottom: "auto", y: 80 })
+        gsap.to(el, { y: 0, duration: 0.45, ease: "power2.out" })
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [visible])
 
   function dispatch(decision: "accepted" | "denied") {
     setConsent(decision)
@@ -24,9 +55,10 @@ export function CookieBanner() {
 
   return (
     <div
+      ref={ref}
       role="dialog"
       aria-label="Aviso de cookies"
-      className="fixed right-4 top-4 z-50 w-full max-w-md rounded-xl border border-white/5 bg-white/5 px-4 py-3 shadow-lg backdrop-blur-md"
+      className="fixed right-4 z-50 w-full max-w-md rounded-xl border border-white/5 bg-white/5 px-4 py-3 shadow-lg backdrop-blur-md"
     >
       <div className="flex items-center gap-3">
         <p className="min-w-0 flex-1 text-xs leading-relaxed text-ink-400">
@@ -57,7 +89,9 @@ export function CookieBanner() {
 
       {expanded && (
         <p className="mt-2 text-xs text-ink-500">
-          <span className="text-ink-400">Microsoft Clarity:</span> registra interacciones anónimas (clics, scroll) para mejorar el sitio. Sin datos personales.
+          <span className="text-ink-400">Microsoft Clarity:</span> registra
+          interacciones anónimas (clics, scroll) para mejorar el sitio. Sin
+          datos personales.
         </p>
       )}
     </div>
