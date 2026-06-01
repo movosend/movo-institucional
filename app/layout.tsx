@@ -4,6 +4,8 @@ import { Inter, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Footer } from "@/components/home/footer"
+import { ClarityScript } from "@/components/clarity-script"
+import { CookieBanner } from "@/components/cookie-banner"
 import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
@@ -51,6 +53,8 @@ export default function RootLayout({
         <ThemeProvider defaultTheme="dark" enableSystem={false}>
           {children}
           <Footer />
+          <CookieBanner />
+          <ClarityScript />
         </ThemeProvider>
       </body>
     </html>
