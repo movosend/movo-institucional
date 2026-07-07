@@ -364,6 +364,14 @@ export function Navbar() {
                 </div>
               </li>
             ))}
+            <li>
+              <a
+                href="/blog"
+                className="mr-2 flex items-center gap-[5px] rounded-md px-4 py-2 text-sm font-medium text-white/70 transition-colors duration-[120ms] hover:bg-white/[0.06] hover:text-white"
+              >
+                Blog
+              </a>
+            </li>
           </ul>
 
           {/* Hamburger — mobile only */}
@@ -420,6 +428,38 @@ export function Navbar() {
         }}
       >
         <div className="flex flex-col px-5 pb-10 gap-1">
+          <div className="mt-4">
+            <p
+              className="text-[11px] font-semibold tracking-[0.1em] uppercase px-3 pt-5 pb-2"
+              style={{ color: "rgba(255,255,255,0.3)" }}
+            >
+              Contenido
+            </p>
+            <a
+              href="/blog"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center gap-3 rounded-[10px] px-3 py-3 active:bg-white/[0.06]"
+              style={{ transition: "background 120ms" }}
+            >
+              <div
+                className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md"
+                style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.5)" }}
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="size-4">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                </svg>
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <span className="text-sm font-medium" style={{ color: "rgba(255,255,255,0.88)" }}>
+                  Blog
+                </span>
+                <span className="text-xs leading-snug" style={{ color: "rgba(255,255,255,0.38)" }}>
+                  Logística colaborativa y novedades de Movo.
+                </span>
+              </div>
+            </a>
+          </div>
           {(
             Object.entries(NAV_MENUS) as [
               keyof typeof NAV_MENUS,
