@@ -1,11 +1,17 @@
+import type { Metadata } from "next"
 import { Navbar } from "@/components/home/navbar"
 import { TeamPageHero } from "@/components/el-equipo/page-hero"
 import { TeamBody } from "@/components/el-equipo/team-body"
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "El Equipo",
   description:
     "Cinco estudiantes de Ingeniería en Sistemas de la UTN Córdoba. Un equipo plano, dinámico y autogestionado.",
+  openGraph: {
+    title: "El Equipo | Movo",
+    description:
+      "Cinco estudiantes de Ingeniería en Sistemas de la UTN Córdoba. Un equipo plano, dinámico y autogestionado.",
+  },
 }
 
 export default function ElEquipoPage() {
