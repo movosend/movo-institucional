@@ -80,6 +80,24 @@ export default function RootLayout({
       )}
     >
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Movo",
+              url: "https://movosend.app",
+              logo: "https://movosend.app/logo.png",
+              description:
+                "Plataforma P2P de logística colaborativa en Argentina que conecta emisores de paquetes con transportistas que ya viajan hacia el destino.",
+              sameAs: [
+                "https://github.com/movosend",
+                "https://instagram.com/movosend",
+              ],
+            }),
+          }}
+        />
         <ThemeProvider defaultTheme="dark" enableSystem={false}>
           {children}
           <Footer />
