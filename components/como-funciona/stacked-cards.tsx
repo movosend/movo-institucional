@@ -174,45 +174,56 @@ export function StackedCards() {
   useEffect(() => {
     if (!sectionRef.current) return
 
-    const ctx = gsap.context(() => {
-      cardsRef.current.forEach((card, i) => {
-        if (!card) return
+    const mm = gsap.matchMedia()
 
-        gsap.fromTo(
-          card,
-          { y: 70, scale: 0.97 },
-          {
-            y: 0,
-            scale: 1,
-            duration: 0.55,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 86%",
-              toggleActions: "play none none reverse",
-            },
+    mm.add(
+      {
+        reduceMotion: "(prefers-reduced-motion: reduce)",
+        fullMotion: "(prefers-reduced-motion: no-preference)",
+      },
+      (context) => {
+        const { reduceMotion } = context.conditions as { reduceMotion: boolean }
+
+        cardsRef.current.forEach((card, i) => {
+          if (!card) return
+
+          gsap.fromTo(
+            card,
+            { opacity: 0, y: reduceMotion ? 0 : 70, scale: reduceMotion ? 1 : 0.97 },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: reduceMotion ? 0.3 : 0.55,
+              ease: reduceMotion ? "power1.out" : "power3.out",
+              scrollTrigger: {
+                trigger: card,
+                start: "top 86%",
+                toggleActions: "play none none reverse",
+              },
+            }
+          )
+
+          if (!reduceMotion && i < STAGES.length - 1) {
+            const offset = STACK_OFFSETS[i % STACK_OFFSETS.length]
+            gsap.to(card, {
+              scale: 0.96,
+              rotation: offset.rotate,
+              x: offset.x,
+              ease: "power2.inOut",
+              scrollTrigger: {
+                trigger: cardsRef.current[i + 1],
+                start: "top 72%",
+                end: "top 28%",
+                scrub: 0.6,
+              },
+            })
           }
-        )
+        })
+      }
+    )
 
-        if (i < STAGES.length - 1) {
-          const offset = STACK_OFFSETS[i % STACK_OFFSETS.length]
-          gsap.to(card, {
-            scale: 0.96,
-            rotation: offset.rotate,
-            x: offset.x,
-            ease: "power2.inOut",
-            scrollTrigger: {
-              trigger: cardsRef.current[i + 1],
-              start: "top 72%",
-              end: "top 28%",
-              scrub: 0.6,
-            },
-          })
-        }
-      })
-    }, sectionRef)
-
-    return () => ctx.revert()
+    return () => mm.revert()
   }, [])
 
   return (

@@ -40,7 +40,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="pt-28 md:pt-36 pb-10">
             <Link
               href="/blog"
-              className="inline-flex items-center gap-1.5 text-sm transition-colors duration-150 hover:text-white"
+              className="inline-flex items-center gap-1.5 text-sm transition-colors duration-[var(--motion-hover)] hover:text-white"
               style={{ color: "rgba(255,255,255,0.4)" }}
             >
               <svg
@@ -152,7 +152,7 @@ export default async function BlogPostPage({ params }: Props) {
                 href="https://www.instagram.com/movosend"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-opacity duration-150 hover:opacity-80"
+                className="inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-opacity duration-[var(--motion-hover)] hover:opacity-80"
                 style={{ background: "#C6F24A", color: "#0A0A0B" }}
               >
                 Seguir en Instagram

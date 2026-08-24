@@ -207,7 +207,7 @@ export function HowItWorks() {
         <div className="flex justify-center">
           <a
             href="/como-funciona"
-            className="inline-flex items-center gap-2.5 rounded-md font-medium transition-all duration-[120ms] active:scale-[0.98] group"
+            className="inline-flex items-center gap-2.5 rounded-md font-medium transition-all duration-[var(--motion-hover)] active:scale-[0.98] group"
             style={{
               padding: "14px 28px",
               background: "rgba(255,255,255,0.05)",
@@ -237,7 +237,7 @@ export function HowItWorks() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="transition-transform duration-200 group-hover:translate-x-1"
+              className="transition-transform duration-[var(--motion-state)] group-hover:translate-x-1"
               style={{ width: 16, height: 16 }}
             >
               <path d="M5 12h14M12 5l7 7-7 7" />

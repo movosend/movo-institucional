@@ -52,7 +52,7 @@ export default function BlogPage() {
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="group flex flex-col rounded-2xl border p-6 transition-colors duration-200"
+                className="group flex flex-col rounded-2xl border p-6 transition-colors duration-[var(--motion-state)]"
                 style={{
                   background: "rgba(255,255,255,0.03)",
                   borderColor: "rgba(255,255,255,0.07)",
@@ -76,7 +76,7 @@ export default function BlogPage() {
                 </div>
 
                 <h2
-                  className="text-lg font-semibold leading-snug mb-3 transition-colors duration-200 group-hover:text-white"
+                  className="text-lg font-semibold leading-snug mb-3 transition-colors duration-[var(--motion-state)] group-hover:text-white"
                   style={{
                     color: "rgba(255,255,255,0.85)",
                     letterSpacing: "-0.02em",
@@ -100,7 +100,7 @@ export default function BlogPage() {
                     {formatDate(post.publishedAt)}
                   </span>
                   <span
-                    className="flex items-center gap-1 text-xs font-medium transition-colors duration-200 group-hover:text-white"
+                    className="flex items-center gap-1 text-xs font-medium transition-colors duration-[var(--motion-state)] group-hover:text-white"
                     style={{ color: "rgba(255,255,255,0.4)" }}
                   >
                     Leer
@@ -111,7 +111,7 @@ export default function BlogPage() {
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="transition-transform duration-200 group-hover:translate-x-0.5"
+                      className="transition-transform duration-[var(--motion-state)] group-hover:translate-x-0.5"
                       style={{ width: 12, height: 12 }}
                     >
                       <path d="M5 12h14M12 5l7 7-7 7" />

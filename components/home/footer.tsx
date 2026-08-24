@@ -37,14 +37,14 @@ export function Footer() {
         <nav className="flex flex-col gap-3 md:flex-row md:flex-wrap md:items-center md:gap-x-6 md:gap-y-3">
           <Link
             href="/politica-de-privacidad"
-            className="text-sm transition-colors duration-150 hover:text-white"
+            className="text-sm transition-colors duration-[var(--motion-hover)] hover:text-white"
             style={{ color: "rgba(255,255,255,0.45)" }}
           >
             Política de privacidad
           </Link>
           <Link
             href="/terminos-y-condiciones"
-            className="text-sm transition-colors duration-150 hover:text-white"
+            className="text-sm transition-colors duration-[var(--motion-hover)] hover:text-white"
             style={{ color: "rgba(255,255,255,0.45)" }}
           >
             Términos y condiciones
@@ -53,7 +53,7 @@ export function Footer() {
             href="https://github.com/movosend"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-sm transition-colors duration-150 hover:text-white"
+            className="flex items-center gap-1.5 text-sm transition-colors duration-[var(--motion-hover)] hover:text-white"
             style={{ color: "rgba(255,255,255,0.45)" }}
           >
             <svg
@@ -74,7 +74,7 @@ export function Footer() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Instagram de Movo"
-          className="flex h-9 w-9 items-center justify-center self-center rounded-lg transition-colors duration-150 hover:bg-white/[0.08] md:self-auto"
+          className="flex h-9 w-9 items-center justify-center self-center rounded-lg transition-colors duration-[var(--motion-hover)] hover:bg-white/[0.08] md:self-auto"
           style={{ color: "rgba(255,255,255,0.5)" }}
         >
           <svg

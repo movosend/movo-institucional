@@ -492,7 +492,7 @@ export function ProjectPageBody() {
                   color: "rgba(255,255,255,0.88)",
                   border: "1px solid rgba(255,255,255,0.12)",
                   letterSpacing: "-0.01em",
-                  transition: "background 180ms ease",
+                  transition: "background var(--motion-hover) ease",
                   textDecoration: "none",
                 }}
                 onMouseEnter={(e) =>

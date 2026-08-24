@@ -298,7 +298,7 @@ function StoreBadge({
 }) {
   return (
     <button
-      className="inline-flex items-center gap-2.5 rounded-[10px] cursor-pointer transition-all duration-[120ms] active:scale-[0.98] hover:-translate-y-px"
+      className="inline-flex items-center gap-2.5 rounded-[10px] cursor-pointer transition-all duration-[var(--motion-hover)] active:scale-[0.98] hover:-translate-y-px"
       style={{
         padding: "10px 18px",
         background: "rgba(255,255,255,0.06)",

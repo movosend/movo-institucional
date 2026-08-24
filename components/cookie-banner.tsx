@@ -23,6 +23,7 @@ export function CookieBanner() {
     if (!mq.matches) return
 
     const el = ref.current
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     gsap.set(el, { top: 16, bottom: "auto", y: 0 })
 
     const onScroll = () => {
@@ -30,12 +31,20 @@ export function CookieBanner() {
 
       if (shouldBeBottom && !atBottom.current) {
         atBottom.current = true
-        gsap.set(el, { bottom: 16, top: "auto", y: -80 })
-        gsap.to(el, { y: 0, duration: 0.45, ease: "power2.out" })
+        if (reduceMotion) {
+          gsap.set(el, { bottom: 16, top: "auto", y: 0 })
+        } else {
+          gsap.set(el, { bottom: 16, top: "auto", y: -80 })
+          gsap.to(el, { y: 0, duration: 0.45, ease: "power2.out" })
+        }
       } else if (!shouldBeBottom && atBottom.current) {
         atBottom.current = false
-        gsap.set(el, { top: 16, bottom: "auto", y: 80 })
-        gsap.to(el, { y: 0, duration: 0.45, ease: "power2.out" })
+        if (reduceMotion) {
+          gsap.set(el, { top: 16, bottom: "auto", y: 0 })
+        } else {
+          gsap.set(el, { top: 16, bottom: "auto", y: 80 })
+          gsap.to(el, { y: 0, duration: 0.45, ease: "power2.out" })
+        }
       }
     }
 
@@ -77,13 +86,18 @@ export function CookieBanner() {
           </button>
         </div>
 
-        {expanded && (
-          <p className="text-sm text-ink-500">
-            <span className="text-ink-400">Microsoft Clarity:</span> registra
-            interacciones anónimas (clics, scroll) para mejorar el sitio. Sin
-            datos personales.
-          </p>
-        )}
+        <div
+          className="grid transition-[grid-template-rows] duration-[var(--motion-state)] ease-out motion-reduce:transition-none"
+          style={{ gridTemplateRows: expanded ? "1fr" : "0fr" }}
+        >
+          <div className="overflow-hidden">
+            <p className="text-sm text-ink-500 pb-1">
+              <span className="text-ink-400">Microsoft Clarity:</span> registra
+              interacciones anónimas (clics, scroll) para mejorar el sitio. Sin
+              datos personales.
+            </p>
+          </div>
+        </div>
 
         <div className="flex gap-2">
           <button
@@ -129,13 +143,18 @@ export function CookieBanner() {
         </div>
       </div>
 
-      {expanded && (
-        <p className="mt-2 hidden text-xs text-ink-500 md:block">
-          <span className="text-ink-400">Microsoft Clarity:</span> registra
-          interacciones anónimas (clics, scroll) para mejorar el sitio. Sin
-          datos personales.
-        </p>
-      )}
+      <div
+        className="hidden md:grid transition-[grid-template-rows] duration-[var(--motion-state)] ease-out motion-reduce:transition-none"
+        style={{ gridTemplateRows: expanded ? "1fr" : "0fr" }}
+      >
+        <div className="overflow-hidden">
+          <p className="mt-2 text-xs text-ink-500">
+            <span className="text-ink-400">Microsoft Clarity:</span> registra
+            interacciones anónimas (clics, scroll) para mejorar el sitio. Sin
+            datos personales.
+          </p>
+        </div>
+      </div>
     </div>
   )
 }

@@ -130,6 +130,8 @@ export function Navbar() {
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const navRef = useRef<HTMLElement>(null)
+  const menuTriggerRefs = useRef<Record<string, HTMLButtonElement | null>>({})
+  const hamburgerRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -146,6 +148,22 @@ export function Navbar() {
     document.addEventListener("mousedown", onClickOutside)
     return () => document.removeEventListener("mousedown", onClickOutside)
   }, [])
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return
+      if (openMenu) {
+        const trigger = menuTriggerRefs.current[openMenu]
+        setOpenMenu(null)
+        trigger?.focus()
+      } else if (mobileOpen) {
+        setMobileOpen(false)
+        hamburgerRef.current?.focus()
+      }
+    }
+    document.addEventListener("keydown", onKeyDown)
+    return () => document.removeEventListener("keydown", onKeyDown)
+  }, [openMenu, mobileOpen])
 
   useEffect(() => {
     const onResize = () => {
@@ -168,7 +186,7 @@ export function Navbar() {
       <nav
         ref={navRef}
         className={cn(
-          "fixed top-0 right-0 left-0 z-[100] flex h-16 items-center px-5 md:px-10 transition-all duration-200",
+          "fixed top-0 right-0 left-0 z-[100] flex h-16 items-center px-5 md:px-10 transition-all duration-[var(--motion-state)]",
           scrolled
             ? "border-b border-white/[0.07] bg-ink-950/82 backdrop-blur-xl"
             : "border-b border-transparent"
@@ -231,10 +249,15 @@ export function Navbar() {
             ).map(([key, menu]) => (
               <li key={key} className="relative">
                 <button
+                  ref={(el) => {
+                    menuTriggerRefs.current[key] = el
+                  }}
                   onClick={() => toggle(key)}
+                  aria-expanded={openMenu === key}
+                  aria-haspopup="true"
                   className={cn(
                     "mr-2 flex items-center gap-[5px] rounded-md px-4 py-2 text-sm font-medium",
-                    "cursor-pointer transition-colors duration-[120ms] select-none",
+                    "cursor-pointer transition-colors duration-[var(--motion-hover)] select-none",
                     openMenu === key
                       ? "bg-white/[0.06] text-white"
                       : "text-white/70 hover:bg-white/[0.06] hover:text-white"
@@ -248,7 +271,7 @@ export function Navbar() {
                     strokeWidth="1.8"
                     strokeLinecap="round"
                     className={cn(
-                      "h-[14px] w-[14px] opacity-50 transition-transform duration-200",
+                      "h-[14px] w-[14px] opacity-50 transition-transform duration-[var(--motion-state)]",
                       openMenu === key && "rotate-180 opacity-100"
                     )}
                   >
@@ -261,7 +284,7 @@ export function Navbar() {
                   className={cn(
                     "absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2",
                     "rounded-[14px] border border-white/[0.09]",
-                    "z-[200] p-5 transition-all duration-200",
+                    "z-[200] p-5 transition-all duration-[var(--motion-state)]",
                     menu.cols === 2
                       ? "grid min-w-[560px] grid-cols-2 gap-x-8 gap-y-1"
                       : "grid min-w-[320px] grid-cols-1 gap-y-1",
@@ -288,7 +311,7 @@ export function Navbar() {
                       key={item.title}
                       href={item.href}
                       className="group flex cursor-pointer items-start gap-3 rounded-[10px] px-3 py-2.5"
-                      style={{ transition: "background 120ms" }}
+                      style={{ transition: "background var(--motion-hover)" }}
                       onMouseEnter={(e) =>
                         (e.currentTarget.style.background =
                           "rgba(255,255,255,0.06)")
@@ -308,7 +331,7 @@ export function Navbar() {
                       </div>
                       <div className="flex flex-col gap-0.5">
                         <span
-                          className="text-sm font-medium transition-colors duration-[120ms] group-hover:text-[#C6F24A]"
+                          className="text-sm font-medium transition-colors duration-[var(--motion-hover)] group-hover:text-[#C6F24A]"
                           style={{ color: "rgba(255,255,255,0.88)" }}
                         >
                           {item.title}
@@ -331,7 +354,7 @@ export function Navbar() {
                       <a
                         href="/como-funciona"
                         className="group flex items-center justify-between rounded-[10px] px-3 py-2.5"
-                        style={{ transition: "background 120ms" }}
+                        style={{ transition: "background var(--motion-hover)" }}
                         onMouseEnter={(e) =>
                           (e.currentTarget.style.background =
                             "rgba(198,242,74,0.07)")
@@ -353,7 +376,7 @@ export function Navbar() {
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          className="transition-transform duration-200 group-hover:translate-x-1"
+                          className="transition-transform duration-[var(--motion-state)] group-hover:translate-x-1"
                           style={{ width: 14, height: 14 }}
                         >
                           <path d="M5 12h14M12 5l7 7-7 7" />
@@ -367,7 +390,7 @@ export function Navbar() {
             <li>
               <a
                 href="/blog"
-                className="mr-2 flex items-center gap-[5px] rounded-md px-4 py-2 text-sm font-medium text-white/70 transition-colors duration-[120ms] hover:bg-white/[0.06] hover:text-white"
+                className="mr-2 flex items-center gap-[5px] rounded-md px-4 py-2 text-sm font-medium text-white/70 transition-colors duration-[var(--motion-hover)] hover:bg-white/[0.06] hover:text-white"
               >
                 Blog
               </a>
@@ -376,9 +399,11 @@ export function Navbar() {
 
           {/* Hamburger — mobile only */}
           <button
+            ref={hamburgerRef}
             className="ml-auto flex items-center justify-center w-10 h-10 rounded-md md:hidden"
             onClick={() => setMobileOpen((o) => !o)}
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={mobileOpen}
             style={{ color: "rgba(255,255,255,0.75)" }}
           >
             {mobileOpen ? (
@@ -416,7 +441,7 @@ export function Navbar() {
       <div
         className={cn(
           "fixed inset-0 z-[90] flex flex-col pt-16 md:hidden overflow-y-auto",
-          "transition-all duration-200",
+          "transition-all duration-[var(--motion-state)]",
           mobileOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -439,7 +464,7 @@ export function Navbar() {
               href="/blog"
               onClick={() => setMobileOpen(false)}
               className="flex items-center gap-3 rounded-[10px] px-3 py-3 active:bg-white/[0.06]"
-              style={{ transition: "background 120ms" }}
+              style={{ transition: "background var(--motion-hover)" }}
             >
               <div
                 className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md"
@@ -479,7 +504,7 @@ export function Navbar() {
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
                   className="flex items-center gap-3 rounded-[10px] px-3 py-3 active:bg-white/[0.06]"
-                  style={{ transition: "background 120ms" }}
+                  style={{ transition: "background var(--motion-hover)" }}
                 >
                   <div
                     className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md"

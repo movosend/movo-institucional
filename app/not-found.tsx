@@ -239,7 +239,7 @@ export default function NotFound() {
               style={{
                 background: "#FFFFFF",
                 color: "#0A0A0B",
-                transitionDuration: "120ms",
+                transitionDuration: "var(--motion-hover)",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "#F1F1F3"
@@ -256,7 +256,7 @@ export default function NotFound() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="transition-transform duration-[120ms] group-hover:translate-x-0.5"
+                className="transition-transform duration-[var(--motion-hover)] group-hover:translate-x-0.5"
                 style={{ width: 14, height: 14 }}
               >
                 <path d="M5 12h14M12 5l7 7-7 7" />
@@ -269,7 +269,7 @@ export default function NotFound() {
               style={{
                 borderColor: "rgba(255,255,255,0.12)",
                 color: "rgba(255,255,255,0.6)",
-                transitionDuration: "120ms",
+                transitionDuration: "var(--motion-hover)",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.color = "rgba(255,255,255,0.9)"
