@@ -2,19 +2,17 @@
 
 export function PageHero() {
   return (
-    <section
-      className="relative overflow-hidden px-5 pt-28 pb-16 md:px-10 md:pt-[140px] md:pb-20"
-    >
+    <section className="relative overflow-hidden px-5 pt-28 pb-16 md:px-10 md:pt-[140px] md:pb-20">
       {/* Wave motif background */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="pointer-events-none absolute inset-0"
         aria-hidden
         style={{ zIndex: 0 }}
       >
         <svg
           viewBox="0 0 1440 900"
           preserveAspectRatio="xMidYMid slice"
-          className="absolute inset-0 w-full h-full"
+          className="absolute inset-0 h-full w-full"
           xmlns="http://www.w3.org/2000/svg"
         >
           {Array.from({ length: 10 }).map((_, i) => (
@@ -30,18 +28,20 @@ export function PageHero() {
         </svg>
       </div>
 
-      <div className="max-w-[1200px] mx-auto w-full relative" style={{ zIndex: 1 }}>
+      <div
+        className="relative mx-auto w-full max-w-[1200px]"
+        style={{ zIndex: 1 }}
+      >
         {/* Eyebrow */}
         <div
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-8"
+          className="mb-8 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
           style={{
             background: "rgba(198,242,74,0.08)",
             border: "1px solid rgba(198,242,74,0.18)",
           }}
         >
-          <span className="live-dot" />
           <span
-            className="text-[11px] font-semibold tracking-[0.08em] uppercase font-mono"
+            className="font-mono text-[11px] font-semibold tracking-[0.08em] uppercase"
             style={{ color: "#C6F24A" }}
           >
             Proceso punta a punta
@@ -50,7 +50,7 @@ export function PageHero() {
 
         {/* Headline */}
         <h1
-          className="text-white mb-6"
+          className="mb-6 text-white"
           style={{
             fontSize: "clamp(2.4rem, 6vw, 5rem)",
             fontWeight: 600,
@@ -59,8 +59,7 @@ export function PageHero() {
             maxWidth: 820,
           }}
         >
-          Cómo Movo mueve{" "}
-          <br className="hidden sm:block" />
+          Cómo Movo mueve <br className="hidden sm:block" />
           un paquete de{" "}
           <em className="not-italic" style={{ color: "#C6F24A" }}>
             punto A
@@ -81,14 +80,14 @@ export function PageHero() {
             maxWidth: 600,
           }}
         >
-          Desde que el emisor abre la app hasta que el receptor firma la entrega.
-          Un flujo diseñado para que podás confiar en un desconocido como si fuera
-          alguien conocido.
+          Desde que el emisor abre la app hasta que el receptor firma la
+          entrega. Un flujo diseñado para que podás confiar en un desconocido
+          como si fuera alguien conocido.
         </p>
 
         {/* Chrome intro card */}
         <div
-          className="w-full rounded-2xl overflow-hidden"
+          className="w-full overflow-hidden rounded-2xl"
           style={{
             background: "var(--chrome-gradient)",
             boxShadow:
@@ -97,7 +96,7 @@ export function PageHero() {
           }}
         >
           {/* Personas — stack on mobile, 3-col on desktop */}
-          <div className="grid grid-cols-1 md:grid-cols-3 divide-y divide-black/[0.09] md:divide-y-0 md:divide-x">
+          <div className="grid grid-cols-1 divide-y divide-black/[0.09] md:grid-cols-3 md:divide-x md:divide-y-0">
             {PERSONAS.map((p) => (
               <div
                 key={p.role}
@@ -110,7 +109,7 @@ export function PageHero() {
               >
                 {/* Role label */}
                 <div
-                  className="font-mono text-[10px] font-semibold tracking-[0.12em] uppercase mb-3"
+                  className="mb-3 font-mono text-[10px] font-semibold tracking-[0.12em] uppercase"
                   style={{ color: "rgba(10,10,11,0.45)" }}
                 >
                   {p.role}
