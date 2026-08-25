@@ -1,5 +1,7 @@
 "use client"
 
+import { IPhoneMockup } from "@/components/home/iphone-mockup"
+
 export function Hero() {
   return (
     <section
@@ -179,35 +181,10 @@ export function Hero() {
               }}
               aria-hidden
             />
-            <div
-              className="relative"
-              style={{
-                width: 280,
-                height: 570,
-                borderRadius: 44,
-                background:
-                  "linear-gradient(145deg, #2C2C2E 0%, #1C1C1E 50%, #2A2A2C 100%)",
-                boxShadow:
-                  "inset 0 0 0 1.5px rgba(255,255,255,0.18), inset 0 0 0 3px rgba(255,255,255,0.06), 0 40px 80px rgba(0,0,0,0.6), 0 8px 20px rgba(0,0,0,0.4)",
-              }}
-            >
-              {/* Screen */}
-              <div
-                className="absolute overflow-hidden"
-                style={{
-                  inset: 6,
-                  borderRadius: 39,
-                  background: "#0A0A0B",
-                }}
-              >
-                {/* App screenshot */}
-                <img
-                  src="/movo-hero-send.png"
-                  alt="Pantalla de seguimiento Movo"
-                  className="absolute inset-0 w-full h-full object-cover object-top"
-                />
-              </div>
-            </div>
+            <IPhoneMockup
+              src="/hero-updated.png"
+              alt="Pantalla de seguimiento de un envío en Movo"
+            />
           </div>
 
           {/* Stat floater bottom-right */}
