@@ -137,7 +137,7 @@ export function TeamBody() {
             }}
           />
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 md:gap-5">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5 md:gap-5">
             {MEMBERS.map((m) => (
               <MemberCard key={m.id} {...m} />
             ))}
@@ -153,7 +153,7 @@ export function TeamBody() {
         }}
       >
         <div className="mx-auto w-full" style={{ maxWidth: 1200 }}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-start">
+          <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-2 md:gap-20">
             {/* Left */}
             <div>
               <p
@@ -278,7 +278,7 @@ export function TeamBody() {
         }}
       >
         <div className="mx-auto w-full" style={{ maxWidth: 1200 }}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
+          <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-20">
             {/* Left: tooling text */}
             <div>
               <p

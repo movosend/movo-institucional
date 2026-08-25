@@ -1,11 +1,11 @@
 export function AnimatedGrid() {
   return (
     <div
-      className="fixed inset-0 z-0 pointer-events-none overflow-hidden"
+      className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
       aria-hidden
     >
       <div
-        className="absolute inset-0 animate-grid-pan"
+        className="animate-grid-pan absolute inset-0"
         style={{
           backgroundImage: `
             linear-gradient(to right, rgba(255,255,255,0.045) 1px, transparent 1px),

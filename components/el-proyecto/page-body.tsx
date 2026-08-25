@@ -99,7 +99,7 @@ export function ProjectPageBody() {
             }}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-start">
+          <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-2 md:gap-20">
             {/* Left: heading */}
             <div>
               <p
@@ -226,7 +226,7 @@ export function ProjectPageBody() {
           </p>
 
           {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-3.5">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:gap-3.5">
             {DISCIPLINES.map((d) => (
               <div
                 key={d.title}
@@ -290,7 +290,7 @@ export function ProjectPageBody() {
         }}
       >
         <div className="mx-auto w-full" style={{ maxWidth: 1200 }}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
+          <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-20">
             {/* Left */}
             <div>
               <p

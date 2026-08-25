@@ -16,15 +16,12 @@ const SCREEN = {
  * la captura de pantalla se ubica detrás, recortada al hueco transparente
  * del frame, así el resultado es un mockup fotorrealista.
  */
-export function IPhoneMockup({
-  src,
-  alt,
-}: {
-  src: string
-  alt: string
-}) {
+export function IPhoneMockup({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="relative" style={{ width: 280, aspectRatio: `${FRAME_W} / ${FRAME_H}` }}>
+    <div
+      className="relative"
+      style={{ width: 280, aspectRatio: `${FRAME_W} / ${FRAME_H}` }}
+    >
       {/* Sombra de contacto en el piso */}
       <div
         className="absolute bottom-[-4%] left-1/2 -translate-x-1/2"
@@ -53,7 +50,7 @@ export function IPhoneMockup({
         <img
           src={src}
           alt={alt}
-          className="absolute inset-0 w-full h-full object-cover object-top select-none"
+          className="absolute inset-0 h-full w-full object-cover object-top select-none"
           draggable={false}
         />
       </div>
@@ -63,8 +60,11 @@ export function IPhoneMockup({
         src="/iphone-frame.png"
         alt=""
         aria-hidden
-        className="absolute inset-0 w-full h-full select-none pointer-events-none"
-        style={{ filter: "drop-shadow(0 40px 80px rgba(0,0,0,0.6)) drop-shadow(0 8px 20px rgba(0,0,0,0.4))" }}
+        className="pointer-events-none absolute inset-0 h-full w-full select-none"
+        style={{
+          filter:
+            "drop-shadow(0 40px 80px rgba(0,0,0,0.6)) drop-shadow(0 8px 20px rgba(0,0,0,0.4))",
+        }}
         draggable={false}
       />
     </div>

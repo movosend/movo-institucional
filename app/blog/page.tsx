@@ -15,6 +15,10 @@ export const metadata: Metadata = {
 }
 
 export default function BlogPage() {
+  const sortedPosts = [...posts].sort((a, b) =>
+    b.publishedAt.localeCompare(a.publishedAt)
+  )
+
   return (
     <div style={{ background: "#0A0A0B", minHeight: "100vh" }}>
       <div className="relative z-10">
@@ -47,8 +51,8 @@ export default function BlogPage() {
           />
 
           {/* Post grid */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 pb-24">
-            {posts.map((post) => (
+          <div className="grid grid-cols-1 gap-6 pb-24 md:grid-cols-2 lg:grid-cols-3">
+            {sortedPosts.map((post) => (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
@@ -59,7 +63,7 @@ export default function BlogPage() {
                 }}
                 onMouseEnter={undefined}
               >
-                <div className="flex items-center gap-3 mb-5">
+                <div className="mb-5 flex items-center gap-3">
                   <span
                     className="text-xs font-medium tracking-wide uppercase"
                     style={{ color: "#C6F24A" }}
@@ -76,7 +80,7 @@ export default function BlogPage() {
                 </div>
 
                 <h2
-                  className="text-lg font-semibold leading-snug mb-3 transition-colors duration-[var(--motion-state)] group-hover:text-white"
+                  className="mb-3 text-lg leading-snug font-semibold transition-colors duration-[var(--motion-state)] group-hover:text-white"
                   style={{
                     color: "rgba(255,255,255,0.85)",
                     letterSpacing: "-0.02em",
@@ -86,13 +90,16 @@ export default function BlogPage() {
                 </h2>
 
                 <p
-                  className="text-sm leading-relaxed flex-1"
+                  className="flex-1 text-sm leading-relaxed"
                   style={{ color: "rgba(255,255,255,0.45)" }}
                 >
                   {post.description}
                 </p>
 
-                <div className="flex items-center justify-between mt-6 pt-5" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+                <div
+                  className="mt-6 flex items-center justify-between pt-5"
+                  style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+                >
                   <span
                     className="text-xs"
                     style={{ color: "rgba(255,255,255,0.3)" }}

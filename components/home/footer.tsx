@@ -9,15 +9,33 @@ export function Footer() {
         borderColor: "rgba(255,255,255,0.07)",
       }}
     >
-      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-8 px-5 py-12 md:flex-row md:items-center md:justify-between md:py-10 md:px-10">
+      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-8 px-5 py-12 md:flex-row md:items-center md:justify-between md:px-10 md:py-10">
         {/* Logo */}
         <a href="/" aria-label="Movo" className="shrink-0">
           <svg viewBox="0 0 220 56" fill="none" height="28" width="110">
             <rect x="0" y="4" width="48" height="48" rx="12" fill="#0A0A0B" />
             <circle cx="24" cy="28" r="24" fill="#FFFFFF" fillOpacity="0.15" />
-            <circle cx="24" cy="28" r="22.5" fill="#FFFFFF" fillOpacity="0.30" />
-            <circle cx="24" cy="28" r="20.7" fill="#FFFFFF" fillOpacity="0.58" />
-            <circle cx="24" cy="28" r="18.6" fill="#FFFFFF" fillOpacity="0.90" />
+            <circle
+              cx="24"
+              cy="28"
+              r="22.5"
+              fill="#FFFFFF"
+              fillOpacity="0.30"
+            />
+            <circle
+              cx="24"
+              cy="28"
+              r="20.7"
+              fill="#FFFFFF"
+              fillOpacity="0.58"
+            />
+            <circle
+              cx="24"
+              cy="28"
+              r="18.6"
+              fill="#FFFFFF"
+              fillOpacity="0.90"
+            />
             <circle cx="24" cy="28" r="16.3" fill="#0A0A0B" />
             <text
               x="62"
@@ -89,7 +107,13 @@ export function Footer() {
           >
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
             <circle cx="12" cy="12" r="4.5" />
-            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+            <circle
+              cx="17.5"
+              cy="6.5"
+              r="0.5"
+              fill="currentColor"
+              stroke="none"
+            />
           </svg>
         </a>
       </div>

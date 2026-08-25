@@ -175,7 +175,9 @@ export function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : ""
-    return () => { document.body.style.overflow = "" }
+    return () => {
+      document.body.style.overflow = ""
+    }
   }, [mobileOpen])
 
   const toggle = (key: string) =>
@@ -186,7 +188,7 @@ export function Navbar() {
       <nav
         ref={navRef}
         className={cn(
-          "fixed top-0 right-0 left-0 z-[100] flex h-16 items-center px-5 md:px-10 transition-all duration-[var(--motion-state)]",
+          "fixed top-0 right-0 left-0 z-[100] flex h-16 items-center px-5 transition-all duration-[var(--motion-state)] md:px-10",
           scrolled
             ? "border-b border-white/[0.07] bg-ink-950/82 backdrop-blur-xl"
             : "border-b border-transparent"
@@ -202,7 +204,13 @@ export function Navbar() {
           >
             <svg viewBox="0 0 220 56" fill="none" height="30" width="118">
               <rect x="0" y="4" width="48" height="48" rx="12" fill="#0A0A0B" />
-              <circle cx="24" cy="28" r="24" fill="#FFFFFF" fillOpacity="0.15" />
+              <circle
+                cx="24"
+                cy="28"
+                r="24"
+                fill="#FFFFFF"
+                fillOpacity="0.15"
+              />
               <circle
                 cx="24"
                 cy="28"
@@ -240,7 +248,7 @@ export function Navbar() {
           </a>
 
           {/* Desktop nav links */}
-          <ul className="hidden md:flex flex-1 list-none items-center gap-0">
+          <ul className="hidden flex-1 list-none items-center gap-0 md:flex">
             {(
               Object.entries(NAV_MENUS) as [
                 keyof typeof NAV_MENUS,
@@ -400,7 +408,7 @@ export function Navbar() {
           {/* Hamburger — mobile only */}
           <button
             ref={hamburgerRef}
-            className="ml-auto flex items-center justify-center w-10 h-10 rounded-md md:hidden"
+            className="ml-auto flex h-10 w-10 items-center justify-center rounded-md md:hidden"
             onClick={() => setMobileOpen((o) => !o)}
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={mobileOpen}
@@ -440,11 +448,11 @@ export function Navbar() {
       {/* Mobile menu overlay */}
       <div
         className={cn(
-          "fixed inset-0 z-[90] flex flex-col pt-16 md:hidden overflow-y-auto",
+          "fixed inset-0 z-[90] flex flex-col overflow-y-auto pt-16 md:hidden",
           "transition-all duration-[var(--motion-state)]",
           mobileOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0"
         )}
         style={{
           background: "rgba(10,10,11,0.98)",
@@ -452,10 +460,10 @@ export function Navbar() {
           WebkitBackdropFilter: "blur(24px)",
         }}
       >
-        <div className="flex flex-col px-5 pb-10 gap-1">
+        <div className="flex flex-col gap-1 px-5 pb-10">
           <div className="mt-4">
             <p
-              className="text-[11px] font-semibold tracking-[0.1em] uppercase px-3 pt-5 pb-2"
+              className="px-3 pt-5 pb-2 text-[11px] font-semibold tracking-[0.1em] uppercase"
               style={{ color: "rgba(255,255,255,0.3)" }}
             >
               Contenido
@@ -468,18 +476,35 @@ export function Navbar() {
             >
               <div
                 className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md"
-                style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.5)" }}
+                style={{
+                  background: "rgba(255,255,255,0.06)",
+                  color: "rgba(255,255,255,0.5)",
+                }}
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="size-4">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="size-4"
+                >
                   <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
                   <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
                 </svg>
               </div>
               <div className="flex flex-col gap-0.5">
-                <span className="text-sm font-medium" style={{ color: "rgba(255,255,255,0.88)" }}>
+                <span
+                  className="text-sm font-medium"
+                  style={{ color: "rgba(255,255,255,0.88)" }}
+                >
                   Blog
                 </span>
-                <span className="text-xs leading-snug" style={{ color: "rgba(255,255,255,0.38)" }}>
+                <span
+                  className="text-xs leading-snug"
+                  style={{ color: "rgba(255,255,255,0.38)" }}
+                >
                   Logística colaborativa y novedades de Movo.
                 </span>
               </div>
@@ -493,7 +518,7 @@ export function Navbar() {
           ).map(([key, menu], sectionIdx) => (
             <div key={key} className={sectionIdx > 0 ? "mt-4" : ""}>
               <p
-                className="text-[11px] font-semibold tracking-[0.1em] uppercase px-3 pt-5 pb-2"
+                className="px-3 pt-5 pb-2 text-[11px] font-semibold tracking-[0.1em] uppercase"
                 style={{ color: "rgba(255,255,255,0.3)" }}
               >
                 {menu.colTitle}
@@ -535,7 +560,7 @@ export function Navbar() {
                 <a
                   href="/como-funciona"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-between rounded-[10px] px-3 py-3 mt-1"
+                  className="mt-1 flex items-center justify-between rounded-[10px] px-3 py-3"
                   style={{
                     background: "rgba(198,242,74,0.07)",
                     border: "1px solid rgba(198,242,74,0.12)",

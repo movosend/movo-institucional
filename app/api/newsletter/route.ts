@@ -36,17 +36,11 @@ export async function POST(request: Request) {
   }
 
   if (typeof firstName !== "string" || !firstName.trim()) {
-    return NextResponse.json(
-      { error: "Ingresá tu nombre." },
-      { status: 400 }
-    )
+    return NextResponse.json({ error: "Ingresá tu nombre." }, { status: 400 })
   }
 
   if (typeof lastName !== "string" || !lastName.trim()) {
-    return NextResponse.json(
-      { error: "Ingresá tu apellido." },
-      { status: 400 }
-    )
+    return NextResponse.json({ error: "Ingresá tu apellido." }, { status: 400 })
   }
 
   const resend = new Resend(apiKey)

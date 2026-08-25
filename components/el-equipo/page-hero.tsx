@@ -2,9 +2,7 @@
 
 export function TeamPageHero() {
   return (
-    <section
-      className="relative overflow-hidden px-5 pt-28 pb-16 md:px-10 md:pt-[140px] md:pb-20"
-    >
+    <section className="relative overflow-hidden px-5 pt-28 pb-16 md:px-10 md:pt-[140px] md:pb-20">
       {/* Decorative rings */}
       <div
         aria-hidden
