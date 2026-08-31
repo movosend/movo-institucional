@@ -2,9 +2,7 @@
 
 export function ProjectPageHero() {
   return (
-    <section
-      className="relative overflow-hidden px-5 pt-28 pb-16 md:px-10 md:pt-[140px] md:pb-20"
-    >
+    <section className="relative overflow-hidden px-5 pt-28 pb-16 md:px-10 md:pt-[140px] md:pb-20">
       {/* Aperture rings — decorative, partially off-screen right */}
       <div
         aria-hidden
@@ -93,7 +91,7 @@ export function ProjectPageHero() {
               fontFamily: "var(--font-mono)",
             }}
           >
-            PF - Grupo 26 · Ingenieria en Sistemas de Informacion
+            PF - Grupo 27 · Ingenieria en Sistemas de Informacion
           </span>
         </div>
 
