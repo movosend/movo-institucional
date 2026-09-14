@@ -15,6 +15,10 @@ export const metadata: Metadata = {
 }
 
 export default function BlogPage() {
+  const sortedPosts = [...posts].sort((a, b) =>
+    b.publishedAt.localeCompare(a.publishedAt)
+  )
+
   return (
     <div className="min-h-screen bg-background">
       <div className="relative z-10">
@@ -38,14 +42,14 @@ export default function BlogPage() {
           <div className="mb-12 border-t border-border" />
 
           {/* Post grid */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 pb-24">
-            {posts.map((post) => (
+          <div className="grid grid-cols-1 gap-6 pb-24 md:grid-cols-2 lg:grid-cols-3">
+            {sortedPosts.map((post) => (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="group flex flex-col rounded-2xl border border-border bg-foreground/[0.03] p-6 transition-colors duration-200"
+                className="group flex flex-col rounded-2xl border border-border bg-foreground/[0.03] p-6 transition-colors duration-[var(--motion-state)]"
               >
-                <div className="flex items-center gap-3 mb-5">
+                <div className="mb-5 flex items-center gap-3">
                   <span
                     className="text-xs font-medium tracking-wide uppercase"
                     style={{ color: "#C6F24A" }}
@@ -59,21 +63,21 @@ export default function BlogPage() {
                 </div>
 
                 <h2
-                  className="text-lg font-semibold leading-snug mb-3 text-foreground/85 transition-colors duration-200 group-hover:text-foreground"
+                  className="mb-3 text-lg leading-snug font-semibold text-foreground/85 transition-colors duration-[var(--motion-state)] group-hover:text-foreground"
                   style={{ letterSpacing: "-0.02em" }}
                 >
                   {post.title}
                 </h2>
 
-                <p className="text-sm leading-relaxed flex-1 text-muted-foreground">
+                <p className="flex-1 text-sm leading-relaxed text-muted-foreground">
                   {post.description}
                 </p>
 
-                <div className="flex items-center justify-between mt-6 pt-5 border-t border-border">
+                <div className="mt-6 flex items-center justify-between border-t border-border pt-5">
                   <span className="text-xs text-foreground/30">
                     {formatDate(post.publishedAt)}
                   </span>
-                  <span className="flex items-center gap-1 text-xs font-medium text-foreground/40 transition-colors duration-200 group-hover:text-foreground">
+                  <span className="flex items-center gap-1 text-xs font-medium text-foreground/40 transition-colors duration-[var(--motion-state)] group-hover:text-foreground">
                     Leer
                     <svg
                       viewBox="0 0 24 24"
@@ -82,7 +86,7 @@ export default function BlogPage() {
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="transition-transform duration-200 group-hover:translate-x-0.5"
+                      className="transition-transform duration-[var(--motion-state)] group-hover:translate-x-0.5"
                       style={{ width: 12, height: 12 }}
                     >
                       <path d="M5 12h14M12 5l7 7-7 7" />

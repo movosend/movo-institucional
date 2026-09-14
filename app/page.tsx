@@ -10,6 +10,7 @@ import { AnimatedGrid } from "@/components/home/animated-grid"
 import { Hero } from "@/components/home/hero"
 import { HowItWorks } from "@/components/home/how-it-works"
 import { Navbar } from "@/components/home/navbar"
+import { Newsletter } from "@/components/home/newsletter"
 
 export default function Page() {
   return (
@@ -19,6 +20,7 @@ export default function Page() {
         <Navbar />
         <main>
           <Hero />
+          <Newsletter />
           <HowItWorks />
         </main>
       </div>

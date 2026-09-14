@@ -100,7 +100,7 @@ export function ProjectPageBody() {
             }}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-start">
+          <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-2 md:gap-20">
             {/* Left: heading */}
             <div>
               <p
@@ -213,7 +213,7 @@ export function ProjectPageBody() {
           </p>
 
           {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-3.5">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:gap-3.5">
             {DISCIPLINES.map((d) => (
               <div
                 key={d.title}
@@ -251,7 +251,7 @@ export function ProjectPageBody() {
       {/* ── Section: La carrera ──────────────────────────────────── */}
       <section className="border-t border-border px-5 py-16 md:px-10 md:py-20">
         <div className="mx-auto w-full" style={{ maxWidth: 1200 }}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
+          <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2 md:gap-20">
             {/* Left */}
             <div>
               <p
@@ -427,7 +427,7 @@ export function ProjectPageBody() {
               </p>
               <a
                 href="/como-funciona"
-                className="inline-flex items-center gap-3 rounded-lg border border-border bg-background px-5 py-3 text-sm font-semibold text-foreground/90 transition-colors duration-[180ms] hover:bg-muted"
+                className="inline-flex items-center gap-3 rounded-lg border border-border bg-background px-5 py-3 text-sm font-semibold text-foreground/90 transition-colors duration-[var(--motion-hover)] hover:bg-muted"
                 style={{ letterSpacing: "-0.01em", textDecoration: "none" }}
               >
                 Ver cómo funciona el sistema

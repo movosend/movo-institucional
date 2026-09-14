@@ -39,7 +39,14 @@ const STAGES = [
       "Ese perfil es el ancla de toda transacción: firma, custodia y reputación quedan asociadas a una persona real.",
     ],
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
         <path d="M9 12l2 2 4-4" />
       </svg>
@@ -58,7 +65,14 @@ const STAGES = [
       "Notificación push al receptor con botón Aceptar / Rechazar. Sin aceptación, el envío no llega al tablero de transportistas.",
     ],
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
         <circle cx="12" cy="10" r="3" />
       </svg>
@@ -77,7 +91,14 @@ const STAGES = [
       "Validación adicional para transportistas: licencia de conducir verificada + tarjeta precargada para comisiones en efectivo.",
     ],
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
         <circle cx="9" cy="7" r="4" />
         <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
@@ -98,7 +119,14 @@ const STAGES = [
       "MVP con algoritmo greedy. Ejemplo: Córdoba → Luque con desvío ≤ 18km incorpora 2 envíos adicionales en ruta.",
     ],
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
       </svg>
     ),
@@ -118,7 +146,14 @@ const STAGES = [
       "Post-MVP: NFC como alternativa al QR, mismo protocolo criptográfico subyacente.",
     ],
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
         <path d="M7 11V7a5 5 0 0 1 10 0v4" />
       </svg>
@@ -138,7 +173,14 @@ const STAGES = [
       "Notificaciones push en eventos clave: paquete retirado, en camino, a 15 minutos del destino, entregado.",
     ],
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <circle cx="12" cy="12" r="10" />
         <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
         <path d="M2 12h20" />
@@ -160,7 +202,14 @@ const STAGES = [
       "Ventaja fiscal: Movo nunca es perceptor del total, evita retención de IIBB provincial sobre montos ajenos.",
     ],
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <polyline points="20 6 9 17 4 12" />
       </svg>
     ),
@@ -174,45 +223,60 @@ export function StackedCards() {
   useEffect(() => {
     if (!sectionRef.current) return
 
-    const ctx = gsap.context(() => {
-      cardsRef.current.forEach((card, i) => {
-        if (!card) return
+    const mm = gsap.matchMedia()
 
-        gsap.fromTo(
-          card,
-          { y: 70, scale: 0.97 },
-          {
-            y: 0,
-            scale: 1,
-            duration: 0.55,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 86%",
-              toggleActions: "play none none reverse",
+    mm.add(
+      {
+        reduceMotion: "(prefers-reduced-motion: reduce)",
+        fullMotion: "(prefers-reduced-motion: no-preference)",
+      },
+      (context) => {
+        const { reduceMotion } = context.conditions as { reduceMotion: boolean }
+
+        cardsRef.current.forEach((card, i) => {
+          if (!card) return
+
+          gsap.fromTo(
+            card,
+            {
+              opacity: 0,
+              y: reduceMotion ? 0 : 70,
+              scale: reduceMotion ? 1 : 0.97,
             },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: reduceMotion ? 0.3 : 0.55,
+              ease: reduceMotion ? "power1.out" : "power3.out",
+              scrollTrigger: {
+                trigger: card,
+                start: "top 86%",
+                toggleActions: "play none none reverse",
+              },
+            }
+          )
+
+          if (!reduceMotion && i < STAGES.length - 1) {
+            const offset = STACK_OFFSETS[i % STACK_OFFSETS.length]
+            gsap.to(card, {
+              scale: 0.96,
+              rotation: offset.rotate,
+              x: offset.x,
+              ease: "power2.inOut",
+              scrollTrigger: {
+                trigger: cardsRef.current[i + 1],
+                start: "top 72%",
+                end: "top 28%",
+                scrub: 0.6,
+              },
+            })
           }
-        )
+        })
+      }
+    )
 
-        if (i < STAGES.length - 1) {
-          const offset = STACK_OFFSETS[i % STACK_OFFSETS.length]
-          gsap.to(card, {
-            scale: 0.96,
-            rotation: offset.rotate,
-            x: offset.x,
-            ease: "power2.inOut",
-            scrollTrigger: {
-              trigger: cardsRef.current[i + 1],
-              start: "top 72%",
-              end: "top 28%",
-              scrub: 0.6,
-            },
-          })
-        }
-      })
-    }, sectionRef)
-
-    return () => ctx.revert()
+    return () => mm.revert()
   }, [])
 
   return (
@@ -222,8 +286,8 @@ export function StackedCards() {
       style={{ position: "relative" }}
     >
       {/* Section header */}
-      <div className="max-w-[1200px] mx-auto mb-10 md:mb-16">
-        <div className="font-mono text-[11px] font-semibold tracking-[0.1em] uppercase mb-4 text-muted-foreground">
+      <div className="mx-auto mb-10 max-w-[1200px] md:mb-16">
+        <div className="mb-4 font-mono text-[11px] font-semibold tracking-[0.1em] text-muted-foreground uppercase">
           7 etapas — del envío a la entrega
         </div>
         <h2
@@ -246,7 +310,7 @@ export function StackedCards() {
 
       {/* Cards stack */}
       <div
-        className="max-w-[1200px] mx-auto"
+        className="mx-auto max-w-[1200px]"
         style={{ display: "flex", flexDirection: "column", gap: 24 }}
       >
         {STAGES.map((stage, i) => (
@@ -267,17 +331,17 @@ export function StackedCards() {
             }}
           >
             {/* Card inner — stacks on mobile */}
-            <div className="grid grid-cols-1 md:grid-cols-2 md:min-h-[360px]">
+            <div className="grid grid-cols-1 md:min-h-[360px] md:grid-cols-2">
               {/* Left: business content */}
               <div
-                className="relative overflow-hidden flex flex-col justify-between border-b border-border md:border-b-0 md:border-r"
+                className="relative flex flex-col justify-between overflow-hidden border-b border-border md:border-r md:border-b-0"
                 style={{
                   padding: "32px 28px",
                 }}
               >
                 {/* Watermark icon */}
                 <div
-                  className="absolute right-6 bottom-6 pointer-events-none hidden md:block text-foreground/[0.03]"
+                  className="pointer-events-none absolute right-6 bottom-6 hidden text-foreground/[0.03] md:block"
                   aria-hidden
                   style={{
                     width: 140,
@@ -289,7 +353,7 @@ export function StackedCards() {
 
                 <div>
                   {/* Step number + domain badge */}
-                  <div className="flex items-center gap-3 mb-5 flex-wrap">
+                  <div className="mb-5 flex flex-wrap items-center gap-3">
                     <span
                       className="font-mono text-[13px] font-semibold"
                       style={{ color: stage.domainColor }}
@@ -297,7 +361,7 @@ export function StackedCards() {
                       {stage.num}
                     </span>
                     <span
-                      className="text-[11px] font-semibold tracking-[0.08em] uppercase px-2.5 py-1 rounded-full"
+                      className="rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-[0.08em] uppercase"
                       style={{
                         background: `${stage.domainColor}14`,
                         border: `1px solid ${stage.domainColor}28`,
@@ -310,7 +374,7 @@ export function StackedCards() {
 
                   {/* Title */}
                   <h3
-                    className="text-foreground mb-4"
+                    className="mb-4 text-foreground"
                     style={{
                       fontSize: "clamp(1.15rem, 2vw, 1.75rem)",
                       fontWeight: 600,
@@ -342,10 +406,12 @@ export function StackedCards() {
                   borderTop: "none",
                 }}
               >
-                <div className="font-mono text-[10px] font-semibold tracking-[0.1em] uppercase mb-5 text-muted-foreground">
+                <div className="mb-5 font-mono text-[10px] font-semibold tracking-[0.1em] text-muted-foreground uppercase">
                   Detalle técnico
                 </div>
-                <ul style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <ul
+                  style={{ display: "flex", flexDirection: "column", gap: 12 }}
+                >
                   {stage.technical.map((item, j) => (
                     <li
                       key={j}
@@ -385,11 +451,9 @@ export function StackedCards() {
       </div>
 
       {/* Closing note */}
-      <div
-        className="max-w-[1200px] mx-auto mt-16 md:mt-20 text-center px-0"
-      >
+      <div className="mx-auto mt-16 max-w-[1200px] px-0 text-center md:mt-20">
         <div
-          className="inline-flex items-center gap-3 px-5 py-4 rounded-2xl text-left"
+          className="inline-flex items-center gap-3 rounded-2xl px-5 py-4 text-left"
           style={{
             background: "rgba(198,242,74,0.06)",
             border: "1px solid rgba(198,242,74,0.15)",

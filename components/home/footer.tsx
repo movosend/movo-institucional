@@ -3,15 +3,33 @@ import Link from "next/link"
 export function Footer() {
   return (
     <footer className="w-full border-t border-border bg-background">
-      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-8 px-5 py-12 md:flex-row md:items-center md:justify-between md:py-10 md:px-10">
+      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-8 px-5 py-12 md:flex-row md:items-center md:justify-between md:px-10 md:py-10">
         {/* Logo */}
         <a href="/" aria-label="Movo" className="shrink-0 text-foreground">
           <svg viewBox="0 0 220 56" fill="none" height="28" width="110">
             <rect x="0" y="4" width="48" height="48" rx="12" fill="#0A0A0B" />
             <circle cx="24" cy="28" r="24" fill="#FFFFFF" fillOpacity="0.15" />
-            <circle cx="24" cy="28" r="22.5" fill="#FFFFFF" fillOpacity="0.30" />
-            <circle cx="24" cy="28" r="20.7" fill="#FFFFFF" fillOpacity="0.58" />
-            <circle cx="24" cy="28" r="18.6" fill="#FFFFFF" fillOpacity="0.90" />
+            <circle
+              cx="24"
+              cy="28"
+              r="22.5"
+              fill="#FFFFFF"
+              fillOpacity="0.30"
+            />
+            <circle
+              cx="24"
+              cy="28"
+              r="20.7"
+              fill="#FFFFFF"
+              fillOpacity="0.58"
+            />
+            <circle
+              cx="24"
+              cy="28"
+              r="18.6"
+              fill="#FFFFFF"
+              fillOpacity="0.90"
+            />
             <circle cx="24" cy="28" r="16.3" fill="#0A0A0B" />
             <text
               x="62"
@@ -31,13 +49,13 @@ export function Footer() {
         <nav className="flex flex-col gap-3 md:flex-row md:flex-wrap md:items-center md:gap-x-6 md:gap-y-3">
           <Link
             href="/politica-de-privacidad"
-            className="text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground"
+            className="text-sm text-muted-foreground transition-colors duration-[var(--motion-hover)] hover:text-foreground"
           >
             Política de privacidad
           </Link>
           <Link
             href="/terminos-y-condiciones"
-            className="text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground"
+            className="text-sm text-muted-foreground transition-colors duration-[var(--motion-hover)] hover:text-foreground"
           >
             Términos y condiciones
           </Link>
@@ -45,7 +63,7 @@ export function Footer() {
             href="https://github.com/movosend"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground"
+            className="flex items-center gap-1.5 text-sm text-muted-foreground transition-colors duration-[var(--motion-hover)] hover:text-foreground"
           >
             <svg
               viewBox="0 0 24 24"
@@ -65,7 +83,7 @@ export function Footer() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Instagram de Movo"
-          className="flex h-9 w-9 items-center justify-center self-center rounded-lg text-muted-foreground transition-colors duration-150 hover:bg-foreground/[0.08] hover:text-foreground md:self-auto"
+          className="flex h-9 w-9 items-center justify-center self-center rounded-lg text-muted-foreground transition-colors duration-[var(--motion-hover)] hover:bg-foreground/[0.08] hover:text-foreground md:self-auto"
         >
           <svg
             viewBox="0 0 24 24"
@@ -79,7 +97,13 @@ export function Footer() {
           >
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
             <circle cx="12" cy="12" r="4.5" />
-            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
+            <circle
+              cx="17.5"
+              cy="6.5"
+              r="0.5"
+              fill="currentColor"
+              stroke="none"
+            />
           </svg>
         </a>
       </div>

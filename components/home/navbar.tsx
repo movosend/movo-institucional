@@ -131,6 +131,8 @@ export function Navbar() {
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const navRef = useRef<HTMLElement>(null)
+  const menuTriggerRefs = useRef<Record<string, HTMLButtonElement | null>>({})
+  const hamburgerRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -149,6 +151,22 @@ export function Navbar() {
   }, [])
 
   useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return
+      if (openMenu) {
+        const trigger = menuTriggerRefs.current[openMenu]
+        setOpenMenu(null)
+        trigger?.focus()
+      } else if (mobileOpen) {
+        setMobileOpen(false)
+        hamburgerRef.current?.focus()
+      }
+    }
+    document.addEventListener("keydown", onKeyDown)
+    return () => document.removeEventListener("keydown", onKeyDown)
+  }, [openMenu, mobileOpen])
+
+  useEffect(() => {
     const onResize = () => {
       if (window.innerWidth >= 768) setMobileOpen(false)
     }
@@ -158,7 +176,9 @@ export function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : ""
-    return () => { document.body.style.overflow = "" }
+    return () => {
+      document.body.style.overflow = ""
+    }
   }, [mobileOpen])
 
   const toggle = (key: string) =>
@@ -169,7 +189,7 @@ export function Navbar() {
       <nav
         ref={navRef}
         className={cn(
-          "fixed top-0 right-0 left-0 z-[100] flex h-16 items-center px-5 md:px-10 transition-all duration-200",
+          "fixed top-0 right-0 left-0 z-[100] flex h-16 items-center px-5 transition-all duration-[var(--motion-state)] md:px-10",
           scrolled
             ? "border-b border-border bg-background/82 backdrop-blur-xl"
             : "border-b border-transparent"
@@ -184,7 +204,13 @@ export function Navbar() {
           >
             <svg viewBox="0 0 220 56" fill="none" height="30" width="118">
               <rect x="0" y="4" width="48" height="48" rx="12" fill="#0A0A0B" />
-              <circle cx="24" cy="28" r="24" fill="#FFFFFF" fillOpacity="0.15" />
+              <circle
+                cx="24"
+                cy="28"
+                r="24"
+                fill="#FFFFFF"
+                fillOpacity="0.15"
+              />
               <circle
                 cx="24"
                 cy="28"
@@ -222,7 +248,7 @@ export function Navbar() {
           </a>
 
           {/* Desktop nav links */}
-          <ul className="hidden md:flex flex-1 list-none items-center gap-0">
+          <ul className="hidden flex-1 list-none items-center gap-0 md:flex">
             {(
               Object.entries(NAV_MENUS) as [
                 keyof typeof NAV_MENUS,
@@ -231,10 +257,15 @@ export function Navbar() {
             ).map(([key, menu]) => (
               <li key={key} className="relative">
                 <button
+                  ref={(el) => {
+                    menuTriggerRefs.current[key] = el
+                  }}
                   onClick={() => toggle(key)}
+                  aria-expanded={openMenu === key}
+                  aria-haspopup="true"
                   className={cn(
                     "mr-2 flex items-center gap-[5px] rounded-md px-4 py-2 text-sm font-medium",
-                    "cursor-pointer transition-colors duration-[120ms] select-none",
+                    "cursor-pointer transition-colors duration-[var(--motion-hover)] select-none",
                     openMenu === key
                       ? "bg-foreground/[0.06] text-foreground"
                       : "text-foreground/70 hover:bg-foreground/[0.06] hover:text-foreground"
@@ -248,7 +279,7 @@ export function Navbar() {
                     strokeWidth="1.8"
                     strokeLinecap="round"
                     className={cn(
-                      "h-[14px] w-[14px] opacity-50 transition-transform duration-200",
+                      "h-[14px] w-[14px] opacity-50 transition-transform duration-[var(--motion-state)]",
                       openMenu === key && "rotate-180 opacity-100"
                     )}
                   >
@@ -261,7 +292,7 @@ export function Navbar() {
                   className={cn(
                     "absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2",
                     "rounded-[14px] border border-border bg-popover/97 shadow-[0_24px_60px_rgba(0,0,0,0.20),0_4px_12px_rgba(0,0,0,0.10)] dark:shadow-[0_24px_60px_rgba(0,0,0,0.5),0_4px_12px_rgba(0,0,0,0.3)]",
-                    "z-[200] p-5 backdrop-blur-2xl transition-all duration-200",
+                    "z-[200] p-5 backdrop-blur-2xl transition-all duration-[var(--motion-state)]",
                     menu.cols === 2
                       ? "grid min-w-[560px] grid-cols-2 gap-x-8 gap-y-1"
                       : "grid min-w-[320px] grid-cols-1 gap-y-1",
@@ -277,13 +308,13 @@ export function Navbar() {
                     <a
                       key={item.title}
                       href={item.href}
-                      className="group flex cursor-pointer items-start gap-3 rounded-[10px] px-3 py-2.5 transition-colors duration-[120ms] hover:bg-foreground/[0.06]"
+                      className="group flex cursor-pointer items-start gap-3 rounded-[10px] px-3 py-2.5 transition-colors duration-[var(--motion-hover)] hover:bg-foreground/[0.06]"
                     >
                       <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md bg-foreground/[0.06] text-muted-foreground">
                         <NavIcon>{item.icon}</NavIcon>
                       </div>
                       <div className="flex flex-col gap-0.5">
-                        <span className="text-sm font-medium text-foreground/90 transition-colors duration-[120ms] group-hover:text-[#9FC72E] dark:group-hover:text-[#C6F24A]">
+                        <span className="text-sm font-medium text-foreground/90 transition-colors duration-[var(--motion-hover)] group-hover:text-[#9FC72E] dark:group-hover:text-[#C6F24A]">
                           {item.title}
                         </span>
                         <span className="text-xs leading-snug text-muted-foreground">
@@ -297,7 +328,7 @@ export function Navbar() {
                     <div className="col-span-full mt-2 border-t border-border pt-2">
                       <a
                         href="/como-funciona"
-                        className="group flex items-center justify-between rounded-[10px] px-3 py-2.5 transition-colors duration-[120ms] hover:bg-[#C6F24A]/[0.07]"
+                        className="group flex items-center justify-between rounded-[10px] px-3 py-2.5 transition-colors duration-[var(--motion-hover)] hover:bg-[#C6F24A]/[0.07]"
                       >
                         <span className="text-sm font-medium text-[#9FC72E] dark:text-[#C6F24A]">
                           Ver el proceso completo — 7 etapas
@@ -308,7 +339,7 @@ export function Navbar() {
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          className="stroke-[#9FC72E] transition-transform duration-200 group-hover:translate-x-1 dark:stroke-[#C6F24A]"
+                          className="stroke-[#9FC72E] transition-transform duration-[var(--motion-state)] group-hover:translate-x-1 dark:stroke-[#C6F24A]"
                           style={{ width: 14, height: 14 }}
                         >
                           <path d="M5 12h14M12 5l7 7-7 7" />
@@ -322,7 +353,7 @@ export function Navbar() {
             <li>
               <a
                 href="/blog"
-                className="mr-2 flex items-center gap-[5px] rounded-md px-4 py-2 text-sm font-medium text-foreground/70 transition-colors duration-[120ms] hover:bg-foreground/[0.06] hover:text-foreground"
+                className="mr-2 flex items-center gap-[5px] rounded-md px-4 py-2 text-sm font-medium text-foreground/70 transition-colors duration-[var(--motion-hover)] hover:bg-foreground/[0.06] hover:text-foreground"
               >
                 Blog
               </a>
@@ -333,9 +364,11 @@ export function Navbar() {
 
           {/* Hamburger — mobile only */}
           <button
+            ref={hamburgerRef}
             className="ml-auto flex h-10 w-10 items-center justify-center rounded-md text-foreground/75 md:ml-2 md:hidden"
             onClick={() => setMobileOpen((o) => !o)}
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={mobileOpen}
           >
             {mobileOpen ? (
               <svg
@@ -371,32 +404,41 @@ export function Navbar() {
       {/* Mobile menu overlay */}
       <div
         className={cn(
-          "fixed inset-0 z-[90] flex flex-col pt-16 md:hidden overflow-y-auto",
-          "transition-all duration-200",
+          "fixed inset-0 z-[90] flex flex-col overflow-y-auto pt-16 md:hidden",
+          "transition-all duration-[var(--motion-state)]",
           mobileOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0"
         )}
         style={{
           backdropFilter: "blur(24px)",
           WebkitBackdropFilter: "blur(24px)",
         }}
       >
-        <div className="bg-background/98 flex flex-1 flex-col px-5 pb-10 gap-1">
+        <div className="bg-background/98 flex flex-1 flex-col gap-1 px-5 pb-10">
           <div className="mt-4 flex items-center justify-end px-1 pt-4">
             <ThemeToggle />
           </div>
           <div>
-            <p className="text-[11px] font-semibold tracking-[0.1em] uppercase px-3 pt-3 pb-2 text-muted-foreground">
+            <p className="px-3 pt-3 pb-2 text-[11px] font-semibold tracking-[0.1em] text-muted-foreground uppercase">
               Contenido
             </p>
             <a
               href="/blog"
               onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-3 rounded-[10px] px-3 py-3 transition-colors duration-[120ms] active:bg-foreground/[0.06]"
+              className="flex items-center gap-3 rounded-[10px] px-3 py-3 transition-colors duration-[var(--motion-hover)] active:bg-foreground/[0.06]"
             >
               <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md bg-foreground/[0.06] text-muted-foreground">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="size-4">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="size-4"
+                >
+
                   <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
                   <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
                 </svg>
@@ -418,7 +460,7 @@ export function Navbar() {
             ][]
           ).map(([key, menu], sectionIdx) => (
             <div key={key} className={sectionIdx > 0 ? "mt-4" : ""}>
-              <p className="text-[11px] font-semibold tracking-[0.1em] uppercase px-3 pt-5 pb-2 text-muted-foreground">
+              <p className="px-3 pt-5 pb-2 text-[11px] font-semibold tracking-[0.1em] text-muted-foreground uppercase">
                 {menu.colTitle}
               </p>
               {menu.items.map((item) => (
@@ -426,7 +468,7 @@ export function Navbar() {
                   key={item.title}
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-3 rounded-[10px] px-3 py-3 transition-colors duration-[120ms] active:bg-foreground/[0.06]"
+                  className="flex items-center gap-3 rounded-[10px] px-3 py-3 transition-colors duration-[var(--motion-hover)] active:bg-foreground/[0.06]"
                 >
                   <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md bg-foreground/[0.06] text-muted-foreground">
                     <NavIcon>{item.icon}</NavIcon>
@@ -445,7 +487,7 @@ export function Navbar() {
                 <a
                   href="/como-funciona"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-between rounded-[10px] px-3 py-3 mt-1 border border-[#C6F24A]/12 bg-[#C6F24A]/[0.07]"
+                  className="mt-1 flex items-center justify-between rounded-[10px] border border-[#C6F24A]/12 bg-[#C6F24A]/[0.07] px-3 py-3"
                 >
                   <span className="text-sm font-semibold text-[#9FC72E] dark:text-[#C6F24A]">
                     Ver el proceso completo — 7 etapas

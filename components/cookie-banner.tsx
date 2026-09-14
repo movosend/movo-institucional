@@ -23,6 +23,9 @@ export function CookieBanner() {
     if (!mq.matches) return
 
     const el = ref.current
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches
     gsap.set(el, { top: 16, bottom: "auto", y: 0 })
 
     const onScroll = () => {
@@ -30,12 +33,20 @@ export function CookieBanner() {
 
       if (shouldBeBottom && !atBottom.current) {
         atBottom.current = true
-        gsap.set(el, { bottom: 16, top: "auto", y: -80 })
-        gsap.to(el, { y: 0, duration: 0.45, ease: "power2.out" })
+        if (reduceMotion) {
+          gsap.set(el, { bottom: 16, top: "auto", y: 0 })
+        } else {
+          gsap.set(el, { bottom: 16, top: "auto", y: -80 })
+          gsap.to(el, { y: 0, duration: 0.45, ease: "power2.out" })
+        }
       } else if (!shouldBeBottom && atBottom.current) {
         atBottom.current = false
-        gsap.set(el, { top: 16, bottom: "auto", y: 80 })
-        gsap.to(el, { y: 0, duration: 0.45, ease: "power2.out" })
+        if (reduceMotion) {
+          gsap.set(el, { top: 16, bottom: "auto", y: 0 })
+        } else {
+          gsap.set(el, { top: 16, bottom: "auto", y: 80 })
+          gsap.to(el, { y: 0, duration: 0.45, ease: "power2.out" })
+        }
       }
     }
 
@@ -59,7 +70,7 @@ export function CookieBanner() {
       role="dialog"
       aria-label="Aviso de cookies"
       // Mobile: full-width bottom bar. Desktop: floating card top-right (position overridden by GSAP)
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/5 bg-ink-950/95 px-4 py-4 shadow-lg backdrop-blur-md md:bottom-auto md:left-auto md:right-4 md:top-4 md:w-full md:max-w-md md:rounded-xl md:border md:border-white/5 md:bg-white/5 md:px-4 md:py-3"
+      className="fixed right-0 bottom-0 left-0 z-50 border-t border-white/5 bg-ink-950/95 px-4 py-4 shadow-lg backdrop-blur-md md:top-4 md:right-4 md:bottom-auto md:left-auto md:w-full md:max-w-md md:rounded-xl md:border md:border-white/5 md:bg-white/5 md:px-4 md:py-3"
     >
       {/* Mobile layout: stacked text + action row */}
       <div className="flex flex-col gap-3 md:hidden">
@@ -77,13 +88,18 @@ export function CookieBanner() {
           </button>
         </div>
 
-        {expanded && (
-          <p className="text-sm text-ink-500">
-            <span className="text-ink-400">Microsoft Clarity:</span> registra
-            interacciones anónimas (clics, scroll) para mejorar el sitio. Sin
-            datos personales.
-          </p>
-        )}
+        <div
+          className="grid transition-[grid-template-rows] duration-[var(--motion-state)] ease-out motion-reduce:transition-none"
+          style={{ gridTemplateRows: expanded ? "1fr" : "0fr" }}
+        >
+          <div className="overflow-hidden">
+            <p className="pb-1 text-sm text-ink-500">
+              <span className="text-ink-400">Microsoft Clarity:</span> registra
+              interacciones anónimas (clics, scroll) para mejorar el sitio. Sin
+              datos personales.
+            </p>
+          </div>
+        </div>
 
         <div className="flex gap-2">
           <button
@@ -129,13 +145,18 @@ export function CookieBanner() {
         </div>
       </div>
 
-      {expanded && (
-        <p className="mt-2 hidden text-xs text-ink-500 md:block">
-          <span className="text-ink-400">Microsoft Clarity:</span> registra
-          interacciones anónimas (clics, scroll) para mejorar el sitio. Sin
-          datos personales.
-        </p>
-      )}
+      <div
+        className="hidden transition-[grid-template-rows] duration-[var(--motion-state)] ease-out motion-reduce:transition-none md:grid"
+        style={{ gridTemplateRows: expanded ? "1fr" : "0fr" }}
+      >
+        <div className="overflow-hidden">
+          <p className="mt-2 text-xs text-ink-500">
+            <span className="text-ink-400">Microsoft Clarity:</span> registra
+            interacciones anónimas (clics, scroll) para mejorar el sitio. Sin
+            datos personales.
+          </p>
+        </div>
+      </div>
     </div>
   )
 }

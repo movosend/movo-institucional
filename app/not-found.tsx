@@ -233,7 +233,7 @@ export default function NotFound() {
           <div className="flex flex-col items-center gap-3 sm:flex-row">
             <a
               href="/"
-              className="group inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors duration-[120ms] hover:bg-primary/90"
+              className="group inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-colors duration-[var(--motion-hover)] hover:bg-primary/90"
             >
               Volver al inicio
               <svg
@@ -243,7 +243,7 @@ export default function NotFound() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="transition-transform duration-[120ms] group-hover:translate-x-0.5"
+                className="transition-transform duration-[var(--motion-hover)] group-hover:translate-x-0.5"
                 style={{ width: 14, height: 14 }}
               >
                 <path d="M5 12h14M12 5l7 7-7 7" />
@@ -252,7 +252,7 @@ export default function NotFound() {
 
             <a
               href="/como-funciona"
-              className="inline-flex items-center gap-2 rounded-lg border border-foreground/12 px-6 py-3 text-sm font-medium text-muted-foreground transition-colors duration-[120ms] hover:border-foreground/20 hover:text-foreground"
+              className="inline-flex items-center gap-2 rounded-lg border border-foreground/12 px-6 py-3 text-sm font-medium text-muted-foreground transition-colors duration-[var(--motion-hover)] hover:border-foreground/20 hover:text-foreground"
             >
               Cómo funciona Movo
             </a>

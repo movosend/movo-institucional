@@ -39,24 +39,24 @@ const STEPS = [
 export function HowItWorks() {
   return (
     <section className="relative overflow-hidden border-t border-border bg-[#F8F8FA] px-5 py-16 md:px-10 md:py-[100px] dark:bg-[#0D0D0F]">
-      <div className="max-w-[1200px] mx-auto w-full relative z-10">
+      <div className="relative z-10 mx-auto w-full max-w-[1200px]">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="mb-12 text-center md:mb-16">
           <div
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-6"
+            className="mb-6 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5"
             style={{
               background: "rgba(198,242,74,0.08)",
               border: "1px solid rgba(198,242,74,0.18)",
             }}
           >
             <span className="live-dot" />
-            <span className="text-[11px] font-semibold tracking-[0.08em] uppercase text-[#9FC72E] dark:text-[#C6F24A]">
+            <span className="text-[11px] font-semibold tracking-[0.08em] text-[#9FC72E] uppercase dark:text-[#C6F24A]">
               Cómo funciona
             </span>
           </div>
 
           <h2
-            className="text-foreground mb-4"
+            className="mb-4 text-foreground"
             style={{
               fontSize: "clamp(2rem, 3.5vw, 3rem)",
               fontWeight: 600,
@@ -84,29 +84,29 @@ export function HowItWorks() {
         </div>
 
         {/* Steps grid */}
-        <div className="mb-10 md:mb-14 grid grid-cols-1 md:grid-cols-3 gap-[2px]">
+        <div className="mb-10 grid grid-cols-1 gap-[2px] md:mb-14 md:grid-cols-3">
           {STEPS.map((step, i) => (
             <div
               key={step.num}
-              className="relative group border border-border bg-foreground/[0.025] transition-colors duration-200 hover:bg-foreground/[0.042]"
+              className="group relative border border-border bg-foreground/[0.025] transition-colors duration-[var(--motion-hover)] hover:bg-foreground/[0.042]"
               style={{
                 padding: "32px 28px 36px",
                 borderRadius:
                   i === 0
                     ? "10px 10px 0 0"
                     : i === STEPS.length - 1
-                    ? "0 0 10px 10px"
-                    : undefined,
+                      ? "0 0 10px 10px"
+                      : undefined,
               }}
             >
               <div
-                className="font-mono text-[11px] font-semibold tracking-[0.1em] mb-5 text-[#9FC72E] dark:text-[#C6F24A]"
+                className="mb-5 font-mono text-[11px] font-semibold tracking-[0.1em] text-[#9FC72E] dark:text-[#C6F24A]"
               >
                 {step.num}
               </div>
 
               <div
-                className="flex items-center justify-center mb-6 text-[#9FC72E] dark:text-[#C6F24A]"
+                className="mb-6 flex items-center justify-center text-[#9FC72E] dark:text-[#C6F24A]"
                 style={{
                   width: 44,
                   height: 44,
@@ -129,7 +129,7 @@ export function HowItWorks() {
               </div>
 
               <div
-                className="text-foreground mb-2.5"
+                className="mb-2.5 text-foreground"
                 style={{
                   fontSize: 19,
                   fontWeight: 600,
@@ -153,7 +153,7 @@ export function HowItWorks() {
               {/* Connector arrow — shown on desktop between steps */}
               {step.connector && (
                 <div
-                  className="hidden md:flex absolute right-[-14px] top-1/2 -translate-y-1/2 z-10 items-center justify-center rounded-full border border-border bg-background text-muted-foreground"
+                  className="absolute top-1/2 right-[-14px] z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background text-muted-foreground md:flex"
                   aria-hidden
                   style={{
                     width: 28,
@@ -180,7 +180,7 @@ export function HowItWorks() {
         <div className="flex justify-center">
           <a
             href="/como-funciona"
-            className="inline-flex items-center gap-2.5 rounded-md border border-foreground/10 bg-foreground/5 font-medium text-foreground/80 transition-all duration-[120ms] active:scale-[0.98] group hover:border-foreground/[0.18] hover:bg-foreground/[0.09] hover:text-foreground"
+            className="group inline-flex items-center gap-2.5 rounded-md border border-foreground/10 bg-foreground/5 font-medium text-foreground/80 transition-all duration-[var(--motion-hover)] hover:border-foreground/[0.18] hover:bg-foreground/[0.09] hover:text-foreground active:scale-[0.98]"
             style={{
               padding: "14px 28px",
               fontSize: 15,
@@ -195,7 +195,7 @@ export function HowItWorks() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="transition-transform duration-200 group-hover:translate-x-1"
+              className="transition-transform duration-[var(--motion-state)] group-hover:translate-x-1"
               style={{ width: 16, height: 16 }}
             >
               <path d="M5 12h14M12 5l7 7-7 7" />
