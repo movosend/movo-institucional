@@ -53,7 +53,8 @@ function PracticeIcon({ children }: { children: React.ReactNode }) {
       width="18"
       height="18"
       fill="none"
-      stroke="rgba(255,255,255,0.45)"
+      stroke="currentColor"
+      className="text-muted-foreground"
       strokeWidth="1.75"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -68,11 +69,11 @@ function MemberCard({ name, id, photo }: (typeof MEMBERS)[0]) {
     <div className="flex flex-col items-center gap-3 md:gap-4">
       {/* Grayscale photo */}
       <div
+        className="border border-border"
         style={{
           width: "100%",
           aspectRatio: "1 / 1",
           borderRadius: 12,
-          border: "1px solid rgba(255,255,255,0.08)",
           overflow: "hidden",
           position: "relative",
         }}
@@ -94,10 +95,10 @@ function MemberCard({ name, id, photo }: (typeof MEMBERS)[0]) {
       {/* Name & ID */}
       <div className="text-center">
         <div
+          className="text-foreground/90"
           style={{
             fontSize: 13,
             fontWeight: 600,
-            color: "rgba(255,255,255,0.88)",
             letterSpacing: "-0.01em",
             lineHeight: 1.3,
             marginBottom: 3,
@@ -106,10 +107,10 @@ function MemberCard({ name, id, photo }: (typeof MEMBERS)[0]) {
           {name}
         </div>
         <div
+          className="text-muted-foreground"
           style={{
             fontFamily: "var(--font-mono)",
             fontSize: 11,
-            color: "rgba(255,255,255,0.28)",
             letterSpacing: "0.04em",
           }}
         >
@@ -146,23 +147,18 @@ export function TeamBody() {
       </section>
 
       {/* ── Methodology ──────────────────────────────────────────── */}
-      <section
-        className="px-5 py-16 md:px-10 md:py-20"
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-        }}
-      >
+      <section className="px-5 py-16 md:px-10 md:py-20 border-t border-border">
         <div className="mx-auto w-full" style={{ maxWidth: 1200 }}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-start">
             {/* Left */}
             <div>
               <p
+                className="text-muted-foreground"
                 style={{
                   fontSize: 11,
                   fontWeight: 600,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.28)",
                   fontFamily: "var(--font-mono)",
                   marginBottom: 20,
                 }}
@@ -170,7 +166,7 @@ export function TeamBody() {
                 Cómo trabajamos
               </p>
               <h2
-                className="text-white"
+                className="text-foreground"
                 style={{
                   fontSize: "clamp(1.9rem, 3vw, 2.6rem)",
                   fontWeight: 600,
@@ -181,15 +177,15 @@ export function TeamBody() {
               >
                 Un equipo plano,
                 <br />
-                <span style={{ color: "rgba(255,255,255,0.32)" }}>
+                <span className="text-muted-foreground">
                   sin jerarquías.
                 </span>
               </h2>
               <p
+                className="text-muted-foreground"
                 style={{
                   fontSize: 16,
                   lineHeight: 1.8,
-                  color: "rgba(255,255,255,0.5)",
                   marginBottom: 20,
                 }}
               >
@@ -199,10 +195,10 @@ export function TeamBody() {
                 revisión de código es cruzada.
               </p>
               <p
+                className="text-muted-foreground"
                 style={{
                   fontSize: 16,
                   lineHeight: 1.8,
-                  color: "rgba(255,255,255,0.5)",
                 }}
               >
                 Trabajamos con Scrum adaptado: sprints de dos semanas,
@@ -217,9 +213,8 @@ export function TeamBody() {
               {PRACTICES.map((p) => (
                 <div
                   key={p.label}
+                  className="bg-foreground/[0.03] border border-border"
                   style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.07)",
                     borderRadius: 14,
                     padding: "22px 24px",
                     display: "flex",
@@ -228,11 +223,11 @@ export function TeamBody() {
                   }}
                 >
                   <div
+                    className="bg-foreground/[0.06]"
                     style={{
                       width: 38,
                       height: 38,
                       borderRadius: 10,
-                      background: "rgba(255,255,255,0.06)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -243,10 +238,10 @@ export function TeamBody() {
                   </div>
                   <div>
                     <div
+                      className="text-foreground/90"
                       style={{
                         fontSize: 14,
                         fontWeight: 600,
-                        color: "rgba(255,255,255,0.88)",
                         letterSpacing: "-0.01em",
                         marginBottom: 6,
                       }}
@@ -254,10 +249,10 @@ export function TeamBody() {
                       {p.label}
                     </div>
                     <div
+                      className="text-muted-foreground"
                       style={{
                         fontSize: 13,
                         lineHeight: 1.65,
-                        color: "rgba(255,255,255,0.38)",
                       }}
                     >
                       {p.desc}
@@ -271,23 +266,18 @@ export function TeamBody() {
       </section>
 
       {/* ── Tooling: Linear ──────────────────────────────────────── */}
-      <section
-        className="px-5 py-16 md:px-10 md:py-20 md:pb-24"
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-        }}
-      >
+      <section className="px-5 py-16 md:px-10 md:py-20 md:pb-24 border-t border-border">
         <div className="mx-auto w-full" style={{ maxWidth: 1200 }}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
             {/* Left: tooling text */}
             <div>
               <p
+                className="text-muted-foreground"
                 style={{
                   fontSize: 11,
                   fontWeight: 600,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.28)",
                   fontFamily: "var(--font-mono)",
                   marginBottom: 20,
                 }}
@@ -295,7 +285,7 @@ export function TeamBody() {
                 Gestión del proyecto
               </p>
               <h2
-                className="mb-5 text-white"
+                className="mb-5 text-foreground"
                 style={{
                   fontSize: "clamp(1.9rem, 3vw, 2.6rem)",
                   fontWeight: 600,
@@ -305,15 +295,15 @@ export function TeamBody() {
               >
                 Backlog vivo,
                 <br />
-                <span style={{ color: "rgba(255,255,255,0.32)" }}>
+                <span className="text-muted-foreground">
                   visibilidad total.
                 </span>
               </h2>
               <p
+                className="text-muted-foreground"
                 style={{
                   fontSize: 16,
                   lineHeight: 1.8,
-                  color: "rgba(255,255,255,0.5)",
                 }}
               >
                 Usamos Linear para gestionar el backlog, los sprints y el
@@ -326,9 +316,8 @@ export function TeamBody() {
             {/* Right: Linear card */}
             <div>
               <div
+                className="bg-foreground/[0.03] border border-border"
                 style={{
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(255,255,255,0.07)",
                   borderRadius: 18,
                   padding: "28px 28px",
                   display: "flex",
@@ -339,11 +328,11 @@ export function TeamBody() {
                 {/* Linear logo + name */}
                 <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                   <div
+                    className="bg-foreground/[0.06]"
                     style={{
                       width: 44,
                       height: 44,
                       borderRadius: 11,
-                      background: "rgba(255,255,255,0.06)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -352,25 +341,25 @@ export function TeamBody() {
                   >
                     <img
                       src="/linear-logo.webp"
-                      className="w-6 invert"
+                      className="w-6 dark:invert"
                       alt=""
                     />
                   </div>
                   <div>
                     <div
+                      className="text-foreground/90"
                       style={{
                         fontSize: 15,
                         fontWeight: 600,
-                        color: "rgba(255,255,255,0.88)",
                         letterSpacing: "-0.01em",
                       }}
                     >
                       Linear
                     </div>
                     <div
+                      className="text-muted-foreground"
                       style={{
                         fontSize: 12,
-                        color: "rgba(255,255,255,0.32)",
                         marginTop: 2,
                       }}
                     >
@@ -381,13 +370,13 @@ export function TeamBody() {
 
                 {/* Stats */}
                 <div
+                  className="border border-border"
                   style={{
                     display: "grid",
                     gridTemplateColumns: "1fr 1fr 1fr",
                     gap: 1,
                     borderRadius: 10,
                     overflow: "hidden",
-                    border: "1px solid rgba(255,255,255,0.07)",
                   }}
                 >
                   {[
@@ -403,19 +392,17 @@ export function TeamBody() {
                   ].map((s, i) => (
                     <div
                       key={s.label}
+                      className={`bg-foreground/[0.03] ${i > 0 ? "border-l border-border" : ""}`}
                       style={{
                         padding: "12px 12px",
-                        background: "rgba(255,255,255,0.03)",
-                        borderLeft:
-                          i > 0 ? "1px solid rgba(255,255,255,0.07)" : "none",
                       }}
                     >
                       <div
+                        className="text-foreground/75"
                         style={{
                           fontFamily: "var(--font-mono)",
                           fontSize: 16,
                           fontWeight: 500,
-                          color: "rgba(255,255,255,0.75)",
                           letterSpacing: "-0.02em",
                           lineHeight: 1,
                           marginBottom: 6,
@@ -424,9 +411,9 @@ export function TeamBody() {
                         {s.value}
                       </div>
                       <div
+                        className="text-muted-foreground"
                         style={{
                           fontSize: 10,
-                          color: "rgba(255,255,255,0.28)",
                           letterSpacing: "0.02em",
                           lineHeight: 1.4,
                         }}

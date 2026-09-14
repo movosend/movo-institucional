@@ -15,12 +15,18 @@ export function ProjectPageHero() {
           pointerEvents: "none",
         }}
       >
-        <svg viewBox="0 0 600 600" width="660" height="660" fill="none">
-          <circle cx="300" cy="300" r="290" fill="white" fillOpacity="0.02" />
-          <circle cx="300" cy="300" r="260" fill="white" fillOpacity="0.03" />
-          <circle cx="300" cy="300" r="228" fill="white" fillOpacity="0.06" />
-          <circle cx="300" cy="300" r="194" fill="white" fillOpacity="0.09" />
-          <circle cx="300" cy="300" r="157" fill="white" fillOpacity="0.04" />
+        <svg
+          viewBox="0 0 600 600"
+          width="660"
+          height="660"
+          fill="none"
+          className="text-foreground"
+        >
+          <circle cx="300" cy="300" r="290" fill="currentColor" fillOpacity="0.02" />
+          <circle cx="300" cy="300" r="260" fill="currentColor" fillOpacity="0.03" />
+          <circle cx="300" cy="300" r="228" fill="currentColor" fillOpacity="0.06" />
+          <circle cx="300" cy="300" r="194" fill="currentColor" fillOpacity="0.09" />
+          <circle cx="300" cy="300" r="157" fill="currentColor" fillOpacity="0.04" />
           <circle
             cx="300"
             cy="300"
@@ -34,7 +40,8 @@ export function ProjectPageHero() {
             cy="300"
             r="157"
             fill="none"
-            stroke="rgba(255,255,255,0.07)"
+            stroke="currentColor"
+            strokeOpacity="0.07"
             strokeWidth="1"
           />
           <circle
@@ -42,7 +49,8 @@ export function ProjectPageHero() {
             cy="300"
             r="228"
             fill="none"
-            stroke="rgba(255,255,255,0.05)"
+            stroke="currentColor"
+            strokeOpacity="0.05"
             strokeWidth="1"
           />
           <circle
@@ -50,7 +58,8 @@ export function ProjectPageHero() {
             cy="300"
             r="290"
             fill="none"
-            stroke="rgba(255,255,255,0.03)"
+            stroke="currentColor"
+            strokeOpacity="0.03"
             strokeWidth="1"
           />
         </svg>
@@ -61,33 +70,28 @@ export function ProjectPageHero() {
         style={{ maxWidth: 1200, zIndex: 1 }}
       >
         {/* Eyebrow */}
-        <div
-          className="mb-8 inline-flex items-center gap-2.5 rounded-full px-3.5 py-1.5"
-          style={{
-            background: "rgba(255,255,255,0.05)",
-            border: "1px solid rgba(255,255,255,0.09)",
-          }}
-        >
+        <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-foreground/[0.09] bg-foreground/5 px-3.5 py-1.5">
           <svg
             viewBox="0 0 24 24"
             width="13"
             height="13"
             fill="none"
-            stroke="rgba(255,255,255,0.38)"
+            stroke="currentColor"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
+            className="text-muted-foreground"
           >
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
             <polyline points="9 22 9 12 15 12 15 22" />
           </svg>
           <span
+            className="text-muted-foreground"
             style={{
               fontSize: 11,
               fontWeight: 600,
               letterSpacing: "0.10em",
               textTransform: "uppercase",
-              color: "rgba(255,255,255,0.38)",
               fontFamily: "var(--font-mono)",
             }}
           >
@@ -97,7 +101,7 @@ export function ProjectPageHero() {
 
         {/* Headline */}
         <h1
-          className="mb-6 text-white"
+          className="mb-6 text-foreground"
           style={{
             fontSize: "clamp(2.8rem, 6vw, 5rem)",
             fontWeight: 600,
@@ -115,10 +119,10 @@ export function ProjectPageHero() {
 
         {/* Subtitle */}
         <p
+          className="text-muted-foreground"
           style={{
             fontSize: 18,
             lineHeight: 1.75,
-            color: "rgba(255,255,255,0.5)",
             maxWidth: 560,
             marginBottom: 64,
           }}
@@ -129,30 +133,21 @@ export function ProjectPageHero() {
         </p>
 
         {/* Institution card */}
-        <div
-          className="inline-flex items-center gap-4 rounded-2xl px-5 py-4"
-          style={{
-            background: "rgba(255,255,255,0.04)",
-            border: "1px solid rgba(255,255,255,0.08)",
-          }}
-        >
+        <div className="inline-flex items-center gap-4 rounded-2xl border border-foreground/[0.08] bg-foreground/[0.04] px-5 py-4">
           <div
-            className="flex shrink-0 items-center justify-center rounded-xl"
-            style={{
-              width: 44,
-              height: 44,
-              background: "rgba(255,255,255,0.07)",
-            }}
+            className="flex shrink-0 items-center justify-center rounded-xl bg-foreground/[0.07]"
+            style={{ width: 44, height: 44 }}
           >
             <svg
               viewBox="0 0 24 24"
               width="20"
               height="20"
               fill="none"
-              stroke="rgba(255,255,255,0.55)"
+              stroke="currentColor"
               strokeWidth="1.75"
               strokeLinecap="round"
               strokeLinejoin="round"
+              className="text-foreground/60"
             >
               <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
               <polyline points="9 22 9 12 15 12 15 22" />
@@ -160,10 +155,10 @@ export function ProjectPageHero() {
           </div>
           <div>
             <div
+              className="text-foreground/90"
               style={{
                 fontSize: 15,
                 fontWeight: 600,
-                color: "rgba(255,255,255,0.88)",
                 letterSpacing: "-0.01em",
                 lineHeight: 1.3,
               }}
@@ -171,9 +166,9 @@ export function ProjectPageHero() {
               Universidad Tecnológica Nacional
             </div>
             <div
+              className="text-muted-foreground"
               style={{
                 fontSize: 13,
-                color: "rgba(255,255,255,0.38)",
                 marginTop: 3,
                 lineHeight: 1.4,
               }}

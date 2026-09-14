@@ -16,7 +16,7 @@ export default function TerminosYCondicionesPage() {
   const html = renderLegalDocument("terminos-y-condiciones.md")
 
   return (
-    <div style={{ background: "#0A0A0B", minHeight: "100vh" }}>
+    <div className="min-h-screen bg-background">
       <div className="relative z-10">
         <Navbar />
         <main className="mx-auto w-full max-w-[720px] px-5 pt-28 pb-24 md:px-8 md:pt-36">

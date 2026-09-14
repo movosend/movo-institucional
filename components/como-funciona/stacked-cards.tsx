@@ -223,14 +223,11 @@ export function StackedCards() {
     >
       {/* Section header */}
       <div className="max-w-[1200px] mx-auto mb-10 md:mb-16">
-        <div
-          className="font-mono text-[11px] font-semibold tracking-[0.1em] uppercase mb-4"
-          style={{ color: "rgba(255,255,255,0.3)" }}
-        >
+        <div className="font-mono text-[11px] font-semibold tracking-[0.1em] uppercase mb-4 text-muted-foreground">
           7 etapas — del envío a la entrega
         </div>
         <h2
-          className="text-white"
+          className="text-foreground"
           style={{
             fontSize: "clamp(1.6rem, 2.8vw, 2.2rem)",
             fontWeight: 600,
@@ -241,7 +238,7 @@ export function StackedCards() {
         >
           Cada paso tiene un mecanismo.
           <br />
-          <span style={{ color: "rgba(255,255,255,0.4)" }}>
+          <span className="text-muted-foreground">
             Nada queda librado a la buena fe.
           </span>
         </h2>
@@ -259,13 +256,12 @@ export function StackedCards() {
             ref={(el) => {
               if (el) cardsRef.current[i] = el
             }}
+            className="bg-card border border-border"
             style={{
               position: "sticky",
               top: 72 + i * 14,
               zIndex: i + 1,
               borderRadius: 16,
-              background: "#111113",
-              border: "1px solid rgba(255,255,255,0.08)",
               overflow: "hidden",
               transformOrigin: "top center",
             }}
@@ -274,19 +270,18 @@ export function StackedCards() {
             <div className="grid grid-cols-1 md:grid-cols-2 md:min-h-[360px]">
               {/* Left: business content */}
               <div
-                className="relative overflow-hidden flex flex-col justify-between border-b border-white/[0.06] md:border-b-0 md:border-r md:border-white/[0.06]"
+                className="relative overflow-hidden flex flex-col justify-between border-b border-border md:border-b-0 md:border-r"
                 style={{
                   padding: "32px 28px",
                 }}
               >
                 {/* Watermark icon */}
                 <div
-                  className="absolute right-6 bottom-6 pointer-events-none hidden md:block"
+                  className="absolute right-6 bottom-6 pointer-events-none hidden md:block text-foreground/[0.03]"
                   aria-hidden
                   style={{
                     width: 140,
                     height: 140,
-                    color: "rgba(255,255,255,0.03)",
                   }}
                 >
                   {stage.icon}
@@ -315,7 +310,7 @@ export function StackedCards() {
 
                   {/* Title */}
                   <h3
-                    className="text-white mb-4"
+                    className="text-foreground mb-4"
                     style={{
                       fontSize: "clamp(1.15rem, 2vw, 1.75rem)",
                       fontWeight: 600,
@@ -328,10 +323,10 @@ export function StackedCards() {
 
                   {/* Business description */}
                   <p
+                    className="text-muted-foreground"
                     style={{
                       fontSize: 15,
                       lineHeight: 1.7,
-                      color: "rgba(255,255,255,0.55)",
                     }}
                   >
                     {stage.desc}
@@ -341,28 +336,23 @@ export function StackedCards() {
 
               {/* Right: technical details */}
               <div
-                className="flex flex-col justify-center"
+                className="flex flex-col justify-center bg-foreground/[0.02]"
                 style={{
                   padding: "32px 28px",
-                  background: "rgba(255,255,255,0.018)",
                   borderTop: "none",
                 }}
               >
-                <div
-                  className="font-mono text-[10px] font-semibold tracking-[0.1em] uppercase mb-5"
-                  style={{ color: "rgba(255,255,255,0.25)" }}
-                >
+                <div className="font-mono text-[10px] font-semibold tracking-[0.1em] uppercase mb-5 text-muted-foreground">
                   Detalle técnico
                 </div>
                 <ul style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                   {stage.technical.map((item, j) => (
                     <li
                       key={j}
-                      className="flex gap-3"
+                      className="flex gap-3 text-muted-foreground"
                       style={{
                         fontSize: 13,
                         lineHeight: 1.65,
-                        color: "rgba(255,255,255,0.45)",
                       }}
                     >
                       <span
@@ -415,14 +405,14 @@ export function StackedCards() {
             }}
           />
           <span
+            className="text-foreground/70"
             style={{
               fontSize: 14,
-              color: "rgba(255,255,255,0.6)",
               letterSpacing: "-0.01em",
             }}
           >
             La plataforma gana cuando el usuario gana.{" "}
-            <span style={{ color: "rgba(255,255,255,0.3)" }}>
+            <span className="text-muted-foreground">
               Comisión solo en envíos exitosamente completados.
             </span>
           </span>

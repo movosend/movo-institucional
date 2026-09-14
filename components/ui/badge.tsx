@@ -22,9 +22,9 @@ const badgeVariants = cva(
         /* Movo shipping states */
         pending:   "bg-secondary text-foreground border-border",
         live:      "bg-[#F6FEDF] text-[#3F5312] dark:bg-[rgba(198,242,74,0.12)] dark:text-lime-500",
-        success:   "bg-[rgba(43,182,115,0.15)] text-[#1C7E4E]",
-        warning:   "bg-[rgba(245,185,58,0.22)] text-[#9A6E12]",
-        danger:    "bg-[rgba(229,72,77,0.15)] text-[#A42A2D]",
+        success:   "bg-[rgba(43,182,115,0.15)] text-[#1C7E4E] dark:bg-[rgba(43,182,115,0.18)] dark:text-[#4ADE80]",
+        warning:   "bg-[rgba(245,185,58,0.22)] text-[#9A6E12] dark:bg-[rgba(245,185,58,0.18)] dark:text-[#F5B93A]",
+        danger:    "bg-[rgba(229,72,77,0.15)] text-[#A42A2D] dark:bg-[rgba(229,72,77,0.18)] dark:text-[#FCA5A5]",
       },
     },
     defaultVariants: {

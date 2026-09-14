@@ -40,17 +40,14 @@ export function PageHero() {
           }}
         >
           <span className="live-dot" />
-          <span
-            className="text-[11px] font-semibold tracking-[0.08em] uppercase font-mono"
-            style={{ color: "#C6F24A" }}
-          >
+          <span className="text-[11px] font-semibold tracking-[0.08em] uppercase font-mono text-[#9FC72E] dark:text-[#C6F24A]">
             Proceso punta a punta
           </span>
         </div>
 
         {/* Headline */}
         <h1
-          className="text-white mb-6"
+          className="text-foreground mb-6"
           style={{
             fontSize: "clamp(2.4rem, 6vw, 5rem)",
             fontWeight: 600,
@@ -62,22 +59,21 @@ export function PageHero() {
           Cómo Movo mueve{" "}
           <br className="hidden sm:block" />
           un paquete de{" "}
-          <em className="not-italic" style={{ color: "#C6F24A" }}>
+          <em className="not-italic text-[#9FC72E] dark:text-[#C6F24A]">
             punto A
           </em>{" "}
           <br className="hidden sm:block" />a{" "}
-          <em className="not-italic" style={{ color: "#C6F24A" }}>
+          <em className="not-italic text-[#9FC72E] dark:text-[#C6F24A]">
             punto B.
           </em>
         </h1>
 
         {/* Subtitle */}
         <p
-          className="mb-12 md:mb-16"
+          className="mb-12 md:mb-16 text-muted-foreground"
           style={{
             fontSize: 17,
             lineHeight: 1.7,
-            color: "rgba(255,255,255,0.5)",
             maxWidth: 600,
           }}
         >
@@ -88,13 +84,8 @@ export function PageHero() {
 
         {/* Chrome intro card */}
         <div
-          className="w-full rounded-2xl overflow-hidden"
-          style={{
-            background: "var(--chrome-gradient)",
-            boxShadow:
-              "0 2px 48px rgba(0,0,0,0.28), 0 1px 0 rgba(255,255,255,0.5) inset",
-            border: "1px solid rgba(255,255,255,0.6)",
-          }}
+          className="w-full rounded-2xl overflow-hidden border border-black/10 shadow-[0_2px_48px_rgba(0,0,0,0.12),0_1px_0_rgba(255,255,255,0.5)_inset] dark:border-white/60 dark:shadow-[0_2px_48px_rgba(0,0,0,0.28),0_1px_0_rgba(255,255,255,0.5)_inset]"
+          style={{ background: "var(--chrome-gradient)" }}
         >
           {/* Personas — stack on mobile, 3-col on desktop */}
           <div className="grid grid-cols-1 md:grid-cols-3 divide-y divide-black/[0.09] md:divide-y-0 md:divide-x">

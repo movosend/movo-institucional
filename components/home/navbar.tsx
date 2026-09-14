@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 const NAV_MENUS = {
   como: {
@@ -170,16 +171,15 @@ export function Navbar() {
         className={cn(
           "fixed top-0 right-0 left-0 z-[100] flex h-16 items-center px-5 md:px-10 transition-all duration-200",
           scrolled
-            ? "border-b border-white/[0.07] bg-ink-950/82 backdrop-blur-xl"
+            ? "border-b border-border bg-background/82 backdrop-blur-xl"
             : "border-b border-transparent"
         )}
-        style={scrolled ? { background: "rgba(10,10,11,0.82)" } : undefined}
       >
         <div className="mx-auto flex w-full max-w-[1200px] items-center">
           {/* Logo */}
           <a
             href="/"
-            className="mr-10 flex flex-shrink-0 items-center"
+            className="mr-10 flex flex-shrink-0 items-center text-foreground"
             aria-label="Movo"
           >
             <svg viewBox="0 0 220 56" fill="none" height="30" width="118">
@@ -214,7 +214,7 @@ export function Navbar() {
                 fontWeight="600"
                 fontSize="36"
                 letterSpacing="-0.04em"
-                fill="#FFFFFF"
+                fill="currentColor"
               >
                 movo
               </text>
@@ -236,8 +236,8 @@ export function Navbar() {
                     "mr-2 flex items-center gap-[5px] rounded-md px-4 py-2 text-sm font-medium",
                     "cursor-pointer transition-colors duration-[120ms] select-none",
                     openMenu === key
-                      ? "bg-white/[0.06] text-white"
-                      : "text-white/70 hover:bg-white/[0.06] hover:text-white"
+                      ? "bg-foreground/[0.06] text-foreground"
+                      : "text-foreground/70 hover:bg-foreground/[0.06] hover:text-foreground"
                   )}
                 >
                   {menu.label}
@@ -260,8 +260,8 @@ export function Navbar() {
                 <div
                   className={cn(
                     "absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2",
-                    "rounded-[14px] border border-white/[0.09]",
-                    "z-[200] p-5 transition-all duration-200",
+                    "rounded-[14px] border border-border bg-popover/97 shadow-[0_24px_60px_rgba(0,0,0,0.20),0_4px_12px_rgba(0,0,0,0.10)] dark:shadow-[0_24px_60px_rgba(0,0,0,0.5),0_4px_12px_rgba(0,0,0,0.3)]",
+                    "z-[200] p-5 backdrop-blur-2xl transition-all duration-200",
                     menu.cols === 2
                       ? "grid min-w-[560px] grid-cols-2 gap-x-8 gap-y-1"
                       : "grid min-w-[320px] grid-cols-1 gap-y-1",
@@ -269,54 +269,24 @@ export function Navbar() {
                       ? "pointer-events-auto visible translate-y-0 opacity-100"
                       : "pointer-events-none invisible -translate-y-1.5 opacity-0"
                   )}
-                  style={{
-                    background: "rgba(18,18,22,0.97)",
-                    backdropFilter: "blur(24px)",
-                    WebkitBackdropFilter: "blur(24px)",
-                    boxShadow:
-                      "0 24px 60px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3)",
-                  }}
                 >
-                  <p
-                    className="col-span-full px-3 pt-1 pb-2 text-[11px] font-semibold tracking-[0.08em] uppercase"
-                    style={{ color: "rgba(255,255,255,0.35)" }}
-                  >
+                  <p className="col-span-full px-3 pt-1 pb-2 text-[11px] font-semibold tracking-[0.08em] text-muted-foreground uppercase">
                     {menu.colTitle}
                   </p>
                   {menu.items.map((item) => (
                     <a
                       key={item.title}
                       href={item.href}
-                      className="group flex cursor-pointer items-start gap-3 rounded-[10px] px-3 py-2.5"
-                      style={{ transition: "background 120ms" }}
-                      onMouseEnter={(e) =>
-                        (e.currentTarget.style.background =
-                          "rgba(255,255,255,0.06)")
-                      }
-                      onMouseLeave={(e) =>
-                        (e.currentTarget.style.background = "transparent")
-                      }
+                      className="group flex cursor-pointer items-start gap-3 rounded-[10px] px-3 py-2.5 transition-colors duration-[120ms] hover:bg-foreground/[0.06]"
                     >
-                      <div
-                        className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md"
-                        style={{
-                          background: "rgba(255,255,255,0.06)",
-                          color: "rgba(255,255,255,0.6)",
-                        }}
-                      >
+                      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md bg-foreground/[0.06] text-muted-foreground">
                         <NavIcon>{item.icon}</NavIcon>
                       </div>
                       <div className="flex flex-col gap-0.5">
-                        <span
-                          className="text-sm font-medium transition-colors duration-[120ms] group-hover:text-[#C6F24A]"
-                          style={{ color: "rgba(255,255,255,0.88)" }}
-                        >
+                        <span className="text-sm font-medium text-foreground/90 transition-colors duration-[120ms] group-hover:text-[#9FC72E] dark:group-hover:text-[#C6F24A]">
                           {item.title}
                         </span>
-                        <span
-                          className="text-xs leading-snug"
-                          style={{ color: "rgba(255,255,255,0.38)" }}
-                        >
+                        <span className="text-xs leading-snug text-muted-foreground">
                           {item.desc}
                         </span>
                       </div>
@@ -324,36 +294,21 @@ export function Navbar() {
                   ))}
 
                   {key === "como" && (
-                    <div
-                      className="col-span-full mt-2 pt-2"
-                      style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}
-                    >
+                    <div className="col-span-full mt-2 border-t border-border pt-2">
                       <a
                         href="/como-funciona"
-                        className="group flex items-center justify-between rounded-[10px] px-3 py-2.5"
-                        style={{ transition: "background 120ms" }}
-                        onMouseEnter={(e) =>
-                          (e.currentTarget.style.background =
-                            "rgba(198,242,74,0.07)")
-                        }
-                        onMouseLeave={(e) =>
-                          (e.currentTarget.style.background = "transparent")
-                        }
+                        className="group flex items-center justify-between rounded-[10px] px-3 py-2.5 transition-colors duration-[120ms] hover:bg-[#C6F24A]/[0.07]"
                       >
-                        <span
-                          className="text-sm font-medium"
-                          style={{ color: "#C6F24A" }}
-                        >
+                        <span className="text-sm font-medium text-[#9FC72E] dark:text-[#C6F24A]">
                           Ver el proceso completo — 7 etapas
                         </span>
                         <svg
                           viewBox="0 0 24 24"
                           fill="none"
-                          stroke="#C6F24A"
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          className="transition-transform duration-200 group-hover:translate-x-1"
+                          className="stroke-[#9FC72E] transition-transform duration-200 group-hover:translate-x-1 dark:stroke-[#C6F24A]"
                           style={{ width: 14, height: 14 }}
                         >
                           <path d="M5 12h14M12 5l7 7-7 7" />
@@ -367,19 +322,20 @@ export function Navbar() {
             <li>
               <a
                 href="/blog"
-                className="mr-2 flex items-center gap-[5px] rounded-md px-4 py-2 text-sm font-medium text-white/70 transition-colors duration-[120ms] hover:bg-white/[0.06] hover:text-white"
+                className="mr-2 flex items-center gap-[5px] rounded-md px-4 py-2 text-sm font-medium text-foreground/70 transition-colors duration-[120ms] hover:bg-foreground/[0.06] hover:text-foreground"
               >
                 Blog
               </a>
             </li>
           </ul>
 
+          <ThemeToggle className="ml-auto hidden md:flex" />
+
           {/* Hamburger — mobile only */}
           <button
-            className="ml-auto flex items-center justify-center w-10 h-10 rounded-md md:hidden"
+            className="ml-auto flex h-10 w-10 items-center justify-center rounded-md text-foreground/75 md:ml-2 md:hidden"
             onClick={() => setMobileOpen((o) => !o)}
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
-            style={{ color: "rgba(255,255,255,0.75)" }}
           >
             {mobileOpen ? (
               <svg
@@ -422,39 +378,34 @@ export function Navbar() {
             : "opacity-0 pointer-events-none"
         )}
         style={{
-          background: "rgba(10,10,11,0.98)",
           backdropFilter: "blur(24px)",
           WebkitBackdropFilter: "blur(24px)",
         }}
       >
-        <div className="flex flex-col px-5 pb-10 gap-1">
-          <div className="mt-4">
-            <p
-              className="text-[11px] font-semibold tracking-[0.1em] uppercase px-3 pt-5 pb-2"
-              style={{ color: "rgba(255,255,255,0.3)" }}
-            >
+        <div className="bg-background/98 flex flex-1 flex-col px-5 pb-10 gap-1">
+          <div className="mt-4 flex items-center justify-end px-1 pt-4">
+            <ThemeToggle />
+          </div>
+          <div>
+            <p className="text-[11px] font-semibold tracking-[0.1em] uppercase px-3 pt-3 pb-2 text-muted-foreground">
               Contenido
             </p>
             <a
               href="/blog"
               onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-3 rounded-[10px] px-3 py-3 active:bg-white/[0.06]"
-              style={{ transition: "background 120ms" }}
+              className="flex items-center gap-3 rounded-[10px] px-3 py-3 transition-colors duration-[120ms] active:bg-foreground/[0.06]"
             >
-              <div
-                className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md"
-                style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.5)" }}
-              >
+              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md bg-foreground/[0.06] text-muted-foreground">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="size-4">
                   <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
                   <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
                 </svg>
               </div>
               <div className="flex flex-col gap-0.5">
-                <span className="text-sm font-medium" style={{ color: "rgba(255,255,255,0.88)" }}>
+                <span className="text-sm font-medium text-foreground/90">
                   Blog
                 </span>
-                <span className="text-xs leading-snug" style={{ color: "rgba(255,255,255,0.38)" }}>
+                <span className="text-xs leading-snug text-muted-foreground">
                   Logística colaborativa y novedades de Movo.
                 </span>
               </div>
@@ -467,10 +418,7 @@ export function Navbar() {
             ][]
           ).map(([key, menu], sectionIdx) => (
             <div key={key} className={sectionIdx > 0 ? "mt-4" : ""}>
-              <p
-                className="text-[11px] font-semibold tracking-[0.1em] uppercase px-3 pt-5 pb-2"
-                style={{ color: "rgba(255,255,255,0.3)" }}
-              >
+              <p className="text-[11px] font-semibold tracking-[0.1em] uppercase px-3 pt-5 pb-2 text-muted-foreground">
                 {menu.colTitle}
               </p>
               {menu.items.map((item) => (
@@ -478,29 +426,16 @@ export function Navbar() {
                   key={item.title}
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-3 rounded-[10px] px-3 py-3 active:bg-white/[0.06]"
-                  style={{ transition: "background 120ms" }}
+                  className="flex items-center gap-3 rounded-[10px] px-3 py-3 transition-colors duration-[120ms] active:bg-foreground/[0.06]"
                 >
-                  <div
-                    className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md"
-                    style={{
-                      background: "rgba(255,255,255,0.06)",
-                      color: "rgba(255,255,255,0.5)",
-                    }}
-                  >
+                  <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md bg-foreground/[0.06] text-muted-foreground">
                     <NavIcon>{item.icon}</NavIcon>
                   </div>
                   <div className="flex flex-col gap-0.5">
-                    <span
-                      className="text-sm font-medium"
-                      style={{ color: "rgba(255,255,255,0.88)" }}
-                    >
+                    <span className="text-sm font-medium text-foreground/90">
                       {item.title}
                     </span>
-                    <span
-                      className="text-xs leading-snug"
-                      style={{ color: "rgba(255,255,255,0.38)" }}
-                    >
+                    <span className="text-xs leading-snug text-muted-foreground">
                       {item.desc}
                     </span>
                   </div>
@@ -510,25 +445,18 @@ export function Navbar() {
                 <a
                   href="/como-funciona"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center justify-between rounded-[10px] px-3 py-3 mt-1"
-                  style={{
-                    background: "rgba(198,242,74,0.07)",
-                    border: "1px solid rgba(198,242,74,0.12)",
-                  }}
+                  className="flex items-center justify-between rounded-[10px] px-3 py-3 mt-1 border border-[#C6F24A]/12 bg-[#C6F24A]/[0.07]"
                 >
-                  <span
-                    className="text-sm font-semibold"
-                    style={{ color: "#C6F24A" }}
-                  >
+                  <span className="text-sm font-semibold text-[#9FC72E] dark:text-[#C6F24A]">
                     Ver el proceso completo — 7 etapas
                   </span>
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="#C6F24A"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    className="stroke-[#9FC72E] dark:stroke-[#C6F24A]"
                     style={{ width: 14, height: 14, flexShrink: 0 }}
                   >
                     <path d="M5 12h14M12 5l7 7-7 7" />

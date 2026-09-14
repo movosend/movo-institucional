@@ -72,10 +72,11 @@ function DisciplineIcon({ children }: { children: React.ReactNode }) {
       width="20"
       height="20"
       fill="none"
-      stroke="rgba(255,255,255,0.5)"
+      stroke="currentColor"
       strokeWidth="1.75"
       strokeLinecap="round"
       strokeLinejoin="round"
+      className="text-muted-foreground"
     >
       {children}
     </svg>
@@ -103,12 +104,12 @@ export function ProjectPageBody() {
             {/* Left: heading */}
             <div>
               <p
+                className="text-muted-foreground"
                 style={{
                   fontSize: 11,
                   fontWeight: 600,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.28)",
                   fontFamily: "var(--font-mono)",
                   marginBottom: 20,
                 }}
@@ -116,7 +117,7 @@ export function ProjectPageBody() {
                 La motivación
               </p>
               <h2
-                className="text-white"
+                className="text-foreground"
                 style={{
                   fontSize: "clamp(1.9rem, 3vw, 2.6rem)",
                   fontWeight: 600,
@@ -128,7 +129,7 @@ export function ProjectPageBody() {
                 <br />
                 simple.
                 <br />
-                <span style={{ color: "rgba(255,255,255,0.32)" }}>
+                <span className="text-muted-foreground">
                   Una solución compleja.
                 </span>
               </h2>
@@ -137,11 +138,8 @@ export function ProjectPageBody() {
             {/* Right: narrative */}
             <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
               <p
-                style={{
-                  fontSize: 16,
-                  lineHeight: 1.8,
-                  color: "rgba(255,255,255,0.52)",
-                }}
+                className="text-muted-foreground"
+                style={{ fontSize: 16, lineHeight: 1.8 }}
               >
                 En Argentina, la logística del último kilómetro es cara, lenta e
                 informal. Miles de personas viajan todos los días entre ciudades
@@ -150,11 +148,8 @@ export function ProjectPageBody() {
                 activarla.
               </p>
               <p
-                style={{
-                  fontSize: 16,
-                  lineHeight: 1.8,
-                  color: "rgba(255,255,255,0.52)",
-                }}
+                className="text-muted-foreground"
+                style={{ fontSize: 16, lineHeight: 1.8 }}
               >
                 Movo nació como la respuesta a esa observación: una red P2P de
                 logística donde cualquier persona puede ser transportista en su
@@ -162,11 +157,8 @@ export function ProjectPageBody() {
                 que ya va.
               </p>
               <p
-                style={{
-                  fontSize: 16,
-                  lineHeight: 1.8,
-                  color: "rgba(255,255,255,0.52)",
-                }}
+                className="text-muted-foreground"
+                style={{ fontSize: 16, lineHeight: 1.8 }}
               >
                 El problema es simple de enunciar. La solución no tanto:
                 requiere confianza verificada, pagos atómicos, seguimientos y
@@ -178,20 +170,15 @@ export function ProjectPageBody() {
       </section>
 
       {/* ── Section: Las disciplinas ─────────────────────────────── */}
-      <section
-        className="px-5 py-16 md:px-10 md:py-20"
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-        }}
-      >
+      <section className="border-t border-border px-5 py-16 md:px-10 md:py-20">
         <div className="mx-auto w-full" style={{ maxWidth: 1200 }}>
           <p
+            className="text-muted-foreground"
             style={{
               fontSize: 11,
               fontWeight: 600,
               letterSpacing: "0.12em",
               textTransform: "uppercase",
-              color: "rgba(255,255,255,0.28)",
               fontFamily: "var(--font-mono)",
               marginBottom: 20,
             }}
@@ -199,7 +186,7 @@ export function ProjectPageBody() {
             Más que una app
           </p>
           <h2
-            className="mb-4 text-white"
+            className="mb-4 text-foreground"
             style={{
               fontSize: "clamp(1.9rem, 3vw, 2.6rem)",
               fontWeight: 600,
@@ -211,10 +198,10 @@ export function ProjectPageBody() {
             Un proyecto que abarca toda la carrera.
           </h2>
           <p
+            className="text-muted-foreground"
             style={{
               fontSize: 16,
               lineHeight: 1.75,
-              color: "rgba(255,255,255,0.42)",
               maxWidth: 520,
               marginBottom: 44,
             }}
@@ -230,36 +217,18 @@ export function ProjectPageBody() {
             {DISCIPLINES.map((d) => (
               <div
                 key={d.title}
-                style={{
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(255,255,255,0.07)",
-                  borderRadius: 14,
-                  padding: "22px 22px 20px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 14,
-                }}
+                className="flex flex-col gap-3.5 rounded-[14px] border border-border bg-foreground/[0.03]"
+                style={{ padding: "22px 22px 20px" }}
               >
-                <div
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 10,
-                    background: "rgba(255,255,255,0.06)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                  }}
-                >
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-[10px] bg-foreground/[0.06]">
                   <DisciplineIcon>{d.icon}</DisciplineIcon>
                 </div>
                 <div>
                   <div
+                    className="text-foreground/90"
                     style={{
                       fontSize: 15,
                       fontWeight: 600,
-                      color: "rgba(255,255,255,0.88)",
                       letterSpacing: "-0.01em",
                       marginBottom: 8,
                     }}
@@ -267,11 +236,8 @@ export function ProjectPageBody() {
                     {d.title}
                   </div>
                   <div
-                    style={{
-                      fontSize: 14,
-                      lineHeight: 1.65,
-                      color: "rgba(255,255,255,0.40)",
-                    }}
+                    className="text-muted-foreground"
+                    style={{ fontSize: 14, lineHeight: 1.65 }}
                   >
                     {d.desc}
                   </div>
@@ -283,23 +249,18 @@ export function ProjectPageBody() {
       </section>
 
       {/* ── Section: La carrera ──────────────────────────────────── */}
-      <section
-        className="px-5 py-16 md:px-10 md:py-20"
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-        }}
-      >
+      <section className="border-t border-border px-5 py-16 md:px-10 md:py-20">
         <div className="mx-auto w-full" style={{ maxWidth: 1200 }}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 items-center">
             {/* Left */}
             <div>
               <p
+                className="text-muted-foreground"
                 style={{
                   fontSize: 11,
                   fontWeight: 600,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.28)",
                   fontFamily: "var(--font-mono)",
                   marginBottom: 20,
                 }}
@@ -307,7 +268,7 @@ export function ProjectPageBody() {
                 La carrera
               </p>
               <h2
-                className="mb-6 text-white"
+                className="mb-6 text-foreground"
                 style={{
                   fontSize: "clamp(1.9rem, 3vw, 2.6rem)",
                   fontWeight: 600,
@@ -318,12 +279,8 @@ export function ProjectPageBody() {
                 Cinco años para aprender a construir lo que importa.
               </h2>
               <p
-                style={{
-                  fontSize: 16,
-                  lineHeight: 1.8,
-                  color: "rgba(255,255,255,0.5)",
-                  marginBottom: 20,
-                }}
+                className="text-muted-foreground"
+                style={{ fontSize: 16, lineHeight: 1.8, marginBottom: 20 }}
               >
                 Ingeniería en Sistemas de Información es una carrera de cinco
                 años donde aprendimos a pensar como ingeniero: identificar
@@ -331,11 +288,8 @@ export function ProjectPageBody() {
                 sistemas que funcionen en el mundo real.
               </p>
               <p
-                style={{
-                  fontSize: 16,
-                  lineHeight: 1.8,
-                  color: "rgba(255,255,255,0.5)",
-                }}
+                className="text-muted-foreground"
+                style={{ fontSize: 16, lineHeight: 1.8 }}
               >
                 El PF es el momento en que todo converge. Un proyecto integrador
                 que demuestra que podés articular el conocimiento de toda la
@@ -364,22 +318,15 @@ export function ProjectPageBody() {
               ].map((s) => (
                 <div
                   key={s.label}
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                    border: "1px solid rgba(255,255,255,0.07)",
-                    borderRadius: 12,
-                    padding: "20px 22px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 20,
-                  }}
+                  className="flex items-center gap-5 rounded-xl border border-border bg-foreground/[0.03]"
+                  style={{ padding: "20px 22px" }}
                 >
                   <div
+                    className="text-foreground/90"
                     style={{
                       fontFamily: "var(--font-mono)",
                       fontSize: 26,
                       fontWeight: 500,
-                      color: "rgba(255,255,255,0.88)",
                       letterSpacing: "-0.02em",
                       lineHeight: 1,
                       minWidth: 52,
@@ -388,9 +335,9 @@ export function ProjectPageBody() {
                     {s.number}
                     {s.unit && (
                       <span
+                        className="text-muted-foreground"
                         style={{
                           fontSize: 13,
-                          color: "rgba(255,255,255,0.38)",
                           marginLeft: 4,
                           fontWeight: 400,
                         }}
@@ -400,11 +347,8 @@ export function ProjectPageBody() {
                     )}
                   </div>
                   <div
-                    style={{
-                      fontSize: 14,
-                      color: "rgba(255,255,255,0.4)",
-                      lineHeight: 1.5,
-                    }}
+                    className="text-muted-foreground"
+                    style={{ fontSize: 14, lineHeight: 1.5 }}
                   >
                     {s.label}
                   </div>
@@ -419,18 +363,13 @@ export function ProjectPageBody() {
       <section className="px-5 py-12 pb-20 md:px-10 md:py-16 md:pb-24">
         <div className="mx-auto w-full" style={{ maxWidth: 1200 }}>
           <div
+            className="border border-border shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_12px_28px_rgba(10,10,11,0.08)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_12px_28px_rgba(10,10,11,0.22)]"
             style={{
               borderRadius: 18,
               padding: "40px 28px",
               position: "relative",
               overflow: "hidden",
-              background:
-                "radial-gradient(60% 46% at 82% 18%, rgba(124,132,140,0.18) 0%, rgba(124,132,140,0) 100%), " +
-                "radial-gradient(46% 52% at 16% 84%, rgba(12,16,20,0.38) 0%, rgba(12,16,20,0) 100%), " +
-                "linear-gradient(45deg, #1A1A1D 0%, #27272B 50%, #1A1A1D 100%)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              boxShadow:
-                "inset 0 1px 0 rgba(255,255,255,0.08), 0 12px 28px rgba(10,10,11,0.22)",
+              background: "var(--obsidian-gradient)",
             }}
           >
             {/* Background wave lines */}
@@ -445,13 +384,15 @@ export function ProjectPageBody() {
               }}
               preserveAspectRatio="xMidYMid slice"
               viewBox="0 0 1000 200"
+              className="text-foreground"
             >
               {Array.from({ length: 6 }).map((_, i) => (
                 <path
                   key={i}
                   d={`M0 ${40 + i * 28} C200 ${20 + i * 28}, 400 ${60 + i * 28}, 600 ${40 + i * 28} S900 ${20 + i * 28}, 1000 ${40 + i * 28}`}
                   fill="none"
-                  stroke="rgba(255,255,255,0.07)"
+                  stroke="currentColor"
+                  strokeOpacity="0.07"
                   strokeWidth="1"
                 />
               ))}
@@ -459,12 +400,12 @@ export function ProjectPageBody() {
 
             <div style={{ position: "relative", zIndex: 1, maxWidth: 680 }}>
               <p
+                className="text-muted-foreground"
                 style={{
                   fontSize: 11,
                   fontWeight: 600,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.28)",
                   fontFamily: "var(--font-mono)",
                   marginBottom: 24,
                 }}
@@ -472,7 +413,7 @@ export function ProjectPageBody() {
                 El proyecto
               </p>
               <p
-                className="text-white"
+                className="text-foreground"
                 style={{
                   fontSize: "clamp(1.2rem, 2.5vw, 2rem)",
                   fontWeight: 600,
@@ -486,23 +427,8 @@ export function ProjectPageBody() {
               </p>
               <a
                 href="/como-funciona"
-                className="inline-flex items-center gap-3 rounded-lg px-5 py-3 text-sm font-semibold"
-                style={{
-                  background: "#0A0A0B",
-                  color: "rgba(255,255,255,0.88)",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  letterSpacing: "-0.01em",
-                  transition: "background 180ms ease",
-                  textDecoration: "none",
-                }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLElement).style.background =
-                    "#27272B")
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLElement).style.background =
-                    "#0A0A0B")
-                }
+                className="inline-flex items-center gap-3 rounded-lg border border-border bg-background px-5 py-3 text-sm font-semibold text-foreground/90 transition-colors duration-[180ms] hover:bg-muted"
+                style={{ letterSpacing: "-0.01em", textDecoration: "none" }}
               >
                 Ver cómo funciona el sistema
                 <svg

@@ -25,7 +25,7 @@ export function Hero() {
         <div className="flex flex-col gap-6 md:gap-8">
           {/* Headline */}
           <h1
-            className="font-display text-white"
+            className="font-display text-foreground"
             style={{
               fontSize: "clamp(2.2rem, 4.5vw, 4rem)",
               fontWeight: 600,
@@ -50,7 +50,7 @@ export function Hero() {
             <br />
             está pensada para
             <br />
-            <span style={{ color: "#FFFFFF" }}>grandes empresas.</span>
+            <span className="text-foreground">grandes empresas.</span>
             <br />
             Nosotros la pensamos
             <br />
@@ -62,11 +62,10 @@ export function Hero() {
 
           {/* Subhead */}
           <p
-            className="font-sans"
+            className="font-sans text-muted-foreground"
             style={{
               fontSize: 17,
               lineHeight: 1.6,
-              color: "rgba(255,255,255,0.5)",
               maxWidth: 480,
               fontWeight: 400,
             }}
@@ -77,7 +76,7 @@ export function Hero() {
 
           {/* App store badges */}
           <div className="flex flex-col gap-3">
-          <span className="text-xs uppercase tracking-[0.08em] font-medium" style={{ color: "rgba(255,255,255,0.35)" }}>Próximamente</span>
+          <span className="text-xs uppercase tracking-[0.08em] font-medium text-muted-foreground">Próximamente</span>
           <div className="flex items-center gap-2.5 flex-wrap">
             <StoreBadge
               label="Disponible en"
@@ -99,7 +98,7 @@ export function Hero() {
           {/* Trust strip */}
           <div className="flex items-center gap-4 md:gap-6 pt-2 flex-wrap">
             <TrustItem icon={<polyline points="20 6 9 17 4 12" />}>KYC verificado</TrustItem>
-            <div className="w-px h-4 bg-white/10 hidden sm:block" />
+            <div className="w-px h-4 bg-foreground/10 hidden sm:block" />
             <TrustItem
               icon={
                 <>
@@ -109,7 +108,7 @@ export function Hero() {
             >
               Pagos seguros
             </TrustItem>
-            <div className="w-px h-4 bg-white/10 hidden sm:block" />
+            <div className="w-px h-4 bg-foreground/10 hidden sm:block" />
             <TrustItem icon={<circle cx="12" cy="12" r="10" />}>
               GPS en tiempo real
             </TrustItem>
@@ -120,21 +119,17 @@ export function Hero() {
         <div className="hidden md:flex justify-center items-center relative">
           {/* Stat floater top-left */}
           <div
-            className="absolute z-10 animate-float-a"
+            className="absolute z-10 animate-float-a rounded-[10px] border border-border bg-popover/92 shadow-[0_24px_60px_rgba(10,10,11,0.08),0_6px_16px_rgba(10,10,11,0.04)] dark:shadow-[0_24px_60px_rgba(10,10,11,0.16),0_6px_16px_rgba(10,10,11,0.06)]"
             style={{
               top: 60,
               left: -80,
-              background: "rgba(18,18,22,0.92)",
               backdropFilter: "blur(16px)",
               WebkitBackdropFilter: "blur(16px)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              borderRadius: 10,
               padding: "10px 14px",
               display: "flex",
               alignItems: "center",
               gap: 10,
               whiteSpace: "nowrap",
-              boxShadow: "0 24px 60px rgba(10,10,11,0.16), 0 6px 16px rgba(10,10,11,0.06)",
             }}
           >
             <div
@@ -158,10 +153,10 @@ export function Hero() {
               </svg>
             </div>
             <div className="flex flex-col gap-px">
-              <span className="text-sm font-semibold text-white">
+              <span className="text-sm font-semibold text-foreground">
                 En camino · 9 min
               </span>
-              <span className="text-[11px]" style={{ color: "rgba(255,255,255,0.4)" }}>
+              <span className="text-[11px] text-muted-foreground">
                 Córdoba → Villa Carlos Paz
               </span>
             </div>
@@ -212,21 +207,17 @@ export function Hero() {
 
           {/* Stat floater bottom-right */}
           <div
-            className="absolute animate-float-b"
+            className="absolute animate-float-b rounded-[10px] border border-border bg-popover/92 shadow-[0_24px_60px_rgba(10,10,11,0.08),0_6px_16px_rgba(10,10,11,0.04)] dark:shadow-[0_24px_60px_rgba(10,10,11,0.16),0_6px_16px_rgba(10,10,11,0.06)]"
             style={{
               bottom: 100,
               right: -60,
-              background: "rgba(18,18,22,0.92)",
               backdropFilter: "blur(16px)",
               WebkitBackdropFilter: "blur(16px)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              borderRadius: 10,
               padding: "10px 14px",
               display: "flex",
               alignItems: "center",
               gap: 10,
               whiteSpace: "nowrap",
-              boxShadow: "0 24px 60px rgba(10,10,11,0.16), 0 6px 16px rgba(10,10,11,0.06)",
             }}
           >
             <div
@@ -250,10 +241,10 @@ export function Hero() {
               </svg>
             </div>
             <div className="flex flex-col gap-px">
-              <span className="text-sm font-semibold text-white">
+              <span className="text-sm font-semibold text-foreground">
                 Marcos R. · ★ 4.8
               </span>
-              <span className="text-[11px]" style={{ color: "rgba(255,255,255,0.4)" }}>
+              <span className="text-[11px] text-muted-foreground">
                 Renault Kangoo · Verificado
               </span>
             </div>
@@ -267,7 +258,7 @@ export function Hero() {
         aria-hidden
       >
         <span
-          className="text-[11px] tracking-[0.06em] uppercase text-white/40"
+          className="text-[11px] tracking-[0.06em] uppercase text-foreground/40"
         >
           Scroll
         </span>
@@ -277,7 +268,7 @@ export function Hero() {
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"
-          className="w-4 h-4 text-white/40"
+          className="w-4 h-4 text-foreground/40"
         >
           <line x1="12" y1="5" x2="12" y2="19" />
           <polyline points="19 12 12 19 5 12" />
@@ -298,41 +289,23 @@ function StoreBadge({
 }) {
   return (
     <button
-      className="inline-flex items-center gap-2.5 rounded-[10px] cursor-pointer transition-all duration-[120ms] active:scale-[0.98] hover:-translate-y-px"
-      style={{
-        padding: "10px 18px",
-        background: "rgba(255,255,255,0.06)",
-        border: "1px solid rgba(255,255,255,0.1)",
-      }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget as HTMLElement
-        el.style.background = "rgba(255,255,255,0.10)"
-        el.style.borderColor = "rgba(255,255,255,0.18)"
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget as HTMLElement
-        el.style.background = "rgba(255,255,255,0.06)"
-        el.style.borderColor = "rgba(255,255,255,0.1)"
-      }}
+      className="inline-flex items-center gap-2.5 rounded-[10px] border border-foreground/10 bg-foreground/[0.06] cursor-pointer transition-all duration-[120ms] active:scale-[0.98] hover:-translate-y-px hover:border-foreground/[0.18] hover:bg-foreground/10"
+      style={{ padding: "10px 18px" }}
     >
       <svg
         viewBox="0 0 24 24"
         fill="currentColor"
-        className="w-[22px] h-[22px]"
-        style={{ color: "rgba(255,255,255,0.9)" }}
+        className="w-[22px] h-[22px] text-foreground/90"
       >
         {icon}
       </svg>
       <div className="flex flex-col">
-        <span
-          className="text-[10px] leading-tight tracking-[0.04em]"
-          style={{ color: "rgba(255,255,255,0.45)" }}
-        >
+        <span className="text-[10px] leading-tight tracking-[0.04em] text-muted-foreground">
           {label}
         </span>
         <span
-          className="text-sm font-semibold leading-tight"
-          style={{ color: "rgba(255,255,255,0.9)", letterSpacing: "-0.01em" }}
+          className="text-sm font-semibold leading-tight text-foreground/90"
+          style={{ letterSpacing: "-0.01em" }}
         >
           {name}
         </span>
@@ -349,7 +322,7 @@ function TrustItem({
   children: React.ReactNode
 }) {
   return (
-    <div className="flex items-center gap-1.5 text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
+    <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
       <svg
         viewBox="0 0 24 24"
         fill="none"

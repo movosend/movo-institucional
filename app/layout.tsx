@@ -98,7 +98,7 @@ export default function RootLayout({
             }),
           }}
         />
-        <ThemeProvider defaultTheme="dark" enableSystem={false}>
+        <ThemeProvider>
           {children}
           <Footer />
           <CookieBanner />
