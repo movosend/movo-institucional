@@ -91,7 +91,7 @@ export function ProjectPageHero() {
               fontFamily: "var(--font-mono)",
             }}
           >
-            PF - Grupo 26 · Ingenieria en Sistemas de Informacion
+            PF - Grupo 27 · Ingenieria en Sistemas de Informacion
           </span>
         </div>
 
