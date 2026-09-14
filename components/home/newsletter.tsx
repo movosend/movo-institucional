@@ -97,7 +97,7 @@ export function Newsletter() {
         className={`mx-auto w-full max-w-[900px] ${visible ? "animate-label-in" : "opacity-0"}`}
       >
         <h2
-          className="font-display mb-9 text-center text-white"
+          className="font-display mb-9 text-center text-foreground"
           style={{
             fontSize: "clamp(1.4rem, 2.2vw, 1.9rem)",
             fontWeight: 600,

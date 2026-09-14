@@ -14,7 +14,7 @@ import { Newsletter } from "@/components/home/newsletter"
 
 export default function Page() {
   return (
-    <div style={{ background: "#0A0A0B", minHeight: "100vh" }}>
+    <div className="min-h-screen bg-background">
       <AnimatedGrid />
       <div className="relative z-10">
         <Navbar />

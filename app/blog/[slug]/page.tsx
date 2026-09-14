@@ -34,7 +34,7 @@ export default async function BlogPostPage({ params }: Props) {
   const nextPost = post.nextSlug ? getPostBySlug(post.nextSlug) : undefined
 
   return (
-    <div style={{ background: "#0A0A0B", minHeight: "100vh" }}>
+    <div className="min-h-screen bg-background">
       <div className="relative z-10">
         <Navbar />
         <main className="mx-auto w-full max-w-[720px] px-5 md:px-8">
@@ -42,8 +42,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="pt-28 pb-10 md:pt-36">
             <Link
               href="/blog"
-              className="inline-flex items-center gap-1.5 text-sm transition-colors duration-[var(--motion-hover)] hover:text-white"
-              style={{ color: "rgba(255,255,255,0.4)" }}
+              className="inline-flex items-center gap-1.5 text-sm text-foreground/40 transition-colors duration-[var(--motion-hover)] hover:text-foreground"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -61,10 +60,7 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
 
           {/* Article header */}
-          <header
-            className="pb-10"
-            style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}
-          >
+          <header className="border-b border-border pb-10">
             <div className="mb-6 flex items-center gap-3">
               <span
                 className="text-xs font-medium tracking-wide uppercase"
@@ -72,33 +68,21 @@ export default async function BlogPostPage({ params }: Props) {
               >
                 Blog
               </span>
-              <span style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
-              <span
-                className="text-xs"
-                style={{ color: "rgba(255,255,255,0.35)" }}
-              >
+              <span className="text-foreground/20">·</span>
+              <span className="text-xs text-muted-foreground">
                 {post.readMinutes} min de lectura
               </span>
-              <span style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
-              <span
-                className="text-xs"
-                style={{ color: "rgba(255,255,255,0.35)" }}
-              >
+              <span className="text-foreground/20">·</span>
+              <span className="text-xs text-muted-foreground">
                 {formatDate(post.publishedAt)}
               </span>
             </div>
 
-            <h1
-              className="font-display text-3xl leading-tight md:text-4xl"
-              style={{ color: "rgba(255,255,255,0.92)" }}
-            >
+            <h1 className="font-display text-3xl leading-tight text-foreground/90 md:text-4xl">
               {post.title}
             </h1>
 
-            <p
-              className="mt-5 text-base leading-relaxed"
-              style={{ color: "rgba(255,255,255,0.5)" }}
-            >
+            <p className="mt-5 text-base leading-relaxed text-muted-foreground">
               {post.description}
             </p>
           </header>
@@ -109,23 +93,18 @@ export default async function BlogPostPage({ params }: Props) {
               <section key={i}>
                 {section.heading && (
                   <h2
-                    className="mb-4 text-xl font-semibold"
-                    style={{
-                      color: "rgba(255,255,255,0.85)",
-                      letterSpacing: "-0.025em",
-                    }}
+                    className="mb-4 text-xl font-semibold text-foreground/85"
+                    style={{ letterSpacing: "-0.025em" }}
                   >
                     {section.heading}
                   </h2>
                 )}
-
                 {section.paragraphs && (
                   <div className="space-y-4">
                     {section.paragraphs.map((p, j) => (
                       <p
                         key={j}
-                        className="text-base leading-[1.75]"
-                        style={{ color: "rgba(255,255,255,0.6)" }}
+                        className="text-base leading-[1.75] text-muted-foreground"
                       >
                         {p}
                       </p>
@@ -138,11 +117,7 @@ export default async function BlogPostPage({ params }: Props) {
                     {section.stats.map((s, j) => (
                       <div
                         key={j}
-                        className="rounded-xl p-4 md:p-5"
-                        style={{
-                          background: "rgba(255,255,255,0.03)",
-                          border: "1px solid rgba(255,255,255,0.07)",
-                        }}
+                        className="rounded-xl border border-border bg-foreground/[0.03] p-4 md:p-5"
                       >
                         <p
                           className="font-display mb-1 text-2xl md:text-3xl"
@@ -150,10 +125,7 @@ export default async function BlogPostPage({ params }: Props) {
                         >
                           {s.value}
                         </p>
-                        <p
-                          className="text-xs leading-snug"
-                          style={{ color: "rgba(255,255,255,0.45)" }}
-                        >
+                        <p className="text-xs leading-snug text-muted-foreground">
                           {s.label}
                         </p>
                       </div>
@@ -164,10 +136,7 @@ export default async function BlogPostPage({ params }: Props) {
                 {section.checklist && (
                   <div>
                     {section.checklist.title && (
-                      <p
-                        className="mb-3 text-sm font-medium"
-                        style={{ color: "rgba(255,255,255,0.7)" }}
-                      >
+                      <p className="mb-3 text-sm font-medium text-foreground/70">
                         {section.checklist.title}
                       </p>
                     )}
@@ -175,18 +144,13 @@ export default async function BlogPostPage({ params }: Props) {
                       {section.checklist.items.map((item, j) => (
                         <li
                           key={j}
-                          className="flex items-start gap-3 text-sm leading-relaxed"
-                          style={{ color: "rgba(255,255,255,0.65)" }}
+                          className="flex items-start gap-3 text-sm leading-relaxed text-foreground/65"
                         >
                           <span
-                            className="mt-1 flex-none rounded-full"
-                            style={{
-                              width: 6,
-                              height: 6,
-                              background: item.done
-                                ? "#C6F24A"
-                                : "rgba(255,255,255,0.25)",
-                            }}
+                            className={`mt-1 flex-none rounded-full ${
+                              item.done ? "bg-[#C6F24A]" : "bg-foreground/25"
+                            }`}
+                            style={{ width: 6, height: 6 }}
                           />
                           {item.text}
                         </li>
@@ -198,10 +162,7 @@ export default async function BlogPostPage({ params }: Props) {
                 {section.bars && (
                   <div>
                     {section.bars.title && (
-                      <p
-                        className="mb-4 text-sm font-medium"
-                        style={{ color: "rgba(255,255,255,0.7)" }}
-                      >
+                      <p className="mb-4 text-sm font-medium text-foreground/70">
                         {section.bars.title}
                       </p>
                     )}
@@ -215,24 +176,15 @@ export default async function BlogPostPage({ params }: Props) {
                         return (
                           <div key={j}>
                             <div className="mb-1.5 flex items-baseline justify-between">
-                              <span
-                                className="text-sm"
-                                style={{ color: "rgba(255,255,255,0.6)" }}
-                              >
+                              <span className="text-sm text-foreground/60">
                                 {item.label}
                               </span>
-                              <span
-                                className="text-xs font-medium tabular-nums"
-                                style={{ color: "rgba(255,255,255,0.4)" }}
-                              >
+                              <span className="text-xs font-medium tabular-nums text-foreground/40">
                                 {item.value}
                                 {item.suffix ?? ""}
                               </span>
                             </div>
-                            <div
-                              className="h-2 overflow-hidden rounded-full"
-                              style={{ background: "rgba(255,255,255,0.06)" }}
-                            >
+                            <div className="h-2 overflow-hidden rounded-full bg-foreground/[0.06]">
                               <div
                                 className="h-full rounded-full"
                                 style={{
@@ -250,22 +202,14 @@ export default async function BlogPostPage({ params }: Props) {
 
                 {section.table && (
                   <div>
-                    <div
-                      className="overflow-x-auto rounded-xl"
-                      style={{ border: "1px solid rgba(255,255,255,0.08)" }}
-                    >
+                    <div className="overflow-x-auto rounded-xl border border-border">
                       <table className="w-full min-w-[480px] border-collapse text-sm">
                         <thead>
-                          <tr style={{ background: "rgba(255,255,255,0.04)" }}>
+                          <tr className="bg-foreground/[0.04]">
                             {section.table.headers.map((h, j) => (
                               <th
                                 key={j}
-                                className="px-4 py-3 text-left font-medium"
-                                style={{
-                                  color: "rgba(255,255,255,0.7)",
-                                  borderBottom:
-                                    "1px solid rgba(255,255,255,0.08)",
-                                }}
+                                className="border-b border-border px-4 py-3 text-left font-medium text-foreground/70"
                               >
                                 {h}
                               </th>
@@ -278,14 +222,11 @@ export default async function BlogPostPage({ params }: Props) {
                               {row.map((cell, k) => (
                                 <td
                                   key={k}
-                                  className="px-4 py-3 align-top leading-relaxed"
-                                  style={{
-                                    color: "rgba(255,255,255,0.55)",
-                                    borderBottom:
-                                      j < section.table!.rows.length - 1
-                                        ? "1px solid rgba(255,255,255,0.06)"
-                                        : "none",
-                                  }}
+                                  className={`px-4 py-3 align-top leading-relaxed text-foreground/55 ${
+                                    j < section.table!.rows.length - 1
+                                      ? "border-b border-border/60"
+                                      : ""
+                                  }`}
                                 >
                                   {cell}
                                 </td>
@@ -296,10 +237,7 @@ export default async function BlogPostPage({ params }: Props) {
                       </table>
                     </div>
                     {section.table.caption && (
-                      <p
-                        className="mt-2 text-xs"
-                        style={{ color: "rgba(255,255,255,0.35)" }}
-                      >
+                      <p className="mt-2 text-xs text-foreground/35">
                         {section.table.caption}
                       </p>
                     )}
@@ -308,39 +246,26 @@ export default async function BlogPostPage({ params }: Props) {
 
                 {section.callout && (
                   <div
-                    className="rounded-xl p-5 md:p-6"
-                    style={{
-                      background:
-                        section.callout.tone === "warning"
-                          ? "rgba(255,180,80,0.06)"
-                          : section.callout.tone === "success"
-                            ? "rgba(198,242,74,0.06)"
-                            : "rgba(255,255,255,0.04)",
-                      border:
-                        section.callout.tone === "warning"
-                          ? "1px solid rgba(255,180,80,0.18)"
-                          : section.callout.tone === "success"
-                            ? "1px solid rgba(198,242,74,0.15)"
-                            : "1px solid rgba(255,255,255,0.08)",
-                    }}
+                    className={`rounded-xl border p-5 md:p-6 ${
+                      section.callout.tone === "warning"
+                        ? "border-[#FFB450]/18 bg-[#FFB450]/[0.06]"
+                        : section.callout.tone === "success"
+                          ? "border-[#C6F24A]/15 bg-[#C6F24A]/[0.06]"
+                          : "border-border bg-foreground/[0.04]"
+                    }`}
                   >
                     <p
-                      className="mb-2 text-sm font-semibold"
-                      style={{
-                        color:
-                          section.callout.tone === "warning"
-                            ? "#FFB450"
-                            : section.callout.tone === "success"
-                              ? "#C6F24A"
-                              : "rgba(255,255,255,0.8)",
-                      }}
+                      className={`mb-2 text-sm font-semibold ${
+                        section.callout.tone === "warning"
+                          ? "text-[#FFB450]"
+                          : section.callout.tone === "success"
+                            ? "text-[#C6F24A]"
+                            : "text-foreground/80"
+                      }`}
                     >
                       {section.callout.title}
                     </p>
-                    <p
-                      className="text-sm leading-relaxed"
-                      style={{ color: "rgba(255,255,255,0.6)" }}
-                    >
+                    <p className="text-sm leading-relaxed text-foreground/60">
                       {section.callout.body}
                     </p>
                   </div>
@@ -399,16 +324,10 @@ export default async function BlogPostPage({ params }: Props) {
                 border: "1px solid rgba(198,242,74,0.15)",
               }}
             >
-              <p
-                className="mb-1 text-sm font-semibold"
-                style={{ color: "#C6F24A" }}
-              >
+              <p className="mb-1 text-sm font-semibold text-[#9FC72E] dark:text-[#C6F24A]">
                 Movo llega pronto
               </p>
-              <p
-                className="mb-4 text-sm leading-relaxed"
-                style={{ color: "rgba(255,255,255,0.55)" }}
-              >
+              <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
                 La app está en desarrollo. Seguinos en Instagram para enterarte
                 cuando esté disponible.
               </p>

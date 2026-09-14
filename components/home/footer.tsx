@@ -2,16 +2,10 @@ import Link from "next/link"
 
 export function Footer() {
   return (
-    <footer
-      className="w-full border-t"
-      style={{
-        background: "#0A0A0B",
-        borderColor: "rgba(255,255,255,0.07)",
-      }}
-    >
+    <footer className="w-full border-t border-border bg-background">
       <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-8 px-5 py-12 md:flex-row md:items-center md:justify-between md:px-10 md:py-10">
         {/* Logo */}
-        <a href="/" aria-label="Movo" className="shrink-0">
+        <a href="/" aria-label="Movo" className="shrink-0 text-foreground">
           <svg viewBox="0 0 220 56" fill="none" height="28" width="110">
             <rect x="0" y="4" width="48" height="48" rx="12" fill="#0A0A0B" />
             <circle cx="24" cy="28" r="24" fill="#FFFFFF" fillOpacity="0.15" />
@@ -44,7 +38,7 @@ export function Footer() {
               fontWeight="600"
               fontSize="36"
               letterSpacing="-0.04em"
-              fill="#FFFFFF"
+              fill="currentColor"
             >
               movo
             </text>
@@ -55,15 +49,13 @@ export function Footer() {
         <nav className="flex flex-col gap-3 md:flex-row md:flex-wrap md:items-center md:gap-x-6 md:gap-y-3">
           <Link
             href="/politica-de-privacidad"
-            className="text-sm transition-colors duration-[var(--motion-hover)] hover:text-white"
-            style={{ color: "rgba(255,255,255,0.45)" }}
+            className="text-sm text-muted-foreground transition-colors duration-[var(--motion-hover)] hover:text-foreground"
           >
             Política de privacidad
           </Link>
           <Link
             href="/terminos-y-condiciones"
-            className="text-sm transition-colors duration-[var(--motion-hover)] hover:text-white"
-            style={{ color: "rgba(255,255,255,0.45)" }}
+            className="text-sm text-muted-foreground transition-colors duration-[var(--motion-hover)] hover:text-foreground"
           >
             Términos y condiciones
           </Link>
@@ -71,8 +63,7 @@ export function Footer() {
             href="https://github.com/movosend"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-sm transition-colors duration-[var(--motion-hover)] hover:text-white"
-            style={{ color: "rgba(255,255,255,0.45)" }}
+            className="flex items-center gap-1.5 text-sm text-muted-foreground transition-colors duration-[var(--motion-hover)] hover:text-foreground"
           >
             <svg
               viewBox="0 0 24 24"
@@ -92,8 +83,7 @@ export function Footer() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Instagram de Movo"
-          className="flex h-9 w-9 items-center justify-center self-center rounded-lg transition-colors duration-[var(--motion-hover)] hover:bg-white/[0.08] md:self-auto"
-          style={{ color: "rgba(255,255,255,0.5)" }}
+          className="flex h-9 w-9 items-center justify-center self-center rounded-lg text-muted-foreground transition-colors duration-[var(--motion-hover)] hover:bg-foreground/[0.08] hover:text-foreground md:self-auto"
         >
           <svg
             viewBox="0 0 24 24"
@@ -119,13 +109,7 @@ export function Footer() {
       </div>
 
       {/* Copyright */}
-      <div
-        className="border-t px-5 py-4 text-center text-xs md:px-10"
-        style={{
-          borderColor: "rgba(255,255,255,0.05)",
-          color: "rgba(255,255,255,0.22)",
-        }}
-      >
+      <div className="border-t border-border px-5 py-4 text-center text-xs text-muted-foreground/70 md:px-10">
         © {new Date().getFullYear()} Movo. Todos los derechos reservados.
       </div>
     </footer>

@@ -15,12 +15,18 @@ export function TeamPageHero() {
           pointerEvents: "none",
         }}
       >
-        <svg viewBox="0 0 600 600" width="660" height="660" fill="none">
-          <circle cx="300" cy="300" r="290" fill="white" fillOpacity="0.02" />
-          <circle cx="300" cy="300" r="260" fill="white" fillOpacity="0.03" />
-          <circle cx="300" cy="300" r="228" fill="white" fillOpacity="0.06" />
-          <circle cx="300" cy="300" r="194" fill="white" fillOpacity="0.09" />
-          <circle cx="300" cy="300" r="157" fill="white" fillOpacity="0.04" />
+        <svg
+          viewBox="0 0 600 600"
+          width="660"
+          height="660"
+          fill="none"
+          className="text-foreground"
+        >
+          <circle cx="300" cy="300" r="290" fill="currentColor" fillOpacity="0.02" />
+          <circle cx="300" cy="300" r="260" fill="currentColor" fillOpacity="0.03" />
+          <circle cx="300" cy="300" r="228" fill="currentColor" fillOpacity="0.06" />
+          <circle cx="300" cy="300" r="194" fill="currentColor" fillOpacity="0.09" />
+          <circle cx="300" cy="300" r="157" fill="currentColor" fillOpacity="0.04" />
           <circle
             cx="300"
             cy="300"
@@ -34,7 +40,8 @@ export function TeamPageHero() {
             cy="300"
             r="157"
             fill="none"
-            stroke="rgba(255,255,255,0.07)"
+            stroke="currentColor"
+            strokeOpacity="0.07"
             strokeWidth="1"
           />
           <circle
@@ -42,7 +49,8 @@ export function TeamPageHero() {
             cy="300"
             r="228"
             fill="none"
-            stroke="rgba(255,255,255,0.05)"
+            stroke="currentColor"
+            strokeOpacity="0.05"
             strokeWidth="1"
           />
           <circle
@@ -50,7 +58,8 @@ export function TeamPageHero() {
             cy="300"
             r="290"
             fill="none"
-            stroke="rgba(255,255,255,0.03)"
+            stroke="currentColor"
+            strokeOpacity="0.03"
             strokeWidth="1"
           />
         </svg>
@@ -61,19 +70,14 @@ export function TeamPageHero() {
         style={{ maxWidth: 1200, zIndex: 1 }}
       >
         {/* Eyebrow */}
-        <div
-          className="mb-8 inline-flex items-center gap-2.5 rounded-full px-3.5 py-1.5"
-          style={{
-            background: "rgba(255,255,255,0.05)",
-            border: "1px solid rgba(255,255,255,0.09)",
-          }}
-        >
+        <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-border bg-foreground/[0.05] px-3.5 py-1.5">
           <svg
             viewBox="0 0 24 24"
             width="13"
             height="13"
             fill="none"
-            stroke="rgba(255,255,255,0.38)"
+            stroke="currentColor"
+            className="text-muted-foreground"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -84,12 +88,12 @@ export function TeamPageHero() {
             <path d="M16 3.13a4 4 0 0 1 0 7.75" />
           </svg>
           <span
+            className="text-muted-foreground"
             style={{
               fontSize: 11,
               fontWeight: 600,
               letterSpacing: "0.10em",
               textTransform: "uppercase",
-              color: "rgba(255,255,255,0.38)",
               fontFamily: "var(--font-mono)",
             }}
           >
@@ -99,7 +103,7 @@ export function TeamPageHero() {
 
         {/* Headline */}
         <h1
-          className="mb-6 text-white"
+          className="mb-6 text-foreground"
           style={{
             fontSize: "clamp(2.8rem, 6vw, 5rem)",
             fontWeight: 600,
@@ -118,10 +122,10 @@ export function TeamPageHero() {
 
         {/* Subtitle */}
         <p
+          className="text-muted-foreground"
           style={{
             fontSize: 18,
             lineHeight: 1.75,
-            color: "rgba(255,255,255,0.5)",
             maxWidth: 580,
           }}
         >

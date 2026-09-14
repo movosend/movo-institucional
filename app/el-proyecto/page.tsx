@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function ElProyectoPage() {
   return (
-    <div style={{ background: "#0A0A0B", minHeight: "100vh" }}>
+    <div className="min-h-screen bg-background">
       <div className="relative z-10">
         <Navbar />
         <main>

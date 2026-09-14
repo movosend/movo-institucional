@@ -38,13 +38,7 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section
-      className="relative overflow-hidden px-5 py-16 md:px-10 md:py-[100px]"
-      style={{
-        background: "#0D0D0F",
-        borderTop: "1px solid rgba(255,255,255,0.06)",
-      }}
-    >
+    <section className="relative overflow-hidden border-t border-border bg-[#F8F8FA] px-5 py-16 md:px-10 md:py-[100px] dark:bg-[#0D0D0F]">
       <div className="relative z-10 mx-auto w-full max-w-[1200px]">
         {/* Header */}
         <div className="mb-12 text-center md:mb-16">
@@ -55,16 +49,14 @@ export function HowItWorks() {
               border: "1px solid rgba(198,242,74,0.18)",
             }}
           >
-            <span
-              className="text-[11px] font-semibold tracking-[0.08em] uppercase"
-              style={{ color: "#C6F24A" }}
-            >
+            <span className="live-dot" />
+            <span className="text-[11px] font-semibold tracking-[0.08em] text-[#9FC72E] uppercase dark:text-[#C6F24A]">
               Cómo funciona
             </span>
           </div>
 
           <h2
-            className="mb-4 text-white"
+            className="mb-4 text-foreground"
             style={{
               fontSize: "clamp(2rem, 3.5vw, 3rem)",
               fontWeight: 600,
@@ -79,10 +71,9 @@ export function HowItWorks() {
           </h2>
 
           <p
-            className="mx-auto"
+            className="mx-auto text-muted-foreground"
             style={{
               fontSize: 17,
-              color: "rgba(255,255,255,0.42)",
               maxWidth: 440,
               lineHeight: 1.65,
             }}
@@ -97,12 +88,9 @@ export function HowItWorks() {
           {STEPS.map((step, i) => (
             <div
               key={step.num}
-              className="group relative"
+              className="group relative border border-border bg-foreground/[0.025] transition-colors duration-[var(--motion-hover)] hover:bg-foreground/[0.042]"
               style={{
                 padding: "32px 28px 36px",
-                background: "rgba(255,255,255,0.025)",
-                border: "1px solid rgba(255,255,255,0.07)",
-                transition: "background 200ms",
                 borderRadius:
                   i === 0
                     ? "10px 10px 0 0"
@@ -110,31 +98,21 @@ export function HowItWorks() {
                       ? "0 0 10px 10px"
                       : undefined,
               }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLElement).style.background =
-                  "rgba(255,255,255,0.042)")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLElement).style.background =
-                  "rgba(255,255,255,0.025)")
-              }
             >
               <div
-                className="mb-5 font-mono text-[11px] font-semibold tracking-[0.1em]"
-                style={{ color: "#C6F24A" }}
+                className="mb-5 font-mono text-[11px] font-semibold tracking-[0.1em] text-[#9FC72E] dark:text-[#C6F24A]"
               >
                 {step.num}
               </div>
 
               <div
-                className="mb-6 flex items-center justify-center"
+                className="mb-6 flex items-center justify-center text-[#9FC72E] dark:text-[#C6F24A]"
                 style={{
                   width: 44,
                   height: 44,
                   borderRadius: 6,
                   background: "rgba(198,242,74,0.08)",
                   border: "1px solid rgba(198,242,74,0.15)",
-                  color: "#C6F24A",
                 }}
               >
                 <svg
@@ -151,7 +129,7 @@ export function HowItWorks() {
               </div>
 
               <div
-                className="mb-2.5 text-white"
+                className="mb-2.5 text-foreground"
                 style={{
                   fontSize: 19,
                   fontWeight: 600,
@@ -163,10 +141,10 @@ export function HowItWorks() {
               </div>
 
               <p
+                className="text-muted-foreground"
                 style={{
                   fontSize: 14,
                   lineHeight: 1.65,
-                  color: "rgba(255,255,255,0.42)",
                 }}
               >
                 {step.desc}
@@ -175,15 +153,11 @@ export function HowItWorks() {
               {/* Connector arrow — shown on desktop between steps */}
               {step.connector && (
                 <div
-                  className="absolute top-1/2 right-[-14px] z-10 hidden -translate-y-1/2 items-center justify-center md:flex"
+                  className="absolute top-1/2 right-[-14px] z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background text-muted-foreground md:flex"
                   aria-hidden
                   style={{
                     width: 28,
                     height: 28,
-                    borderRadius: "50%",
-                    background: "#0A0A0B",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    color: "rgba(255,255,255,0.25)",
                   }}
                 >
                   <svg
@@ -206,26 +180,11 @@ export function HowItWorks() {
         <div className="flex justify-center">
           <a
             href="/como-funciona"
-            className="group inline-flex items-center gap-2.5 rounded-md font-medium transition-all duration-[var(--motion-hover)] active:scale-[0.98]"
+            className="group inline-flex items-center gap-2.5 rounded-md border border-foreground/10 bg-foreground/5 font-medium text-foreground/80 transition-all duration-[var(--motion-hover)] hover:border-foreground/[0.18] hover:bg-foreground/[0.09] hover:text-foreground active:scale-[0.98]"
             style={{
               padding: "14px 28px",
-              background: "rgba(255,255,255,0.05)",
-              border: "1px solid rgba(255,255,255,0.1)",
               fontSize: 15,
-              color: "rgba(255,255,255,0.8)",
               letterSpacing: "-0.01em",
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement
-              el.style.background = "rgba(255,255,255,0.09)"
-              el.style.borderColor = "rgba(255,255,255,0.18)"
-              el.style.color = "#FFFFFF"
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement
-              el.style.background = "rgba(255,255,255,0.05)"
-              el.style.borderColor = "rgba(255,255,255,0.1)"
-              el.style.color = "rgba(255,255,255,0.8)"
             }}
           >
             Ver el proceso completo — 7 pasos

@@ -8,8 +8,8 @@ export function AnimatedGrid() {
         className="animate-grid-pan absolute inset-0"
         style={{
           backgroundImage: `
-            linear-gradient(to right, rgba(255,255,255,0.045) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255,255,255,0.045) 1px, transparent 1px)
+            linear-gradient(to right, color-mix(in srgb, var(--foreground) 4.5%, transparent) 1px, transparent 1px),
+            linear-gradient(to bottom, color-mix(in srgb, var(--foreground) 4.5%, transparent) 1px, transparent 1px)
           `,
           backgroundSize: "40px 40px",
         }}
@@ -19,7 +19,7 @@ export function AnimatedGrid() {
         style={{
           background: `
             radial-gradient(ellipse 70% 60% at 50% 0%, rgba(198,242,74,0.07) 0%, transparent 70%),
-            radial-gradient(ellipse 100% 100% at 50% 50%, transparent 50%, rgba(10,10,11,0.92) 100%)
+            radial-gradient(ellipse 100% 100% at 50% 50%, transparent 50%, color-mix(in srgb, var(--background) 92%, transparent) 100%)
           `,
         }}
       />
