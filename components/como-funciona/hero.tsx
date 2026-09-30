@@ -10,7 +10,6 @@ import {
   LimeGrid,
   MaskLine,
   PackageIcon,
-  TickerBar,
 } from "@/components/site/primitives"
 
 const PERSONAS = [
@@ -111,7 +110,6 @@ export function ComoHero() {
       )}
     >
       <LimeGrid at="50% 30%" />
-      <TickerBar items={["Proceso punta a punta", "7 etapas", "3 personas"]} />
       <h1 className="relative mt-10 mb-7 text-[clamp(2.2rem,7.6vw,8.5rem)] leading-[.9] font-semibold tracking-[-0.06em] [font-variation-settings:'opsz'_32]">
         <MaskLine>Cómo Movo mueve</MaskLine>
         <MaskLine>

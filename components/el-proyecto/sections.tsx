@@ -14,7 +14,6 @@ import {
   IndexChip,
   MaskLine,
   SECTION_Y,
-  TickerBar,
 } from "@/components/site/primitives"
 
 const pad = (i: number) => String(i + 1).padStart(2, "0")
@@ -71,7 +70,7 @@ export function Motivation() {
   return (
     <section ref={ref} className={cn("relative bg-ink-950", SECTION_Y, GUTTER)}>
       <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] items-start gap-[clamp(32px,6vw,96px)]">
-        <div className="sticky top-24 flex flex-col gap-5">
+        <div className="flex flex-col gap-5 lg:sticky lg:top-24">
           <Eyebrow>01 · La motivación</Eyebrow>
           <h2 className={H2_SPLIT}>
             Una observación simple.
@@ -386,11 +385,6 @@ export function Team() {
         GUTTER
       )}
     >
-      <TickerBar
-        dot
-        className="mb-10"
-        items={["El equipo", "5 desarrolladores", "0 jerarquías", "Grupo 27"]}
-      />
       <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
         <h2 className="m-0 text-[clamp(3rem,7.4vw,8rem)] leading-[.9] font-semibold tracking-[-0.06em]">
           <MaskLine attr="data-tline" tight>

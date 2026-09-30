@@ -1,16 +1,11 @@
 "use client"
 
 import { useRef } from "react"
+import { ArrowDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { gsap, useGsap } from "@/lib/use-gsap"
-import {
-  Em,
-  GUTTER,
-  LimeGrid,
-  MaskLine,
-  TickerBar,
-} from "@/components/site/primitives"
+import { Em, GUTTER, LimeGrid, MaskLine } from "@/components/site/primitives"
 
 const HERO_BARS = [
   3, 1, 1, 2, 4, 1, 2, 1, 3, 1, 1, 1, 2, 3, 1, 4, 1, 1, 2, 1, 3, 2, 1, 1, 4, 1,
@@ -42,49 +37,114 @@ export function Hero() {
   })
 
   return (
-    <section
-      ref={ref}
-      id="top"
-      className={cn(
-        "relative flex min-h-[var(--screen-h)] flex-col justify-between overflow-hidden bg-lime-500 pt-[104px] pb-10 text-ink-950",
-        GUTTER
-      )}
-    >
-      <LimeGrid />
-      <TickerBar
-        dot
-        items={[
-          "Próximamente",
-          "Disponible en App Store",
-          "Disponible en Google Play",
-          "Argentina · 2026",
-        ]}
-      />
-      <h1 className="relative my-10 text-[clamp(2.2rem,8.4vw,9.5rem)] leading-[.9] font-semibold tracking-[-0.06em] [font-variation-settings:'opsz'_32]">
-        <MaskLine>
-          Hoy la <Em>logística</Em> está
-        </MaskLine>
-        <MaskLine>pensada para empresas.</MaskLine>
-        <MaskLine>Movo la piensa</MaskLine>
-        <MaskLine>
-          para <Em>personas.</Em>
-        </MaskLine>
-      </h1>
-      <div className="relative flex flex-wrap items-end justify-between gap-6">
-        <p className="m-0 max-w-[460px] text-xl leading-[1.45] font-medium text-pretty">
-          Movo conecta tu paquete con personas que hacen ese camino todos los
-          días. Sin sucursales, sin esperas.
-        </p>
-        <div className="flex h-7 items-center" aria-hidden>
-          {HERO_BARS.map((w, i) => (
-            <span
-              key={i}
-              className="mr-0.5 block h-full bg-ink-950"
-              style={{ width: w }}
-            />
-          ))}
+    <>
+      <section
+        ref={ref}
+        id="top"
+        className={cn(
+          "relative flex flex-col overflow-hidden bg-lime-500 pt-[104px] pb-12 text-ink-950 sm:min-h-[var(--screen-h)] sm:justify-between sm:pb-10",
+          GUTTER
+        )}
+      >
+        <LimeGrid />
+        <h1 className="relative mt-4 mb-10 text-[13vw] leading-[.9] font-semibold tracking-[-0.06em] [font-variation-settings:'opsz'_32] sm:my-10 sm:text-[clamp(2.2rem,8.4vw,9.5rem)]">
+          <span className="sr-only">
+            Hoy la logística está pensada para empresas. Movo la piensa para
+            personas.
+          </span>
+          {/* Cortes de línea propios de escritorio y de mobile. */}
+          <span aria-hidden className="max-sm:hidden">
+            <MaskLine>
+              Hoy la <Em>logística</Em> está
+            </MaskLine>
+            <MaskLine>pensada para empresas.</MaskLine>
+            <MaskLine>Movo la piensa</MaskLine>
+            <MaskLine>
+              para <Em>personas.</Em>
+            </MaskLine>
+          </span>
+          <span aria-hidden className="sm:hidden">
+            <MaskLine>
+              Hoy la <Em>logística</Em>
+            </MaskLine>
+            <MaskLine>está pensada</MaskLine>
+            <MaskLine>para empresas.</MaskLine>
+            <MaskLine>Movo la piensa</MaskLine>
+            <MaskLine>
+              para <Em>personas.</Em>
+            </MaskLine>
+          </span>
+        </h1>
+        <div className="relative flex flex-wrap items-end justify-between gap-6">
+          <div className="flex flex-col gap-6 max-sm:w-full">
+            <p className="m-0 max-w-[460px] text-xl leading-[1.45] font-medium text-pretty">
+              Movo conecta tu paquete con personas que hacen ese camino todos
+              los días. Sin sucursales, sin esperas.
+            </p>
+            <StoreBadges />
+          </div>
+          <div className="flex h-7 items-center max-sm:hidden" aria-hidden>
+            {HERO_BARS.map((w, i) => (
+              <span
+                key={i}
+                className="mr-0.5 block h-full bg-ink-950"
+                style={{ width: w }}
+              />
+            ))}
+          </div>
         </div>
+      </section>
+      {/* Solo mobile: el hero ya no ocupa la pantalla, invita a seguir. */}
+      <div
+        aria-hidden
+        className="flex justify-center bg-ink-950 pt-8 pb-2 text-white sm:hidden"
+      >
+        <ArrowDown className="size-6 animate-[scrollNudge_1.6s_ease-in-out_infinite] opacity-60 motion-reduce:animate-none" />
       </div>
-    </section>
+    </>
+  )
+}
+
+const STORES = [
+  {
+    name: "App Store",
+    pre: "Próximamente en",
+    // Simple Icons (CC0): Apple
+    path: "M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701",
+  },
+  {
+    name: "Google Play",
+    pre: "Próximamente en",
+    // Simple Icons (CC0): Google Play
+    path: "M22.018 13.298l-3.919 2.218-3.515-3.493 3.543-3.521 3.891 2.202a1.49 1.49 0 0 1 0 2.594zM1.337.924a1.486 1.486 0 0 0-.112.568v21.017c0 .217.045.419.124.6l11.155-11.087L1.337.924zm12.207 10.065l3.258-3.238L3.45.195a1.466 1.466 0 0 0-.946-.179l11.04 10.973zm0 2.067l-11 10.933c.298.036.612-.016.906-.183l13.324-7.54-3.23-3.21z",
+  },
+]
+
+/** Badges de las tiendas, atenuados hasta el lanzamiento. */
+function StoreBadges() {
+  return (
+    <ul
+      aria-label="Próximamente en App Store y Google Play"
+      className="m-0 grid list-none grid-cols-2 gap-2.5 p-0 sm:flex sm:flex-wrap"
+    >
+      {STORES.map((s) => (
+        <li
+          key={s.name}
+          className="flex h-12 items-center gap-2.5 rounded-lg bg-ink-950 pr-4 pl-3 text-white opacity-45 select-none"
+        >
+          <svg viewBox="0 0 24 24" className="size-5" aria-hidden>
+            <path d={s.path} fill="currentColor" />
+          </svg>
+          <span className="flex flex-col leading-none">
+            <span className="text-[10px] font-medium tracking-[.02em] text-ink-300">
+              {s.pre}
+            </span>
+            <span className="mt-1 text-[17px] font-semibold tracking-[-0.02em]">
+              {s.name}
+            </span>
+          </span>
+        </li>
+      ))}
+    </ul>
   )
 }

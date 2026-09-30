@@ -4,13 +4,7 @@ import { useRef } from "react"
 
 import { cn } from "@/lib/utils"
 import { gsap, useGsap } from "@/lib/use-gsap"
-import {
-  Em,
-  GUTTER,
-  LimeGrid,
-  MaskLine,
-  TickerBar,
-} from "@/components/site/primitives"
+import { Em, GUTTER, LimeGrid, MaskLine } from "@/components/site/primitives"
 
 const RINGS = [
   { r: 290, o: 0.04 },
@@ -108,15 +102,6 @@ export function ProyectoHero() {
           />
         </svg>
       </div>
-      <TickerBar
-        dot
-        items={[
-          "PF · Grupo 27",
-          "UTN · Facultad Regional Córdoba",
-          "Ingeniería en Sistemas de Información",
-          "2026",
-        ]}
-      />
       <h1 className="relative my-10 text-[clamp(2.2rem,8.4vw,9.5rem)] leading-[.9] font-semibold tracking-[-0.06em] [font-variation-settings:'opsz'_32]">
         <MaskLine>Ingeniería aplicada</MaskLine>
         <MaskLine>a un problema</MaskLine>
