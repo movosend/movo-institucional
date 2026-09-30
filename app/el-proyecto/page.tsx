@@ -1,7 +1,15 @@
 import type { Metadata } from "next"
-import { Navbar } from "@/components/home/navbar"
-import { ProjectPageHero } from "@/components/el-proyecto/page-hero"
-import { ProjectPageBody } from "@/components/el-proyecto/page-body"
+
+import { ProyectoHero } from "@/components/el-proyecto/hero"
+import {
+  Career,
+  Closing,
+  Disciplines,
+  Management,
+  Motivation,
+  Practices,
+  Team,
+} from "@/components/el-proyecto/sections"
 
 export const metadata: Metadata = {
   title: "El Proyecto",
@@ -16,14 +24,15 @@ export const metadata: Metadata = {
 
 export default function ElProyectoPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <div className="relative z-10">
-        <Navbar />
-        <main>
-          <ProjectPageHero />
-          <ProjectPageBody />
-        </main>
-      </div>
-    </div>
+    <main>
+      <ProyectoHero />
+      <Motivation />
+      <Disciplines />
+      <Career />
+      <Team />
+      <Practices />
+      <Management />
+      <Closing />
+    </main>
   )
 }

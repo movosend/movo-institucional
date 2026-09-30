@@ -1,8 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Navbar } from "@/components/home/navbar"
-import { AnimatedGrid } from "@/components/home/animated-grid"
 
 const TRACKING_CODE = "MVX-404-ERR-7C2F"
 
@@ -97,7 +95,13 @@ function RouteSVG() {
             d="M300 58 C300 58 316 76 316 87 C316 96 309 103 300 103 C291 103 284 96 284 87 C284 76 300 58 300 58Z"
             fill="#E5484D"
           />
-          <circle cx="300" cy="87" r="7" fill="var(--background)" fillOpacity="0.85" />
+          <circle
+            cx="300"
+            cy="87"
+            r="7"
+            fill="var(--background)"
+            fillOpacity="0.85"
+          />
           {/* Question mark inside */}
           <text
             x="300"
@@ -173,10 +177,7 @@ function TrackingChip() {
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-background">
-      <AnimatedGrid />
       <div className="relative z-10">
-        <Navbar />
-
         <main className="flex min-h-screen flex-col items-center justify-center px-5 pt-24 pb-20 text-center">
           {/* Section label */}
 

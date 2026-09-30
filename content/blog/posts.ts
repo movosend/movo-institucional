@@ -47,9 +47,16 @@ export type PostSection = {
   checklist?: ChecklistBlock
 }
 
+export type PostTag = "Sprint" | "Guía" | "Producto"
+
 export type Post = {
   slug: string
+  tag: PostTag
   title: string
+  /** Título corto para el listado del blog; si falta se usa `title`. */
+  listTitle?: string
+  /** Bajada corta para el listado del blog. */
+  excerpt: string
   description: string
   publishedAt: string
   readMinutes: number
@@ -60,6 +67,9 @@ export type Post = {
 export const posts: Post[] = [
   {
     slug: "logistica-colaborativa-p2p",
+    tag: "Guía",
+    excerpt:
+      "Cómo funciona conectar a quien envía con alguien que ya va, y qué ventajas tiene sobre el correo tradicional.",
     title:
       "Qué es la logística colaborativa P2P (y por qué cambia todo en Argentina)",
     description:
@@ -111,6 +121,9 @@ export const posts: Post[] = [
   },
   {
     slug: "que-es-movo",
+    tag: "Producto",
+    excerpt:
+      "Una app argentina de logística colaborativa que conecta tu paquete con personas que ya viajan hacia ese destino.",
     title: "Movo: qué es, cómo funciona y cuánto cuesta",
     description:
       "Movo es una app argentina de logística colaborativa que conecta a quien necesita enviar un paquete con personas que ya viajan hacia ese destino. Pagos seguros con MercadoPago, verificación biométrica y seguimiento en tiempo real.",
@@ -163,6 +176,10 @@ export const posts: Post[] = [
   },
   {
     slug: "comparativa-envios-argentina",
+    listTitle: "Comparativa de envíos en Argentina",
+    tag: "Guía",
+    excerpt:
+      "Correo tradicional, mensajería y logística entre personas: precios, tiempos y cobertura.",
     title:
       "Andreani, OCA y Correo Argentino vs envío P2P: ¿cuál conviene en 2025?",
     description:
@@ -216,6 +233,10 @@ export const posts: Post[] = [
   },
   {
     slug: "sprint-identidad-y-confianza",
+    listTitle: "Sprint: identidad y confianza",
+    tag: "Sprint",
+    excerpt:
+      "Verificación biométrica, reputación y los tres bugs reales que encontramos y arreglamos en el mismo sprint.",
     title:
       "Devlog: cómo construimos el registro, el KYC y el login de Movo (y los 3 bugs que encontramos en el camino)",
     description:
@@ -286,7 +307,8 @@ export const posts: Post[] = [
       {
         callout: {
           tone: "success",
-          title: "Los 3 bugs reales que encontramos (y arreglamos en el mismo sprint)",
+          title:
+            "Los 3 bugs reales que encontramos (y arreglamos en el mismo sprint)",
           body: "Probar contra proveedores externos reales, y no solo contra su documentación, cuesta más tiempo pero tiene un beneficio directo: aparecieron tres problemas que un mock jamás hubiera mostrado. El límite de pedidos por minuto del gateway se compartía por error entre /kyc/session y /auth/login, así que un usuario podía gastar su cupo autenticándose y quedarse sin margen para arrancar el KYC. Twilio dejó de aceptar nuestro método de autenticación (Account SID + Auth Token) y tuvimos que migrar en caliente a API Key + Secret. Y un número argentino con el prefijo +549 no lo reconocía como el mismo destinatario que +54, así que algunos SMS no llegaban. Los tres aparecieron probando contra el entorno real y se corrigieron en el mismo sprint.",
         },
       },
@@ -314,6 +336,10 @@ export const posts: Post[] = [
   },
   {
     slug: "sprint-ejecucion-del-envio",
+    listTitle: "Sprint: ejecución del envío",
+    tag: "Sprint",
+    excerpt:
+      "Publicación y gestión de un envío, lo que todavía no existe y cuánto tardó cada investigación técnica.",
     title:
       "Devlog: ya se puede crear y gestionar un envío en Movo (transportarlo es otra historia)",
     description:
@@ -331,7 +357,7 @@ export const posts: Post[] = [
         heading: "El objetivo del sprint",
         paragraphs: [
           "Un emisor puede crear un envío desde un wizard en el celular, con fotos del paquete y un precio sugerido automáticamente. Elige a quién se lo envía y la ruta, con autocompletado de direcciones. Esa persona —el receptor, quien va a recibir el paquete en destino— ve el envío, ve la reputación de quien se lo manda, y decide si lo acepta o lo rechaza. Ambas partes reciben notificaciones push en los pasos importantes. Si nadie confirma a tiempo, el envío vence solo. Se puede cancelar mientras todavía no tiene transportista asignado. Y el emisor puede repasar el historial completo con una línea de tiempo de estados.",
-          "Ninguna de esas piezas asigna todavía un transportista real al envío ni mueve el paquete. Lo que queda armado es la parte de \"publicar y coordinar\", que es el prerrequisito para que ese matching tenga sentido.",
+          'Ninguna de esas piezas asigna todavía un transportista real al envío ni mueve el paquete. Lo que queda armado es la parte de "publicar y coordinar", que es el prerrequisito para que ese matching tenga sentido.',
         ],
       },
       {
@@ -391,7 +417,7 @@ export const posts: Post[] = [
         callout: {
           tone: "info",
           title: "Lo que todavía no existe",
-          body: "No hay forma de que un transportista se postule a llevar un envío ni de que el emisor elija entre varias propuestas —esa parte del modelo (el matching P2P en sí) todavía es solo un schema en la base de datos, no un flujo usable. Tampoco existe el retiro del paquete, el seguimiento del viaje ni la confirmación de entrega. Lo de este sprint es la mitad \"publicar y coordinar\" del envío, no la mitad \"transportar\".",
+          body: 'No hay forma de que un transportista se postule a llevar un envío ni de que el emisor elija entre varias propuestas —esa parte del modelo (el matching P2P en sí) todavía es solo un schema en la base de datos, no un flujo usable. Tampoco existe el retiro del paquete, el seguimiento del viaje ni la confirmación de entrega. Lo de este sprint es la mitad "publicar y coordinar" del envío, no la mitad "transportar".',
         },
       },
       {
@@ -419,7 +445,7 @@ export const posts: Post[] = [
         heading: "El punto que todavía no cerramos: pagos",
         paragraphs: [
           "Parte del modelo de negocio de Movo depende de un mecanismo específico de MercadoPago: retener el dinero del emisor sin cobrarlo (un hold), y cuando se confirma la entrega, repartir automáticamente ese pago entre el transportista y la comisión de Movo en la misma operación (lo que MercadoPago llama split payment, vía application_fee).",
-          "Probamos las dos piezas por separado en su entorno de pruebas y funcionan: el hold se puede crear sin cobrar (con capture:false) y se puede cancelar sin problema, y la cuenta del transportista se puede conectar a Movo por OAuth para operar pagos en su nombre. Lo que no funciona es combinarlas: pedir el hold con el reparto de comisión incluido devuelve un error genérico (\"usuarios inválidos\"), sin más detalle. Probamos nueve configuraciones distintas —otra cuenta de prueba, otra aplicación, otro desarrollador del equipo, el SDK oficial en vez de armar la request a mano— para descartar que fuera un problema nuestro. En todos los casos, mismo error.",
+          'Probamos las dos piezas por separado en su entorno de pruebas y funcionan: el hold se puede crear sin cobrar (con capture:false) y se puede cancelar sin problema, y la cuenta del transportista se puede conectar a Movo por OAuth para operar pagos en su nombre. Lo que no funciona es combinarlas: pedir el hold con el reparto de comisión incluido devuelve un error genérico ("usuarios inválidos"), sin más detalle. Probamos nueve configuraciones distintas —otra cuenta de prueba, otra aplicación, otro desarrollador del equipo, el SDK oficial en vez de armar la request a mano— para descartar que fuera un problema nuestro. En todos los casos, mismo error.',
           "Abrimos un caso de soporte técnico con MercadoPago a mediados de agosto. Once días después, al cierre de este sprint, seguimos sin respuesta. No es un detalle menor: sin esto resuelto, Movo no tiene forma automática de cobrar su comisión, así que es el bloqueante más importante del proyecto en este momento, no un ítem más de la lista de pendientes.",
         ],
       },

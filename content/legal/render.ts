@@ -9,6 +9,13 @@ const INTERNAL_LINKS: Record<string, string> = {
   "./politica-privacidad.md": "/politica-de-privacidad",
 }
 
+export type LegalDocument = {
+  title: string
+  meta: string
+  toc: { text: string; href: string }[]
+  html: string
+}
+
 function slugify(text: string): string {
   return text
     .normalize("NFD")
@@ -17,29 +24,6 @@ function slugify(text: string): string {
     .replace(/[^a-z0-9\s-]/g, "")
     .trim()
     .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-}
-
-/** Turns each índice line ("N. Section title") into a link to its matching "## N. Section title" heading. */
-function linkTableOfContents(raw: string): string {
-  const lines = raw.split("\n")
-
-  const headingTexts = new Set<string>()
-  for (const line of lines) {
-    const match = /^## (.+)$/.exec(line.trim())
-    if (match) headingTexts.add(match[1].trim())
-  }
-
-  return lines
-    .map((line) => {
-      const match = /^(\d+\.\s+)(.+)$/.exec(line)
-      if (!match) return line
-      const [, prefix, title] = match
-      const headingText = `${prefix}${title}`.trim()
-      if (!headingTexts.has(headingText)) return line
-      return `${prefix}[${title}](#${slugify(headingText)})`
-    })
-    .join("\n")
 }
 
 const renderer = new marked.Renderer()
@@ -49,15 +33,43 @@ renderer.heading = ({ tokens, depth, text }: Tokens.Heading) => {
   return `<h${depth} id="${id}">${content}</h${depth}>\n`
 }
 
-export function renderLegalDocument(fileName: string): string {
-  const filePath = path.join(LEGAL_DIR, fileName)
-  const raw = fs.readFileSync(filePath, "utf-8")
+/**
+ * Lee un documento legal en markdown y lo prepara para la página de Legales:
+ * extrae título, metadatos (versión y fecha) y el índice lateral, y quita el
+ * índice escrito a mano porque lo reemplaza la barra lateral.
+ */
+export function loadLegalDocument(fileName: string): LegalDocument {
+  const md = fs.readFileSync(path.join(LEGAL_DIR, fileName), "utf-8")
 
-  const withToc = linkTableOfContents(raw)
-  const withResolvedLinks = withToc.replace(
-    /\]\((\.\/(?:terminos-y-condiciones|politica-privacidad)\.md)\)/g,
-    (match, href) => `](${INTERNAL_LINKS[href] ?? href})`,
+  const title = (md.match(/^#\s+(.+)$/m)?.[1] ?? "").replace(
+    / de MOVO| de Movo/i,
+    ""
   )
+  const upd = md.match(/\*\*Última actualización\*\*:\s*(.+)/)?.[1] ?? ""
+  const ver = md.match(/\*\*Versión\*\*:\s*(.+)/)?.[1] ?? ""
+  const meta = [upd && `Última actualización: ${upd}`, ver && `Versión ${ver}`]
+    .filter(Boolean)
+    .join(" · ")
 
-  return marked.parse(withResolvedLinks, { async: false, renderer })
+  const body = md
+    .replace(/^#\s+.+$/m, "")
+    .replace(/^\*\*(Versión|Última actualización|Vigencia)\*\*:.*$/gm, "")
+    .replace(/⚠️\s*/g, "")
+    .replace(/^##\s+.*índice.*\n(?:[ \t]*\n|[ \t]*(?:\d+\.|[-*])\s.*\n)*/im, "")
+    .replace(
+      /\]\((\.\/(?:terminos-y-condiciones|politica-privacidad)\.md)\)/g,
+      (match, href: string) => `](${INTERNAL_LINKS[href] ?? href})`
+    )
+
+  const toc = [...body.matchAll(/^##\s+(.+)$/gm)]
+    .map((m) => m[1].trim())
+    .filter((t) => !/índice/i.test(t) && !/aviso/i.test(t))
+    .map((text) => ({ text, href: `#${slugify(text)}` }))
+
+  return {
+    title,
+    meta,
+    toc,
+    html: marked.parse(body, { async: false, renderer }),
+  }
 }

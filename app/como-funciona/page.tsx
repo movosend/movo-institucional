@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
-import { Navbar } from "@/components/home/navbar"
-import { PageHero } from "@/components/como-funciona/page-hero"
-import { StackedCards } from "@/components/como-funciona/stacked-cards"
+
+import { ComoClosing } from "@/components/como-funciona/closing"
+import { ComoHero } from "@/components/como-funciona/hero"
+import { Stages } from "@/components/como-funciona/stages"
 
 export const metadata: Metadata = {
   title: "Cómo funciona",
@@ -16,14 +17,10 @@ export const metadata: Metadata = {
 
 export default function ComoFuncionaPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <div className="relative z-10">
-        <Navbar />
-        <main>
-          <PageHero />
-          <StackedCards />
-        </main>
-      </div>
-    </div>
+    <main>
+      <ComoHero />
+      <Stages />
+      <ComoClosing />
+    </main>
   )
 }

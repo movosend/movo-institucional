@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next"
 import { Inter, JetBrains_Mono } from "next/font/google"
 
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import { Footer } from "@/components/home/footer"
+import { Navbar } from "@/components/site/navbar"
+import { Footer } from "@/components/site/footer"
 import { ClarityScript } from "@/components/clarity-script"
 import { CookieBanner } from "@/components/cookie-banner"
 import { cn } from "@/lib/utils"
@@ -56,6 +56,7 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   axes: ["opsz"],
+  style: ["normal", "italic"],
 })
 
 const fontMono = JetBrains_Mono({
@@ -71,9 +72,8 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      suppressHydrationWarning
       className={cn(
-        "antialiased",
+        "dark antialiased",
         fontMono.variable,
         "font-sans",
         inter.variable
@@ -98,12 +98,13 @@ export default function RootLayout({
             }),
           }}
         />
-        <ThemeProvider>
+        <div className="relative overflow-x-clip bg-ink-950 text-white">
+          <Navbar />
           {children}
           <Footer />
-          <CookieBanner />
-          <ClarityScript />
-        </ThemeProvider>
+        </div>
+        <CookieBanner />
+        <ClarityScript />
       </body>
     </html>
   )
