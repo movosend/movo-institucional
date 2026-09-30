@@ -60,7 +60,7 @@ export function Hero() {
           "Argentina · 2026",
         ]}
       />
-      <h1 className="relative my-10 text-[clamp(3rem,8.4vw,9.5rem)] leading-[.9] font-semibold tracking-[-0.06em] [font-variation-settings:'opsz'_32]">
+      <h1 className="relative my-10 text-[clamp(2.2rem,8.4vw,9.5rem)] leading-[.9] font-semibold tracking-[-0.06em] [font-variation-settings:'opsz'_32]">
         <MaskLine>
           Hoy la <Em>logística</Em> está
         </MaskLine>

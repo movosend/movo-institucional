@@ -50,10 +50,10 @@ export function PostList({ posts }: { posts: PostListItem[] }) {
           <Link
             key={p.slug}
             href={`/blog/${p.slug}`}
-            className="grid grid-cols-[minmax(0,140px)_minmax(0,1fr)_minmax(0,120px)] items-baseline gap-[clamp(16px,3vw,48px)] border-b border-white/12 py-9 transition-[padding] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:pl-4 hover:text-lime-500"
+            className="grid grid-cols-2 items-baseline gap-x-[clamp(16px,3vw,48px)] gap-y-4 border-b border-white/12 py-9 transition-[padding] duration-200 ease-[cubic-bezier(.22,1,.36,1)] hover:pl-4 hover:text-lime-500 md:grid-cols-[minmax(0,140px)_minmax(0,1fr)_minmax(0,120px)]"
           >
             <span className="font-mono text-[13px] text-ink-400">{p.date}</span>
-            <div className="flex min-w-0 flex-col gap-3">
+            <div className="order-last col-span-2 flex min-w-0 flex-col gap-3 md:order-none md:col-span-1">
               <span className="text-[clamp(24px,3.2vw,44px)] leading-[1.05] font-semibold tracking-[-0.04em] text-balance">
                 {p.title}
               </span>

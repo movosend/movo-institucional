@@ -4,7 +4,12 @@ import { useEffect, useLayoutEffect, type RefObject } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
-if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger)
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger)
+  // En iOS la barra de Safari cambia el alto al scrollear; no recalcular por eso.
+  ScrollTrigger.config({ ignoreMobileResize: true })
+  document.fonts?.ready.then(() => ScrollTrigger.refresh())
+}
 
 const useIsoLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect

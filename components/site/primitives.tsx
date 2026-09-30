@@ -78,7 +78,10 @@ export function LimeGrid({ at = "50% 40%" }: { at?: string }) {
   )
 }
 
-/** Barra mono con bordes superior/inferior (cabecera de los heros lima). */
+/**
+ * Barra mono con bordes superior/inferior (cabecera de los heros lima).
+ * En mobile los ítems no entran en una fila: pasan en loop como marquee.
+ */
 export function TickerBar({
   items,
   dot = false,
@@ -89,20 +92,49 @@ export function TickerBar({
   className?: string
 }) {
   const [first, ...rest] = items
+  const dotEl = <span className="size-2 shrink-0 rounded-full bg-ink-950" />
+  // Duración proporcional al largo, para que todos los tickers vayan a ~35px/s.
+  const marqueeSecs = Math.round(
+    (items.join("").length * 7.8 + items.length * 48) / 35
+  )
   return (
     <div
       className={cn(
-        "relative flex flex-wrap justify-between gap-x-6 gap-y-2 border-y-[1.5px] border-ink-950 py-3 font-mono text-[13px] tracking-[.02em]",
+        "relative border-y-[1.5px] border-ink-950 py-3 font-mono text-[13px] tracking-[.02em]",
         className
       )}
     >
-      <span className="flex items-center gap-2">
-        {dot && <span className="size-2 rounded-full bg-ink-950" />}
-        {first}
-      </span>
-      {rest.map((item) => (
-        <span key={item}>{item}</span>
-      ))}
+      <div className="flex flex-wrap justify-between gap-x-6 gap-y-2 max-sm:hidden">
+        <span className="flex items-center gap-2">
+          {dot && dotEl}
+          {first}
+        </span>
+        {rest.map((item) => (
+          <span key={item}>{item}</span>
+        ))}
+      </div>
+      <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,#000_24px,#000_calc(100%-24px),transparent)] sm:hidden">
+        <div
+          className="flex w-max animate-[marquee_linear_infinite] motion-reduce:animate-none"
+          style={{ animationDuration: `${marqueeSecs}s` }}
+        >
+          {[0, 1].map((copy) => (
+            <div
+              key={copy}
+              aria-hidden={copy === 1 || undefined}
+              className="flex shrink-0 items-center"
+            >
+              {items.map((item, i) => (
+                <span key={item} className="flex items-center gap-2">
+                  {dot && i === 0 && dotEl}
+                  {item}
+                  <span className="mx-4 size-1 shrink-0 rounded-full bg-ink-950/40" />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }

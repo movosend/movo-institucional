@@ -275,11 +275,8 @@ export function Stages() {
               className="sticky origin-top scroll-mt-20 overflow-hidden rounded-md border border-white/12 bg-ink-900 shadow-[0_-12px_40px_rgba(0,0,0,.45)]"
               style={{ top: stickyTop(i), zIndex: i + 1 }}
             >
-              <div
-                data-inner=""
-                className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,440px),1fr))]"
-              >
-                <div className="relative box-border flex min-h-[340px] flex-col gap-5 overflow-hidden p-[clamp(24px,3vw,40px)]">
+              <div data-inner="" className="grid lg:grid-cols-2">
+                <div className="relative box-border flex flex-col gap-5 overflow-hidden p-[clamp(24px,3vw,40px)] md:min-h-[340px]">
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
@@ -319,7 +316,7 @@ export function Stages() {
                     {s.desc}
                   </p>
                 </div>
-                <div className="flex flex-col gap-4 border-l border-white/8 bg-[#0E0E10] p-[clamp(24px,3vw,40px)]">
+                <div className="flex flex-col gap-4 border-t border-white/8 bg-[#0E0E10] p-[clamp(24px,3vw,40px)] lg:border-t-0 lg:border-l">
                   <span className="font-mono text-xs tracking-[.08em] text-ink-400 uppercase">
                     Detalle técnico
                   </span>

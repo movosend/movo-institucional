@@ -88,7 +88,7 @@ export function Faq() {
                 </span>
               </button>
               {isOpen && (
-                <p className="m-0 max-w-[60ch] pr-12 pb-7 pl-[60px] text-lg leading-normal text-pretty">
+                <p className="m-0 max-w-[60ch] pb-7 text-lg leading-normal text-pretty sm:pr-12 sm:pl-[60px]">
                   {f.a}
                 </p>
               )}

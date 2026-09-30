@@ -176,15 +176,18 @@ export function Waitlist() {
             ref={confettiRef}
             className="pointer-events-none absolute inset-x-0 top-[10%] z-0 h-0"
           />
-          <div ref={boxRef} className="relative z-10 aspect-[1181/1153] w-full">
+          <div
+            ref={boxRef}
+            className="relative z-10 w-full min-[370px]:aspect-[1181/1153]"
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/box.png"
               alt=""
               draggable={false}
-              className="pointer-events-none absolute inset-0 size-full object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.6)] select-none"
+              className="pointer-events-none absolute inset-0 size-full object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.6)] select-none max-[369px]:hidden"
             />
-            <div className="pointer-events-none absolute top-[17%] right-[8%] bottom-[5%] left-[7%] flex items-center justify-center">
+            <div className="pointer-events-none flex items-center justify-center min-[370px]:absolute min-[370px]:top-[17%] min-[370px]:right-[8%] min-[370px]:bottom-[5%] min-[370px]:left-[7%]">
               <div className="pointer-events-auto w-[min(420px,100%)] rotate-[-0.6deg]">
                 <div
                   className="relative overflow-hidden rounded bg-[#FBFAF6] shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]"
@@ -194,7 +197,7 @@ export function Waitlist() {
                     className="pointer-events-none absolute inset-0 opacity-[.34] mix-blend-multiply"
                     style={{ backgroundImage: NOISE }}
                   />
-                  <div className="relative flex items-center justify-between px-5 pt-3.5 pb-2.5">
+                  <div className="relative flex items-center justify-between px-4 pt-2.5 pb-2 sm:px-5 sm:pt-3.5 sm:pb-2.5">
                     <span className="text-[11px] font-medium tracking-[.18em] text-ink-500 uppercase">
                       Movo · Lista de espera
                     </span>
@@ -217,10 +220,10 @@ export function Waitlist() {
                     </span>
                   </div>
                   <Perforation />
-                  <div className="relative px-5 py-4">
+                  <div className="relative px-4 py-3 sm:px-5 sm:py-4">
                     {!sealed ? (
                       <form onSubmit={submit} noValidate>
-                        <div className="mb-3 grid grid-cols-2 gap-3">
+                        <div className="mb-2 grid grid-cols-2 gap-3 sm:mb-3">
                           <div>
                             <label htmlFor="nl-first" className={LABEL}>
                               Nombre
@@ -258,11 +261,11 @@ export function Waitlist() {
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="tu@email.com"
                           autoComplete="email"
-                          className={cn(INPUT, "text-[19px]")}
+                          className={cn(INPUT, "text-[17px] sm:text-[19px]")}
                         />
-                        <div className="mt-3 flex min-h-7 items-center justify-between gap-4">
+                        <div className="mt-2 flex min-h-7 items-center justify-between gap-3 sm:mt-3 sm:gap-4">
                           <p
-                            className="m-0 text-[13px] leading-[1.45]"
+                            className="m-0 text-xs leading-[1.4] sm:text-[13px] sm:leading-[1.45]"
                             style={{
                               color: status === "error" ? "#B4231F" : "#8A8A93",
                             }}
@@ -275,7 +278,7 @@ export function Waitlist() {
                           {complete && (
                             <button
                               type="submit"
-                              className="flex h-10 shrink-0 animate-[fieldIn_200ms_cubic-bezier(0.4,0,0.2,1)_both] cursor-pointer items-center gap-2 rounded-lg border-0 bg-lime-500 px-5 text-sm font-medium text-ink-950 hover:opacity-90"
+                              className="flex h-9 shrink-0 animate-[fieldIn_200ms_cubic-bezier(0.4,0,0.2,1)_both] cursor-pointer items-center gap-2 rounded-lg border-0 bg-lime-500 px-4 text-sm font-medium text-ink-950 hover:opacity-90 sm:h-10 sm:px-5"
                             >
                               {status === "loading" ? "Enviando" : "Sumarme"}
                               <svg
@@ -303,7 +306,7 @@ export function Waitlist() {
                           <span className="text-[clamp(22px,6vw,32px)] leading-[1.35] font-semibold tracking-[.05em] text-ink-950">
                             {code}
                           </span>
-                          <p className="mt-1 mb-0 max-w-[62%] text-[13px] leading-normal text-ink-500">
+                          <p className="mt-1 mb-0 max-w-[64%] text-xs leading-[1.4] break-words text-ink-500 sm:max-w-[62%] sm:text-[13px] sm:leading-normal">
                             Gracias, {firstName}. Te escribimos a{" "}
                             <span className="text-ink-700">{email}</span> el día
                             que abramos los envíos en tu ciudad.
@@ -316,7 +319,7 @@ export function Waitlist() {
                     )}
                   </div>
                   <Perforation />
-                  <div className="relative flex items-end justify-between gap-6 px-5 pt-2.5 pb-3">
+                  <div className="relative flex items-end justify-between gap-6 px-4 pt-2 pb-2.5 sm:px-5 sm:pt-2.5 sm:pb-3">
                     <div
                       className="flex h-4 items-end gap-0.5 overflow-hidden"
                       aria-hidden

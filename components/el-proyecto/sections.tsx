@@ -404,7 +404,7 @@ export function Team() {
           integrante es, ante todo, desarrollador.
         </p>
       </div>
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,190px),1fr))] gap-4">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,150px),1fr))] gap-4">
         {MEMBERS.map((m) => (
           <figure key={m.id} data-member="" className="m-0 flex flex-col gap-3">
             <div className="relative aspect-[4/5] overflow-hidden rounded-[10px] bg-ink-950">

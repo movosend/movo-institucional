@@ -33,7 +33,7 @@ export function ProyectoHero() {
     })
     gsap.from("[data-ring]", {
       scale: 0,
-      transformOrigin: "300px 300px",
+      svgOrigin: "300 300",
       duration: 1.2,
       ease: "expo.out",
       stagger: -0.08,
@@ -41,14 +41,14 @@ export function ProyectoHero() {
     })
     gsap.from("[data-pupil]", {
       scale: 0,
-      transformOrigin: "300px 300px",
+      svgOrigin: "300 300",
       duration: 1,
       ease: "expo.out",
       delay: 0.55,
     })
     gsap.to("[data-iris]", {
       rotation: 360,
-      transformOrigin: "50% 50%",
+      svgOrigin: "300 300",
       duration: 24,
       ease: "none",
       repeat: -1,
@@ -73,7 +73,7 @@ export function ProyectoHero() {
       ref={ref}
       id="top"
       className={cn(
-        "relative box-border flex min-h-[92vh] flex-col justify-between overflow-hidden bg-lime-500 pt-[104px] pb-10 text-ink-950",
+        "relative box-border flex min-h-[calc(var(--screen-h)*.92)] flex-col justify-between overflow-hidden bg-lime-500 pt-[104px] pb-10 text-ink-950",
         GUTTER
       )}
     >
@@ -117,7 +117,7 @@ export function ProyectoHero() {
           "2026",
         ]}
       />
-      <h1 className="relative my-10 text-[clamp(3rem,8.4vw,9.5rem)] leading-[.9] font-semibold tracking-[-0.06em] [font-variation-settings:'opsz'_32]">
+      <h1 className="relative my-10 text-[clamp(2.2rem,8.4vw,9.5rem)] leading-[.9] font-semibold tracking-[-0.06em] [font-variation-settings:'opsz'_32]">
         <MaskLine>Ingeniería aplicada</MaskLine>
         <MaskLine>a un problema</MaskLine>
         <MaskLine>

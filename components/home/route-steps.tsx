@@ -45,6 +45,7 @@ export function RouteSteps() {
   const active = Math.min(3, Math.floor(rp / 25.01))
 
   useGsap(ref, () => {
+    let last = -1
     const track = ref.current!.querySelector<HTMLElement>("[data-track]")!
     const pkg = ref.current!.querySelector<HTMLElement>("[data-rpkg]")!
     const fill = ref.current!.querySelector<HTMLElement>("[data-rfill]")!
@@ -58,10 +59,13 @@ export function RouteSteps() {
           track.scrollWidth - window.innerWidth / pageZoom()
         )
         gsap.to(track, { x: -max * s.progress, duration: 0.3, overwrite: true })
-        const w = pkg.parentElement!.offsetWidth * s.progress
+        // La caja recorre el riel sin salirse: de borde a borde, no de centro a centro.
+        const w =
+          (pkg.parentElement!.offsetWidth - pkg.offsetWidth) * s.progress
         gsap.to(pkg, { x: w, duration: 0.3, overwrite: true })
         fill.style.width = w + "px"
-        setRp(Math.round(s.progress * 100))
+        const next = Math.round(s.progress * 100)
+        if (next !== last) setRp((last = next))
       },
     })
   })
@@ -72,7 +76,7 @@ export function RouteSteps() {
       id="ruta"
       className="relative h-[calc(var(--screen-h)*3.4)] border-t border-white/10 bg-ink-950"
     >
-      <div className="sticky top-0 box-border flex h-[var(--screen-h)] flex-col justify-center gap-12 overflow-hidden pt-14">
+      <div className="sticky top-0 box-border flex h-[var(--screen-h)] flex-col justify-center gap-8 overflow-hidden pt-14 md:gap-12">
         <div
           className={cn(
             "flex flex-wrap items-end justify-between gap-6",
@@ -91,7 +95,7 @@ export function RouteSteps() {
           </div>
           <Link
             href="/como-funciona"
-            className="inline-flex h-[52px] items-center gap-2.5 rounded-lg border border-white/18 px-5 text-base font-medium hover:bg-ink-800"
+            className="inline-flex h-[52px] items-center gap-2.5 rounded-lg border border-white/18 px-5 text-base font-medium hover:bg-ink-800 max-sm:hidden"
           >
             Ver el proceso completo
             <ArrowIcon stroke="#C6F24A" />
@@ -99,12 +103,12 @@ export function RouteSteps() {
         </div>
 
         <div className="relative mx-[clamp(16px,3vw,40px)] h-12">
-          <div className="absolute inset-x-0 top-1/2 border-t-2 border-dashed border-ink-600" />
+          <div className="absolute inset-x-6 top-1/2 border-t-2 border-dashed border-ink-600" />
           <div
             data-rfill=""
-            className="absolute top-[calc(50%-1.5px)] left-0 h-[3px] w-0 bg-lime-500"
+            className="absolute top-[calc(50%-1.5px)] left-6 h-[3px] w-0 bg-lime-500"
           />
-          <div className="absolute inset-0 flex items-center justify-between">
+          <div className="absolute inset-x-4 inset-y-0 flex items-center justify-between">
             {STEPS.map((s, i) => (
               <span
                 key={s.num}
@@ -115,7 +119,7 @@ export function RouteSteps() {
           </div>
           <div
             data-rpkg=""
-            className="absolute top-0 left-0 -ml-6 flex size-12 items-center justify-center rounded-lg bg-lime-500 text-ink-950"
+            className="absolute top-0 left-0 flex size-12 items-center justify-center rounded-lg bg-lime-500 text-ink-950"
           >
             <PackageIcon className="size-[22px]" />
           </div>
@@ -125,7 +129,7 @@ export function RouteSteps() {
           {STEPS.map((s, i) => (
             <div
               key={s.num}
-              className="box-border grid w-[min(78vw,520px)] shrink-0 grid-cols-[auto_1fr] gap-6 rounded-md border bg-ink-900 p-7 transition-[border-color] duration-200"
+              className="box-border grid w-[min(78vw,520px)] shrink-0 grid-cols-[auto_1fr] gap-4 rounded-md border bg-ink-900 p-5 transition-[border-color] duration-200 md:gap-6 md:p-7"
               style={{
                 borderColor:
                   i === active
@@ -133,7 +137,7 @@ export function RouteSteps() {
                     : "rgba(255,255,255,.12)",
               }}
             >
-              <span className="text-[clamp(4rem,7vw,7rem)] leading-[.8] font-semibold tracking-[-0.07em] text-lime-500">
+              <span className="text-[clamp(3.5rem,7vw,7rem)] leading-[.8] font-semibold tracking-[-0.07em] text-lime-500">
                 {s.num}
               </span>
               <div className="flex flex-col gap-2.5">
@@ -143,7 +147,7 @@ export function RouteSteps() {
                 <span className="text-[clamp(24px,2.4vw,34px)] leading-[1.05] font-semibold tracking-[-0.04em]">
                   {s.title}
                 </span>
-                <span className="text-[17px] leading-normal text-pretty text-ink-300">
+                <span className="text-base leading-normal text-pretty text-ink-300 md:text-[17px]">
                   {s.desc}
                 </span>
               </div>

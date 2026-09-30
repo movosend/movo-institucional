@@ -110,6 +110,10 @@ export function Trust() {
             {hasPhoto && (
               // eslint-disable-next-line @next/next/no-img-element
               <img
+                // Si falló antes de hidratar, onError no llega: se revisa al montar.
+                ref={(img) => {
+                  if (img?.complete && !img.naturalWidth) setHasPhoto(false)
+                }}
                 src={PERSONA_SRC}
                 alt="Alguien de la red en su camino diario"
                 onError={() => setHasPhoto(false)}

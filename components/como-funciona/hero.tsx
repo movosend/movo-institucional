@@ -112,7 +112,7 @@ export function ComoHero() {
     >
       <LimeGrid at="50% 30%" />
       <TickerBar items={["Proceso punta a punta", "7 etapas", "3 personas"]} />
-      <h1 className="relative mt-10 mb-7 text-[clamp(3rem,7.6vw,8.5rem)] leading-[.9] font-semibold tracking-[-0.06em] [font-variation-settings:'opsz'_32]">
+      <h1 className="relative mt-10 mb-7 text-[clamp(2.2rem,7.6vw,8.5rem)] leading-[.9] font-semibold tracking-[-0.06em] [font-variation-settings:'opsz'_32]">
         <MaskLine>Cómo Movo mueve</MaskLine>
         <MaskLine>
           un paquete de <Em>punto A</Em>
@@ -128,7 +128,7 @@ export function ComoHero() {
       </p>
 
       <div className="relative">
-        <div className="relative mb-4 h-12" aria-hidden>
+        <div className="relative mb-4 h-12 max-md:hidden" aria-hidden>
           <div className="absolute top-1/2 right-[16.666%] left-[16.666%] border-t-2 border-dashed border-ink-950/35" />
           <div
             data-hfill=""
@@ -148,14 +148,15 @@ export function ComoHero() {
             <PackageIcon className="size-[22px]" />
           </div>
         </div>
-        <div className="grid grid-cols-3 overflow-hidden rounded-md border-[1.5px] border-ink-950">
+        <div className="grid grid-cols-1 overflow-hidden rounded-md border-[1.5px] border-ink-950 md:grid-cols-3">
           {PERSONAS.map((p, i) => (
             <div
               key={p.role}
               data-persona=""
               className={cn(
                 "flex flex-col gap-3 p-[clamp(18px,2.4vw,32px)] text-ink-950",
-                i > 0 && "border-l-[1.5px] border-ink-950"
+                i > 0 &&
+                  "border-t-[1.5px] border-ink-950 md:border-t-0 md:border-l-[1.5px]"
               )}
             >
               <span className="font-mono text-xs tracking-[.08em] uppercase opacity-70">
