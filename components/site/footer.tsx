@@ -39,6 +39,9 @@ export function Footer() {
     >
       <div className="mx-auto flex max-w-[1400px] flex-wrap justify-between gap-6 text-[15px] text-ink-300">
         <div className="flex flex-wrap gap-6">
+          <Link href="/faq" className="hover:opacity-85">
+            Preguntas frecuentes
+          </Link>
           <Link href="/politica-de-privacidad" className="hover:opacity-85">
             Política de privacidad
           </Link>

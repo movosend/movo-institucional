@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useEffect, useRef } from "react"
+import { Download } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { gsap, pageZoom, useGsap } from "@/lib/use-gsap"
@@ -584,6 +585,49 @@ export function Management() {
               </span>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ─── El paper ───────────────────────────────────────────────── */
+
+const PAPER_URL = "/5K3G27_MOVO_1.pdf"
+
+export function Paper() {
+  return (
+    <section
+      id="paper"
+      className={cn("relative bg-ink-950 pb-[clamp(80px,12vh,140px)]", GUTTER)}
+    >
+      <div className="flex flex-wrap items-center justify-between gap-x-10 gap-y-6 rounded-md border border-white/12 p-[clamp(24px,3.4vw,44px)]">
+        <div className="flex flex-col gap-2">
+          <h2 className="m-0 text-[clamp(1.6rem,2.6vw,2.4rem)] leading-[1.05] font-semibold tracking-[-0.04em]">
+            ¿Te interesa leer el paper?
+          </h2>
+          <p className="m-0 max-w-[56ch] text-[17px] leading-normal text-pretty text-ink-300">
+            El artículo científico de Movo, con el problema, la arquitectura y
+            los resultados del proyecto.
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+          <a
+            href={PAPER_URL}
+            target="_blank"
+            rel="noopener"
+            className="text-base font-medium text-white underline decoration-white/40 decoration-[1.5px] underline-offset-4 hover:decoration-white"
+          >
+            Leer online
+          </a>
+          <a
+            href={PAPER_URL}
+            download="Movo - Paper científico (UTN FRC, 2026).pdf"
+            className="inline-flex h-[52px] items-center gap-2.5 rounded-lg bg-white px-[22px] text-base font-medium text-ink-950 hover:bg-ink-100"
+          >
+            <Download className="size-4" aria-hidden />
+            Descargar PDF
+          </a>
         </div>
       </div>
     </section>

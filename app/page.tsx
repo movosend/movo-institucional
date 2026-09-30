@@ -20,8 +20,8 @@ export default function Page() {
       <Film />
       <RouteSteps />
       <Trust />
-      <Faq />
       <Waitlist />
+      <Faq />
     </main>
   )
 }

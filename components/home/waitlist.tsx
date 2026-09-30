@@ -163,7 +163,7 @@ export function Waitlist() {
       className={cn("relative bg-ink-950", SECTION_Y, GUTTER)}
     >
       <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] items-center gap-[clamp(40px,6vw,80px)]">
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 lg:order-2">
           <h2 className="m-0 text-[clamp(2.6rem,6vw,6rem)] leading-[.92] font-semibold tracking-[-0.055em] text-balance">
             Movo abre ciudad por ciudad.
           </h2>
@@ -172,7 +172,7 @@ export function Waitlist() {
           </p>
         </div>
 
-        <div className="relative w-full max-w-[600px] animate-[labelIn_360ms_cubic-bezier(0.4,0,0.2,1)_both] justify-self-center">
+        <div className="relative w-full max-w-[600px] animate-[labelIn_360ms_cubic-bezier(0.4,0,0.2,1)_both] justify-self-center lg:order-1">
           <div
             ref={confettiRef}
             className="pointer-events-none absolute inset-x-0 top-[10%] z-0 h-0"

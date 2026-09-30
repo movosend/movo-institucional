@@ -7,6 +7,7 @@ import {
   Disciplines,
   Management,
   Motivation,
+  Paper,
   Practices,
   Team,
 } from "@/components/el-proyecto/sections"
@@ -32,6 +33,7 @@ export default function ElProyectoPage() {
       <Team />
       <Practices />
       <Management />
+      <Paper />
       <Closing />
     </main>
   )
