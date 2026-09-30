@@ -1,13 +1,28 @@
 "use client"
 
-import { useRef, useState } from "react"
+import { useRef } from "react"
 
 import { cn } from "@/lib/utils"
 import { gsap, useGsap } from "@/lib/use-gsap"
-import { GUTTER, IndexChip, SECTION_Y } from "@/components/site/primitives"
+import {
+  GUTTER,
+  IndexChip,
+  LimeGrid,
+  SECTION_Y,
+} from "@/components/site/primitives"
 
-/** Foto de la sección. Reemplazar el archivo en /public para cambiarla. */
-const PERSONA_SRC = "/persona.jpg"
+/** Captura de la app que se muestra dentro del iPhone. */
+const SCREEN_SRC = "/hero-updated.png"
+
+// Hueco transparente de public/iphone-frame.png (1666×3368): x 106–1567, y 83–3283.
+const FRAME_W = 1666
+const FRAME_H = 3368
+const SCREEN = {
+  left: `${(106 / FRAME_W) * 100}%`,
+  right: `${100 - (1567 / FRAME_W) * 100}%`,
+  top: `${(83 / FRAME_H) * 100}%`,
+  bottom: `${100 - (3283 / FRAME_H) * 100}%`,
+}
 
 const TECHS = [
   {
@@ -36,30 +51,35 @@ const TECHS = [
   },
 ]
 
-const MASK =
-  "radial-gradient(circle,#000 var(--r),transparent calc(var(--r) + 0.6px))"
-
 export function Trust() {
   const ref = useRef<HTMLElement>(null)
-  const [hasPhoto, setHasPhoto] = useState(true)
 
+  // El iPhone sube un poco mientras la sección entra en pantalla.
   useGsap(ref, (reduce) => {
-    const mask = "[data-htmask]"
-    if (reduce) return void gsap.set(mask, { "--r": "9px" })
+    if (reduce) return
     gsap.fromTo(
-      mask,
-      { "--r": "0px" },
+      "[data-phone]",
+      { yPercent: 12 },
       {
-        "--r": "9px",
+        yPercent: 0,
         ease: "none",
         scrollTrigger: {
           trigger: ref.current,
-          start: "top 85%",
-          end: "center 45%",
+          start: "top bottom",
+          end: "center center",
           scrub: 0.4,
         },
       }
     )
+    gsap.from("[data-floater]", {
+      opacity: 0,
+      y: 16,
+      scale: 0.96,
+      duration: 0.6,
+      ease: "power3.out",
+      stagger: 0.15,
+      scrollTrigger: { trigger: "[data-phone]", start: "top 70%" },
+    })
   })
 
   return (
@@ -94,35 +114,105 @@ export function Trust() {
           </div>
         </div>
         <div className="relative aspect-square overflow-hidden rounded-[10px] bg-lime-500">
+          <LimeGrid />
           <div
-            data-htmask=""
-            className="absolute inset-0"
-            style={
-              {
-                "--r": "0px",
-                WebkitMaskImage: MASK,
-                maskImage: MASK,
-                WebkitMaskSize: "12px 12px",
-                maskSize: "12px 12px",
-              } as React.CSSProperties
-            }
+            data-phone=""
+            className="absolute top-[7%] left-1/2 h-[86%] -translate-x-1/2"
+            style={{ aspectRatio: `${FRAME_W} / ${FRAME_H}` }}
           >
-            {hasPhoto && (
-              // eslint-disable-next-line @next/next/no-img-element
+            {/* El flotado va en un div aparte: GSAP ya anima el transform de data-phone. */}
+            <div className="animate-float-phone relative size-full">
+              {/* Captura, recortada al hueco de pantalla del marco */}
+              <div
+                className="absolute overflow-hidden bg-black"
+                style={{ ...SCREEN, borderRadius: "9% / 4.5%" }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={SCREEN_SRC}
+                  alt="Detalle de un envío en la app de Movo: ruta en el mapa, retiro, costo y receptor verificado"
+                  draggable={false}
+                  className="absolute inset-0 size-full object-cover object-top select-none"
+                />
+              </div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                // Si falló antes de hidratar, onError no llega: se revisa al montar.
-                ref={(img) => {
-                  if (img?.complete && !img.naturalWidth) setHasPhoto(false)
-                }}
-                src={PERSONA_SRC}
-                alt="Alguien de la red en su camino diario"
-                onError={() => setHasPhoto(false)}
-                className="size-full object-cover"
+                src="/iphone-frame.png"
+                alt=""
+                aria-hidden
+                draggable={false}
+                className="pointer-events-none absolute inset-0 size-full drop-shadow-[0_30px_40px_rgba(10,10,11,0.35)] select-none"
               />
-            )}
+            </div>
+            <Floater
+              className="top-[10%] -left-[60%] sm:top-[14%] sm:-left-[42%]"
+              float="animate-float-a"
+              title="En camino · 9 min"
+              detail="Córdoba → Villa Carlos Paz"
+              icon={<polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />}
+            />
+            <Floater
+              className="-right-[60%] bottom-[12%] sm:-right-[40%] sm:bottom-[20%]"
+              float="animate-float-b"
+              title="Marcos R. · ★ 4.8"
+              detail="Renault Kangoo · Verificado"
+              icon={
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              }
+            />
           </div>
         </div>
       </div>
     </section>
+  )
+}
+
+/** Tarjeta flotante sobre el mockup (estado del envío, transportista). */
+function Floater({
+  className,
+  float,
+  title,
+  detail,
+  icon,
+}: {
+  className: string
+  float: string
+  title: string
+  detail: string
+  icon: React.ReactNode
+}) {
+  // El wrapper lo anima GSAP al entrar; el interior flota con CSS.
+  return (
+    <div data-floater="" className={cn("absolute z-10", className)}>
+      <div
+        className={cn(
+          "flex items-center gap-2 rounded-lg border border-white/10 bg-ink-900/92 px-2 py-1.5 whitespace-nowrap shadow-[0_24px_60px_rgba(10,10,11,0.28),0_6px_16px_rgba(10,10,11,0.16)] backdrop-blur-md sm:gap-2.5 sm:rounded-[10px] sm:px-3.5 sm:py-2.5",
+          float
+        )}
+      >
+        <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-lime-500/12 sm:size-8">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#C6F24A"
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="size-3 sm:size-4"
+            aria-hidden
+          >
+            {icon}
+          </svg>
+        </span>
+        <span className="flex flex-col gap-px">
+          <span className="text-[11px] font-semibold text-white sm:text-sm">
+            {title}
+          </span>
+          <span className="text-[11px] text-ink-400 max-sm:hidden">
+            {detail}
+          </span>
+        </span>
+      </div>
+    </div>
   )
 }
