@@ -4,7 +4,7 @@ import Link from "next/link"
 import { useEffect, useRef } from "react"
 
 import { cn } from "@/lib/utils"
-import { gsap, useGsap } from "@/lib/use-gsap"
+import { gsap, pageZoom, useGsap } from "@/lib/use-gsap"
 import {
   ArrowIcon,
   Em,
@@ -367,7 +367,10 @@ export function Team() {
     const t = setTimeout(() => {
       const el = ref.current
       if (el)
-        window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 56)
+        window.scrollTo(
+          0,
+          el.getBoundingClientRect().top + window.scrollY - 56 * pageZoom()
+        )
     }, 300)
     return () => clearTimeout(t)
   }, [])

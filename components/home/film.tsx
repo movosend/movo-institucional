@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 
-import { gsap, useGsap } from "@/lib/use-gsap"
+import { gsap, pageZoom, useGsap } from "@/lib/use-gsap"
 
 const VIDEO_ID = "YckhECkDyuM"
 const BIG_TEXT =
@@ -13,10 +13,13 @@ export function Film() {
   const [open, setOpen] = useState(false)
 
   useGsap(ref, (reduce) => {
+    // Tamaño de pantalla completa en px CSS, compensando el zoom de página.
+    const fullW = () => window.innerWidth / pageZoom()
+    const fullH = () => window.innerHeight / pageZoom()
     if (reduce) {
       gsap.set("[data-vcard]", {
-        width: "100vw",
-        height: "100vh",
+        width: fullW,
+        height: fullH,
         borderRadius: 0,
       })
       gsap.set(["[data-vleft]", "[data-vright]"], { opacity: 0 })
@@ -33,14 +36,15 @@ export function Film() {
           start: "top top",
           end: "bottom bottom",
           scrub: 0.5,
+          invalidateOnRefresh: true,
         },
       })
       .fromTo(
         "[data-vcard]",
         { width: "30vw", height: "16.9vw", borderRadius: 14 },
         {
-          width: "100vw",
-          height: "100vh",
+          width: fullW,
+          height: fullH,
           borderRadius: 0,
           ease: "power2.inOut",
           duration: 1,
@@ -74,8 +78,12 @@ export function Film() {
 
   return (
     <>
-      <section ref={ref} id="film" className="relative h-[300vh]">
-        <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
+      <section
+        ref={ref}
+        id="film"
+        className="relative h-[calc(var(--screen-h)*3)]"
+      >
+        <div className="sticky top-0 flex h-[var(--screen-h)] items-center justify-center overflow-hidden">
           <div
             data-vleft=""
             className={`${BIG_TEXT} left-[clamp(20px,4vw,64px)]`}
@@ -100,7 +108,7 @@ export function Film() {
               allow="autoplay; encrypted-media"
               title="Film de lanzamiento de Movo"
               tabIndex={-1}
-              className="pointer-events-none absolute top-1/2 left-1/2 h-[max(100%,56.25vw)] w-[max(100%,177.78vh)] min-w-full -translate-1/2 border-0"
+              className="pointer-events-none absolute top-1/2 left-1/2 h-[max(100%,calc(var(--screen-w)*.5625))] w-[max(100%,calc(var(--screen-h)*1.7778))] min-w-full -translate-1/2 border-0"
             />
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(10,10,11,.78)_0%,rgba(10,10,11,0)_45%)]" />
             <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-[clamp(14px,2vw,32px)]">
@@ -138,7 +146,7 @@ export function Film() {
           onClick={() => setOpen(false)}
           className="fixed inset-0 z-300 flex items-center justify-center bg-ink-950/94 p-[clamp(16px,4vw,64px)]"
         >
-          <div className="relative aspect-video w-[min(100%,calc((100vh-140px)*1.778))] overflow-hidden rounded-[14px] bg-black">
+          <div className="relative aspect-video w-[min(100%,calc((var(--screen-h)-140px)*1.778))] overflow-hidden rounded-[14px] bg-black">
             <iframe
               src={`https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&rel=0&modestbranding=1`}
               allow="autoplay; encrypted-media; fullscreen"

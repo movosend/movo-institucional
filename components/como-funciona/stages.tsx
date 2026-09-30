@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react"
 
 import { cn } from "@/lib/utils"
-import { gsap, useGsap } from "@/lib/use-gsap"
+import { gsap, pageZoom, useGsap } from "@/lib/use-gsap"
 import { Eyebrow, GUTTER } from "@/components/site/primitives"
 
 const ICONS = [
@@ -164,7 +164,9 @@ export function Stages() {
         c.style.top = stickyTop(i) + "px"
       })
       const fits = cards.every(
-        (c, i) => c.offsetHeight <= window.innerHeight - (140 + i * 14) - 16
+        (c, i) =>
+          c.offsetHeight <=
+          window.innerHeight / pageZoom() - (140 + i * 14) - 16
       )
       if (!fits)
         cards.forEach((c) => {

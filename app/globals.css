@@ -558,6 +558,21 @@
     @keyframes fieldIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 }
 
+/*
+ * Zoom out en escritorio: el sitio se ve al 90% en pantallas grandes.
+ * `zoom` también achica 100vh/100vw, así que los elementos de pantalla
+ * completa usan --screen-h / --screen-w, que lo compensan.
+ */
+:root {
+    --page-zoom: 1;
+    --screen-h: calc(100vh / var(--page-zoom));
+    --screen-w: calc(100vw / var(--page-zoom));
+}
+@media (min-width: 1024px) {
+    :root { --page-zoom: 0.9; }
+    html { zoom: var(--page-zoom); }
+}
+
 @layer base {
     html, body { background: var(--ink-950); }
     ::selection { background-color: var(--ink-950); color: var(--lime-500); }

@@ -9,6 +9,12 @@ if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger)
 const useIsoLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect
 
+/** Zoom de página aplicado en escritorio (ver --page-zoom en globals.css). */
+export function pageZoom() {
+  if (typeof window === "undefined") return 1
+  return parseFloat(getComputedStyle(document.documentElement).zoom) || 1
+}
+
 export function prefersReducedMotion() {
   return (
     typeof window !== "undefined" &&

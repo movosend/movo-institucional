@@ -46,7 +46,7 @@ export function Hero() {
       ref={ref}
       id="top"
       className={cn(
-        "relative flex min-h-screen flex-col justify-between overflow-hidden bg-lime-500 pt-[104px] pb-10 text-ink-950",
+        "relative flex min-h-[var(--screen-h)] flex-col justify-between overflow-hidden bg-lime-500 pt-[104px] pb-10 text-ink-950",
         GUTTER
       )}
     >

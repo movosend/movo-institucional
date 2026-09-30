@@ -50,7 +50,7 @@ export function LegalPage({ doc }: { doc: keyof typeof DOCS }) {
       </header>
 
       <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-start gap-[clamp(24px,5vw,72px)] px-[clamp(20px,4vw,48px)] pb-[120px] md:grid-cols-[minmax(0,260px)_minmax(0,1fr)]">
-        <aside className="flex flex-col gap-0.5 overflow-auto border-t-[1.5px] border-ink-950 pt-3 md:sticky md:top-20 md:max-h-[calc(100vh-110px)]">
+        <aside className="flex flex-col gap-0.5 overflow-auto border-t-[1.5px] border-ink-950 pt-3 md:sticky md:top-20 md:max-h-[calc(var(--screen-h)-110px)]">
           <span className="mb-2 font-mono text-xs tracking-[.08em] uppercase">
             Índice
           </span>

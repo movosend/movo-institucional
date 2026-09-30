@@ -4,7 +4,7 @@ import Link from "next/link"
 import { useRef, useState } from "react"
 
 import { cn } from "@/lib/utils"
-import { gsap, ScrollTrigger, useGsap } from "@/lib/use-gsap"
+import { gsap, pageZoom, ScrollTrigger, useGsap } from "@/lib/use-gsap"
 import {
   ArrowIcon,
   Eyebrow,
@@ -53,7 +53,10 @@ export function RouteSteps() {
       start: "top top",
       end: "bottom bottom",
       onUpdate: (s) => {
-        const max = Math.max(0, track.scrollWidth - window.innerWidth)
+        const max = Math.max(
+          0,
+          track.scrollWidth - window.innerWidth / pageZoom()
+        )
         gsap.to(track, { x: -max * s.progress, duration: 0.3, overwrite: true })
         const w = pkg.parentElement!.offsetWidth * s.progress
         gsap.to(pkg, { x: w, duration: 0.3, overwrite: true })
@@ -67,9 +70,9 @@ export function RouteSteps() {
     <section
       ref={ref}
       id="ruta"
-      className="relative h-[340vh] border-t border-white/10 bg-ink-950"
+      className="relative h-[calc(var(--screen-h)*3.4)] border-t border-white/10 bg-ink-950"
     >
-      <div className="sticky top-0 box-border flex h-screen flex-col justify-center gap-12 overflow-hidden pt-14">
+      <div className="sticky top-0 box-border flex h-[var(--screen-h)] flex-col justify-center gap-12 overflow-hidden pt-14">
         <div
           className={cn(
             "flex flex-wrap items-end justify-between gap-6",
