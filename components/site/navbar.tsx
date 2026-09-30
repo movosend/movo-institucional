@@ -21,8 +21,14 @@ const LINKS = [
     label: "El proyecto",
     match: "/el-proyecto",
   },
-  { href: "/el-proyecto#equipo", num: "03", label: "El equipo", match: null },
+  {
+    href: "/el-proyecto#equipo",
+    num: "03",
+    label: "El equipo",
+    match: "/el-proyecto#equipo",
+  },
   { href: "/blog", num: "04", label: "Blog", match: "/blog" },
+  { href: "/faq", num: "05", label: "FAQ", match: "/faq" },
 ]
 
 export function Navbar() {
@@ -49,6 +55,28 @@ export function Navbar() {
     }
   }, [open])
 
+  // En El proyecto, marca "El equipo" desde que su sección llega a la franja
+  // superior del viewport (justo bajo la nav) hasta el final de la página.
+  const [teamInView, setTeamInView] = useState(false)
+  useEffect(() => {
+    const el = pathname.startsWith("/el-proyecto")
+      ? document.getElementById("equipo")
+      : null
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) =>
+        setTeamInView(
+          entry.isIntersecting || entry.boundingClientRect.top < 57
+        ),
+      { rootMargin: "-57px 0px -60% 0px" }
+    )
+    io.observe(el)
+    return () => {
+      io.disconnect()
+      setTeamInView(false)
+    }
+  }, [pathname])
+
   // Si la ventana pasa a escritorio con el menú abierto, se cierra.
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)")
@@ -57,8 +85,24 @@ export function Navbar() {
     return () => mq.removeEventListener("change", onChange)
   }, [])
 
-  const isActive = (match: string | null) =>
-    match !== null && pathname.startsWith(match)
+  // Link a una sección de la página actual: Next no hace nada si la URL ya
+  // tiene ese hash, así que se desplaza a mano.
+  const scrollToHash = (e: React.MouseEvent, href: string) => {
+    const [path, hash] = href.split("#")
+    if (!hash || path !== pathname) return
+    const el = document.getElementById(hash)
+    if (!el) return
+    e.preventDefault()
+    setOpen(false)
+    history.replaceState(null, "", href)
+    el.scrollIntoView()
+  }
+
+  const isActive = (match: string) => {
+    const onTeam = teamInView && pathname.startsWith("/el-proyecto")
+    if (match === "/el-proyecto#equipo") return onTeam
+    return pathname.startsWith(match) && !(onTeam && match === "/el-proyecto")
+  }
 
   return (
     <>
@@ -83,9 +127,10 @@ export function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
+                onClick={(e) => scrollToHash(e, l.href)}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "rounded px-3.5 py-2.5 whitespace-nowrap hover:bg-ink-800 hover:text-white",
+                  "rounded px-2 py-2.5 whitespace-nowrap hover:bg-ink-800 hover:text-white lg:px-3.5",
                   active && "bg-ink-800 text-white"
                 )}
               >
@@ -126,7 +171,10 @@ export function Navbar() {
                 <li key={l.href} className="border-b border-white/10">
                   <Link
                     href={l.href}
-                    onClick={() => setOpen(false)}
+                    onClick={(e) => {
+                      setOpen(false)
+                      scrollToHash(e, l.href)
+                    }}
                     aria-current={active ? "page" : undefined}
                     className={cn(
                       "flex items-baseline gap-4 py-5 text-[2rem] leading-none font-semibold tracking-[-0.04em]",
