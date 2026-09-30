@@ -61,7 +61,7 @@ export function CookieBanner() {
         <div className="flex gap-2">
           <button
             onClick={() => dispatch("accepted")}
-            className="flex-1 rounded-lg border border-ink-600 bg-transparent px-4 py-2.5 text-sm font-medium text-ink-200 transition-colors hover:border-ink-400 hover:text-white"
+            className="flex-1 rounded-lg border border-white/10 bg-ink-950 px-4 py-2.5 text-sm font-medium text-white transition-colors duration-120 hover:bg-ink-800"
           >
             Aceptar
           </button>
@@ -82,7 +82,7 @@ export function CookieBanner() {
         <div className="flex shrink-0 items-center gap-2">
           <button
             onClick={() => dispatch("accepted")}
-            className="rounded-lg border border-ink-700/60 bg-transparent px-3 py-1.5 text-xs text-ink-300 transition-colors duration-120 hover:border-ink-500 hover:text-white"
+            className="rounded-lg border border-white/10 bg-ink-950 px-3 py-1.5 text-xs font-medium text-white transition-colors duration-120 hover:bg-ink-800"
           >
             Aceptar
           </button>
