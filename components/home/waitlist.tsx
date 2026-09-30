@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useRef, useState } from "react"
 import { gsap } from "gsap"
 
@@ -180,12 +181,14 @@ export function Waitlist() {
             ref={boxRef}
             className="relative z-10 w-full min-[370px]:aspect-[1181/1153]"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            {/* next/image la sirve en AVIF/WebP al ancho justo y en diferido. */}
+            <Image
               src="/box.png"
               alt=""
+              fill
+              sizes="(min-width: 640px) 600px, 100vw"
               draggable={false}
-              className="pointer-events-none absolute inset-0 size-full object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.6)] select-none max-[369px]:hidden"
+              className="pointer-events-none object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.6)] select-none max-[369px]:hidden"
             />
             <div className="pointer-events-none flex items-center justify-center min-[370px]:absolute min-[370px]:top-[17%] min-[370px]:right-[8%] min-[370px]:bottom-[5%] min-[370px]:left-[7%]">
               <div className="pointer-events-auto w-[min(420px,100%)] rotate-[-0.6deg]">

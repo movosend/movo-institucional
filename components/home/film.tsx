@@ -16,6 +16,59 @@ function subscribeFinePointer(cb: () => void) {
   return () => mq.removeEventListener("change", cb)
 }
 
+const YT_ORIGIN = "https://www.youtube-nocookie.com"
+
+/**
+ * El video tiene subtítulos automáticos de YouTube, que no se apagan con
+ * parámetros del embed. Se descarga el módulo de subtítulos por la API de
+ * postMessage cada vez que arranca la reproducción (también en cada loop).
+ */
+function hideCaptions(iframe: HTMLIFrameElement | null) {
+  if (!iframe) return
+  const send = (msg: object) =>
+    iframe.contentWindow?.postMessage(JSON.stringify(msg), YT_ORIGIN)
+  const unload = () => {
+    for (const mod of ["captions", "cc"])
+      send({ event: "command", func: "unloadModule", args: [mod] })
+  }
+
+  // El reproductor tarda en escuchar: se insiste hasta que responda.
+  let tries = 0
+  let answered = false
+  const handshake = setInterval(() => {
+    if (answered || ++tries > 20) return clearInterval(handshake)
+    send({ event: "listening", id: 1 })
+  }, 500)
+
+  let lastState: number | undefined
+  const onMessage = (e: MessageEvent) => {
+    if (e.source !== iframe.contentWindow || typeof e.data !== "string") return
+    let data: { event?: string; info?: { playerState?: number } | number }
+    try {
+      data = JSON.parse(e.data)
+    } catch {
+      return
+    }
+    answered = true
+    const state =
+      data.event === "onStateChange" && typeof data.info === "number"
+        ? data.info
+        : typeof data.info === "object"
+          ? data.info?.playerState
+          : undefined
+    if (data.event === "onReady") unload()
+    if (state !== undefined && state !== lastState) {
+      lastState = state
+      if (state === 1) unload()
+    }
+  }
+  window.addEventListener("message", onMessage)
+  return () => {
+    clearInterval(handshake)
+    window.removeEventListener("message", onMessage)
+  }
+}
+
 export function Film() {
   const ref = useRef<HTMLElement>(null)
   const [open, setOpen] = useState(false)
@@ -134,7 +187,8 @@ export function Film() {
           >
             {bgVideo && (
               <iframe
-                src={`https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&controls=0&modestbranding=1&playsinline=1&rel=0`}
+                ref={hideCaptions}
+                src={`${YT_ORIGIN}/embed/${VIDEO_ID}?enablejsapi=1&cc_load_policy=0&autoplay=1&mute=1&loop=1&playlist=${VIDEO_ID}&controls=0&modestbranding=1&playsinline=1&rel=0`}
                 allow="autoplay; encrypted-media"
                 title="Film de lanzamiento de Movo"
                 tabIndex={-1}
@@ -143,7 +197,8 @@ export function Film() {
             )}
             {inline ? (
               <iframe
-                src={`https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&controls=1&modestbranding=1&playsinline=1&rel=0`}
+                ref={hideCaptions}
+                src={`${YT_ORIGIN}/embed/${VIDEO_ID}?enablejsapi=1&cc_load_policy=0&autoplay=1&controls=1&modestbranding=1&playsinline=1&rel=0`}
                 allow="autoplay; encrypted-media; fullscreen"
                 allowFullScreen
                 title="Film de lanzamiento de Movo"
@@ -207,7 +262,8 @@ export function Film() {
         >
           <div className="relative aspect-video w-[min(100%,calc((var(--screen-h)-140px)*1.778))] overflow-hidden rounded-[14px] bg-black">
             <iframe
-              src={`https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+              ref={hideCaptions}
+              src={`${YT_ORIGIN}/embed/${VIDEO_ID}?enablejsapi=1&cc_load_policy=0&autoplay=1&rel=0&modestbranding=1&playsinline=1`}
               allow="autoplay; encrypted-media; fullscreen"
               allowFullScreen
               title="Film de lanzamiento de Movo"
