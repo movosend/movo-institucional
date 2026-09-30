@@ -1,320 +1,150 @@
 "use client"
 
-import { IPhoneMockup } from "@/components/home/iphone-mockup"
+import { useRef } from "react"
+import { ArrowDown } from "lucide-react"
+
+import { cn } from "@/lib/utils"
+import { gsap, useGsap } from "@/lib/use-gsap"
+import { Em, GUTTER, LimeGrid, MaskLine } from "@/components/site/primitives"
+
+const HERO_BARS = [
+  3, 1, 1, 2, 4, 1, 2, 1, 3, 1, 1, 1, 2, 3, 1, 4, 1, 1, 2, 1, 3, 2, 1, 1, 4, 1,
+  2, 1, 1, 3, 1, 2, 4, 1, 1, 2, 1, 3, 1, 1,
+]
 
 export function Hero() {
+  const ref = useRef<HTMLElement>(null)
+
+  useGsap(ref, (reduce) => {
+    if (reduce) return
+    gsap.from("[data-line]", {
+      yPercent: 105,
+      duration: 0.9,
+      ease: "power4.out",
+      stagger: 0.1,
+      delay: 0.1,
+    })
+    gsap.to("[data-line]", {
+      xPercent: (i: number) => (i % 2 ? 6 : -4),
+      ease: "none",
+      scrollTrigger: {
+        trigger: ref.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      },
+    })
+  })
+
   return (
-    <section
-      className="relative flex min-h-svh items-center overflow-hidden px-5 pt-24 pb-16 md:px-10 md:pt-[120px] md:pb-20"
-      id="hero"
-    >
-      {/* Lime orb glow */}
-      <div
-        className="animate-glow-pulse pointer-events-none absolute"
-        style={{
-          width: 700,
-          height: 700,
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(198,242,74,0.12) 0%, transparent 70%)",
-          top: -200,
-          right: -100,
-        }}
-        aria-hidden
-      />
-
-      <div className="mx-auto grid w-full max-w-[1200px] grid-cols-1 items-center gap-10 md:grid-cols-[1fr_420px] md:gap-20">
-        {/* Left: copy + CTAs */}
-        <div className="flex flex-col gap-6 md:gap-8">
-          {/* Headline */}
-          <h1
-            className="font-display text-foreground"
-            style={{
-              fontSize: "clamp(2.2rem, 4.5vw, 4rem)",
-              fontWeight: 600,
-              lineHeight: 1.05,
-              letterSpacing: "-0.04em",
-            }}
-          >
-            <span
-              style={{
-                textDecoration: "underline",
-                textDecorationColor: "#C6F24A",
-                textDecorationThickness: 3,
-                textUnderlineOffset: 4,
-              }}
-            >
-              H
-            </span>
-            oy la{" "}
-            <em className="not-italic" style={{ color: "#C6F24A" }}>
-              logística
-            </em>
-            <br />
-            está pensada para
-            <br />
-            <span className="text-foreground">grandes empresas.</span>
-            <br />
-            Nosotros la pensamos
-            <br />
-            para las{" "}
-            <em className="not-italic" style={{ color: "#C6F24A" }}>
-              personas.
-            </em>
-          </h1>
-
-          {/* Subhead */}
-          <p
-            className="font-sans text-muted-foreground"
-            style={{
-              fontSize: 17,
-              lineHeight: 1.6,
-              maxWidth: 480,
-              fontWeight: 400,
-            }}
-          >
-            Movo conecta tu paquete con personas que hacen ese camino todos los
-            días. Sin sucursales, sin esperas.
-          </p>
-
-          {/* App store badges */}
-          <div className="flex flex-col gap-3">
-            <span className="text-xs font-medium tracking-[0.08em] text-muted-foreground uppercase">
-              Próximamente
-            </span>
-            <div className="flex flex-wrap items-center gap-2.5">
-              <StoreBadge
-                label="Disponible en"
-                name="App Store"
-                icon={
-                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-                }
-              />
-              <StoreBadge
-                label="Disponible en"
-                name="Google Play"
-                icon={
-                  <path d="M3.18 23.76c.35.2.77.2 1.12 0l10.2-5.9-2.24-2.24L3.18 23.76zM.1 1.06C.04 1.28 0 1.52 0 1.76v20.48c0 .24.04.48.1.7l11.58-11.59L.1 1.06zM20.93 9.5l-2.43-1.4-2.52 2.52 2.52 2.52 2.45-1.41c.7-.4.7-1.43-.02-1.83zM4.3.24L14.5 6.14l-2.24 2.24L4.3.24C3.95.04 3.53.04 3.18.24L4.3.24z" />
-                }
-              />
-            </div>
-          </div>
-
-          {/* Trust strip */}
-          <div className="flex flex-wrap items-center gap-4 pt-2 md:gap-6">
-            <TrustItem icon={<polyline points="20 6 9 17 4 12" />}>
-              KYC verificado
-            </TrustItem>
-            <div className="hidden h-4 w-px bg-foreground/10 sm:block" />
-            <TrustItem
-              icon={
-                <>
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                </>
-              }
-            >
-              Pagos seguros
-            </TrustItem>
-            <div className="hidden h-4 w-px bg-foreground/10 sm:block" />
-            <TrustItem icon={<circle cx="12" cy="12" r="10" />}>
-              GPS en tiempo real
-            </TrustItem>
-          </div>
-        </div>
-
-        {/* Right: iPhone mockup — hidden on mobile */}
-        <div className="relative hidden items-center justify-center md:flex">
-          {/* Stat floater top-left */}
-          <div
-            className="absolute z-10 animate-float-a rounded-[10px] border border-border bg-popover/92 shadow-[0_24px_60px_rgba(10,10,11,0.08),0_6px_16px_rgba(10,10,11,0.04)] dark:shadow-[0_24px_60px_rgba(10,10,11,0.16),0_6px_16px_rgba(10,10,11,0.06)]"
-            style={{
-              top: 60,
-              left: -80,
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-              padding: "10px 14px",
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-              whiteSpace: "nowrap",
-            }}
-          >
-            <div
-              className="flex flex-shrink-0 items-center justify-center rounded-md"
-              style={{
-                width: 32,
-                height: 32,
-                background: "rgba(198,242,74,0.12)",
-              }}
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#C6F24A"
-                strokeWidth="1.75"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                style={{ width: 16, height: 16 }}
-              >
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-              </svg>
-            </div>
-            <div className="flex flex-col gap-px">
-              <span className="text-sm font-semibold text-foreground">
-                En camino · 9 min
-              </span>
-              <span className="text-[11px] text-muted-foreground">
-                Córdoba → Villa Carlos Paz
-              </span>
-            </div>
-          </div>
-
-          {/* iPhone */}
-          <div className="animate-float-phone relative">
-            <div
-              className="animate-shadow-breath absolute bottom-[-30px] left-1/2 -translate-x-1/2"
-              style={{
-                height: 24,
-                width: 180,
-                background:
-                  "radial-gradient(ellipse, rgba(198,242,74,0.25) 0%, transparent 70%)",
-              }}
-              aria-hidden
-            />
-            <IPhoneMockup
-              src="/hero-updated.png"
-              alt="Pantalla de seguimiento de un envío en Movo"
-            />
-          </div>
-
-          {/* Stat floater bottom-right */}
-          <div
-            className="absolute animate-float-b rounded-[10px] border border-border bg-popover/92 shadow-[0_24px_60px_rgba(10,10,11,0.08),0_6px_16px_rgba(10,10,11,0.04)] dark:shadow-[0_24px_60px_rgba(10,10,11,0.16),0_6px_16px_rgba(10,10,11,0.06)]"
-            style={{
-              bottom: 100,
-              right: -60,
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-              padding: "10px 14px",
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-              whiteSpace: "nowrap",
-            }}
-          >
-            <div
-              className="flex flex-shrink-0 items-center justify-center rounded-md"
-              style={{
-                width: 32,
-                height: 32,
-                background: "rgba(198,242,74,0.12)",
-              }}
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#C6F24A"
-                strokeWidth="1.75"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                style={{ width: 16, height: 16 }}
-              >
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-              </svg>
-            </div>
-            <div className="flex flex-col gap-px">
-              <span className="text-sm font-semibold text-foreground">
-                Marcos R. · ★ 4.8
-              </span>
-              <span className="text-[11px] text-muted-foreground">
-                Renault Kangoo · Verificado
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div
-        className="animate-scroll-fade absolute bottom-8 left-1/2 flex flex-col items-center gap-2"
-        aria-hidden
+    <>
+      <section
+        ref={ref}
+        id="top"
+        className={cn(
+          "relative flex flex-col overflow-hidden bg-lime-500 pt-[104px] pb-12 text-ink-950 sm:min-h-[var(--screen-h)] sm:justify-between sm:pb-10",
+          GUTTER
+        )}
       >
-        <span className="text-[11px] tracking-[0.06em] text-foreground/40 uppercase">
-          Scroll
-        </span>
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          className="h-4 w-4 text-foreground/40"
-        >
-          <line x1="12" y1="5" x2="12" y2="19" />
-          <polyline points="19 12 12 19 5 12" />
-        </svg>
+        <LimeGrid />
+        <h1 className="relative mt-4 mb-10 text-[13vw] leading-[.9] font-semibold tracking-[-0.06em] [font-variation-settings:'opsz'_32] sm:my-10 sm:text-[clamp(2.2rem,8.4vw,9.5rem)]">
+          <span className="sr-only">
+            Hoy la logística está pensada para empresas. Movo la piensa para
+            personas.
+          </span>
+          {/* Cortes de línea propios de escritorio y de mobile. */}
+          <span aria-hidden className="max-sm:hidden">
+            <MaskLine>
+              Hoy la <Em>logística</Em> está
+            </MaskLine>
+            <MaskLine>pensada para empresas.</MaskLine>
+            <MaskLine>Movo la piensa</MaskLine>
+            <MaskLine>
+              para <Em>personas.</Em>
+            </MaskLine>
+          </span>
+          <span aria-hidden className="sm:hidden">
+            <MaskLine>
+              Hoy la <Em>logística</Em>
+            </MaskLine>
+            <MaskLine>está pensada</MaskLine>
+            <MaskLine>para empresas.</MaskLine>
+            <MaskLine>Movo la piensa</MaskLine>
+            <MaskLine>
+              para <Em>personas.</Em>
+            </MaskLine>
+          </span>
+        </h1>
+        <div className="relative flex flex-wrap items-end justify-between gap-6">
+          <div className="flex flex-col gap-6 max-sm:w-full">
+            <p className="m-0 max-w-[460px] text-xl leading-[1.45] font-medium text-pretty">
+              Movo conecta tu paquete con personas que hacen ese camino todos
+              los días. Sin sucursales, sin esperas.
+            </p>
+            <StoreBadges />
+          </div>
+          <div className="flex h-7 items-center max-sm:hidden" aria-hidden>
+            {HERO_BARS.map((w, i) => (
+              <span
+                key={i}
+                className="mr-0.5 block h-full bg-ink-950"
+                style={{ width: w }}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* Solo mobile: el hero ya no ocupa la pantalla, invita a seguir. */}
+      <div
+        aria-hidden
+        className="flex justify-center bg-ink-950 pt-8 pb-2 text-white sm:hidden"
+      >
+        <ArrowDown className="size-6 animate-[scrollNudge_1.6s_ease-in-out_infinite] opacity-60 motion-reduce:animate-none" />
       </div>
-    </section>
+    </>
   )
 }
 
-function StoreBadge({
-  label,
-  name,
-  icon,
-}: {
-  label: string
-  name: string
-  icon: React.ReactNode
-}) {
-  return (
-    <button
-      className="inline-flex cursor-pointer items-center gap-2.5 rounded-[10px] border border-foreground/10 bg-foreground/[0.06] transition-all duration-[var(--motion-hover)] hover:-translate-y-px hover:border-foreground/[0.18] hover:bg-foreground/10 active:scale-[0.98]"
-      style={{ padding: "10px 18px" }}
-    >
-      <svg
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        className="h-[22px] w-[22px] text-foreground/90"
-      >
-        {icon}
-      </svg>
-      <div className="flex flex-col">
-        <span className="text-[10px] leading-tight tracking-[0.04em] text-muted-foreground">
-          {label}
-        </span>
-        <span
-          className="text-sm leading-tight font-semibold text-foreground/90"
-          style={{ letterSpacing: "-0.01em" }}
-        >
-          {name}
-        </span>
-      </div>
-    </button>
-  )
-}
+const STORES = [
+  {
+    name: "App Store",
+    pre: "Próximamente en",
+    // Simple Icons (CC0): Apple
+    path: "M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701",
+  },
+  {
+    name: "Google Play",
+    pre: "Próximamente en",
+    // Simple Icons (CC0): Google Play
+    path: "M22.018 13.298l-3.919 2.218-3.515-3.493 3.543-3.521 3.891 2.202a1.49 1.49 0 0 1 0 2.594zM1.337.924a1.486 1.486 0 0 0-.112.568v21.017c0 .217.045.419.124.6l11.155-11.087L1.337.924zm12.207 10.065l3.258-3.238L3.45.195a1.466 1.466 0 0 0-.946-.179l11.04 10.973zm0 2.067l-11 10.933c.298.036.612-.016.906-.183l13.324-7.54-3.23-3.21z",
+  },
+]
 
-function TrustItem({
-  icon,
-  children,
-}: {
-  icon: React.ReactNode
-  children: React.ReactNode
-}) {
+/** Badges de las tiendas, atenuados hasta el lanzamiento. */
+function StoreBadges() {
   return (
-    <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#C6F24A"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-3.5 w-3.5"
-      >
-        {icon}
-      </svg>
-      {children}
-    </div>
+    <ul
+      aria-label="Próximamente en App Store y Google Play"
+      className="m-0 grid list-none grid-cols-2 gap-2.5 p-0 sm:flex sm:flex-wrap"
+    >
+      {STORES.map((s) => (
+        <li
+          key={s.name}
+          className="flex h-12 items-center gap-2.5 rounded-lg bg-ink-950 pr-4 pl-3 text-white opacity-45 select-none"
+        >
+          <svg viewBox="0 0 24 24" className="size-5" aria-hidden>
+            <path d={s.path} fill="currentColor" />
+          </svg>
+          <span className="flex flex-col leading-none">
+            <span className="text-[10px] font-medium tracking-[.02em] text-ink-300">
+              {s.pre}
+            </span>
+            <span className="mt-1 text-[17px] font-semibold tracking-[-0.02em]">
+              {s.name}
+            </span>
+          </span>
+        </li>
+      ))}
+    </ul>
   )
 }

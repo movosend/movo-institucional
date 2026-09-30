@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
-import Link from "next/link"
-import { Navbar } from "@/components/home/navbar"
-import { posts, formatDate } from "@/content/blog/posts"
+
+import { PostList } from "@/components/blog/post-list"
+import { posts } from "@/content/blog/posts"
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -14,90 +14,51 @@ export const metadata: Metadata = {
   },
 }
 
+const MONTHS = [
+  "ene",
+  "feb",
+  "mar",
+  "abr",
+  "may",
+  "jun",
+  "jul",
+  "ago",
+  "sep",
+  "oct",
+  "nov",
+  "dic",
+]
+const shortDate = (iso: string) => {
+  const [y, m, d] = iso.split("-")
+  return `${+d} ${MONTHS[+m - 1]} ${y}`
+}
+
 export default function BlogPage() {
-  const sortedPosts = [...posts].sort((a, b) =>
-    b.publishedAt.localeCompare(a.publishedAt)
-  )
+  const items = [...posts]
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
+    .map((p) => ({
+      slug: p.slug,
+      tag: p.tag,
+      date: shortDate(p.publishedAt),
+      min: p.readMinutes,
+      title: p.listTitle ?? p.title,
+      desc: p.excerpt,
+    }))
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="relative z-10">
-        <Navbar />
-        <main className="mx-auto w-full max-w-[1200px] px-5 md:px-10">
-          {/* Hero */}
-          <div className="pt-32 pb-16 md:pt-40 md:pb-20">
-            <p className="section-label mb-4">Blog</p>
-            <h1 className="font-display text-4xl md:text-5xl text-foreground/90">
-              Logística colaborativa
-              <br />
-              <span style={{ color: "#C6F24A" }}>para Argentina</span>
-            </h1>
-            <p className="mt-5 max-w-[560px] text-base leading-relaxed text-muted-foreground">
-              Artículos sobre envíos P2P, el modelo colaborativo y cómo Movo
-              está cambiando la logística de última milla.
-            </p>
-          </div>
-
-          {/* Divider */}
-          <div className="mb-12 border-t border-border" />
-
-          {/* Post grid */}
-          <div className="grid grid-cols-1 gap-6 pb-24 md:grid-cols-2 lg:grid-cols-3">
-            {sortedPosts.map((post) => (
-              <Link
-                key={post.slug}
-                href={`/blog/${post.slug}`}
-                className="group flex flex-col rounded-2xl border border-border bg-foreground/[0.03] p-6 transition-colors duration-[var(--motion-state)]"
-              >
-                <div className="mb-5 flex items-center gap-3">
-                  <span
-                    className="text-xs font-medium tracking-wide uppercase"
-                    style={{ color: "#C6F24A" }}
-                  >
-                    Blog
-                  </span>
-                  <span className="text-foreground/20">·</span>
-                  <span className="text-xs text-muted-foreground">
-                    {post.readMinutes} min de lectura
-                  </span>
-                </div>
-
-                <h2
-                  className="mb-3 text-lg leading-snug font-semibold text-foreground/85 transition-colors duration-[var(--motion-state)] group-hover:text-foreground"
-                  style={{ letterSpacing: "-0.02em" }}
-                >
-                  {post.title}
-                </h2>
-
-                <p className="flex-1 text-sm leading-relaxed text-muted-foreground">
-                  {post.description}
-                </p>
-
-                <div className="mt-6 flex items-center justify-between border-t border-border pt-5">
-                  <span className="text-xs text-foreground/30">
-                    {formatDate(post.publishedAt)}
-                  </span>
-                  <span className="flex items-center gap-1 text-xs font-medium text-foreground/40 transition-colors duration-[var(--motion-state)] group-hover:text-foreground">
-                    Leer
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="transition-transform duration-[var(--motion-state)] group-hover:translate-x-0.5"
-                      style={{ width: 12, height: 12 }}
-                    >
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </main>
-      </div>
+    <div className="min-h-screen bg-ink-950">
+      <header className="bg-lime-500 px-[clamp(20px,4vw,64px)] pt-[clamp(120px,20vh,200px)] pb-10 text-ink-950">
+        <div className="mx-auto flex max-w-[1400px] flex-wrap items-end justify-between gap-6">
+          <h1 className="m-0 text-[clamp(5rem,17vw,18rem)] leading-[.78] font-semibold tracking-[-0.075em]">
+            Bitácora
+          </h1>
+          <p className="mt-0 mb-3 max-w-[360px] text-[19px] leading-[1.45] font-medium text-pretty">
+            Logística entre personas, decisiones de producto y lo que va pasando
+            mientras construimos Movo.
+          </p>
+        </div>
+      </header>
+      <PostList posts={items} />
     </div>
   )
 }

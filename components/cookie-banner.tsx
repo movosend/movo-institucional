@@ -1,58 +1,16 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { Info } from "lucide-react"
-import { gsap } from "gsap"
 import { getConsent, setConsent } from "@/lib/consent"
 
 export function CookieBanner() {
   const [visible, setVisible] = useState(false)
   const [expanded, setExpanded] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-  const atBottom = useRef(false)
 
   useEffect(() => {
     if (getConsent() === null) setVisible(true)
   }, [])
-
-  // Desktop-only: scroll-aware position toggle
-  useEffect(() => {
-    if (!visible || !ref.current) return
-
-    const mq = window.matchMedia("(min-width: 768px)")
-    if (!mq.matches) return
-
-    const el = ref.current
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches
-    gsap.set(el, { top: 16, bottom: "auto", y: 0 })
-
-    const onScroll = () => {
-      const shouldBeBottom = window.scrollY > 20
-
-      if (shouldBeBottom && !atBottom.current) {
-        atBottom.current = true
-        if (reduceMotion) {
-          gsap.set(el, { bottom: 16, top: "auto", y: 0 })
-        } else {
-          gsap.set(el, { bottom: 16, top: "auto", y: -80 })
-          gsap.to(el, { y: 0, duration: 0.45, ease: "power2.out" })
-        }
-      } else if (!shouldBeBottom && atBottom.current) {
-        atBottom.current = false
-        if (reduceMotion) {
-          gsap.set(el, { top: 16, bottom: "auto", y: 0 })
-        } else {
-          gsap.set(el, { top: 16, bottom: "auto", y: 80 })
-          gsap.to(el, { y: 0, duration: 0.45, ease: "power2.out" })
-        }
-      }
-    }
-
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [visible])
 
   function dispatch(decision: "accepted" | "denied") {
     setConsent(decision)
@@ -66,11 +24,10 @@ export function CookieBanner() {
 
   return (
     <div
-      ref={ref}
       role="dialog"
       aria-label="Aviso de cookies"
-      // Mobile: full-width bottom bar. Desktop: floating card top-right (position overridden by GSAP)
-      className="fixed right-0 bottom-0 left-0 z-50 border-t border-white/5 bg-ink-950/95 px-4 py-4 shadow-lg backdrop-blur-md md:top-4 md:right-4 md:bottom-auto md:left-auto md:w-full md:max-w-md md:rounded-xl md:border md:border-white/5 md:bg-white/5 md:px-4 md:py-3"
+      // Mobile: full-width bottom bar. Desktop: floating card anchored bottom-right
+      className="fixed right-0 bottom-0 left-0 z-50 border-t border-white/5 bg-ink-950/95 px-4 py-4 shadow-lg backdrop-blur-md md:right-4 md:bottom-4 md:left-auto md:w-full md:max-w-md md:rounded-xl md:border md:border-white/5 md:bg-white/5 md:px-4 md:py-3"
     >
       {/* Mobile layout: stacked text + action row */}
       <div className="flex flex-col gap-3 md:hidden">
@@ -104,7 +61,7 @@ export function CookieBanner() {
         <div className="flex gap-2">
           <button
             onClick={() => dispatch("accepted")}
-            className="flex-1 rounded-lg border border-ink-600 bg-transparent px-4 py-2.5 text-sm font-medium text-ink-200 transition-colors hover:border-ink-400 hover:text-white"
+            className="flex-1 rounded-lg border border-white/10 bg-ink-950 px-4 py-2.5 text-sm font-medium text-white transition-colors duration-120 hover:bg-ink-800"
           >
             Aceptar
           </button>
@@ -125,7 +82,7 @@ export function CookieBanner() {
         <div className="flex shrink-0 items-center gap-2">
           <button
             onClick={() => dispatch("accepted")}
-            className="rounded-lg border border-ink-700/60 bg-transparent px-3 py-1.5 text-xs text-ink-300 transition-colors duration-120 hover:border-ink-500 hover:text-white"
+            className="rounded-lg border border-white/10 bg-ink-950 px-3 py-1.5 text-xs font-medium text-white transition-colors duration-120 hover:bg-ink-800"
           >
             Aceptar
           </button>

@@ -14,9 +14,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/como-funciona`, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/blog`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${base}/el-proyecto`, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${base}/el-equipo`, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${base}/terminos-y-condiciones`, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${base}/politica-de-privacidad`, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${base}/faq`, changeFrequency: "monthly", priority: 0.6 },
+    {
+      url: `${base}/terminos-y-condiciones`,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: `${base}/politica-de-privacidad`,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
     ...blogPosts,
   ]
 }

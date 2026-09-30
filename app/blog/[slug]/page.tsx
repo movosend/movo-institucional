@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import { Navbar } from "@/components/home/navbar"
 import { posts, getPostBySlug, formatDate } from "@/content/blog/posts"
 
 type Props = {
@@ -34,59 +33,42 @@ export default async function BlogPostPage({ params }: Props) {
   const nextPost = post.nextSlug ? getPostBySlug(post.nextSlug) : undefined
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="relative z-10">
-        <Navbar />
-        <main className="mx-auto w-full max-w-[720px] px-5 md:px-8">
-          {/* Back link */}
-          <div className="pt-28 pb-10 md:pt-36">
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-1.5 text-sm text-foreground/40 transition-colors duration-[var(--motion-hover)] hover:text-foreground"
+    <div className="min-h-screen bg-ink-950">
+      <header className="bg-lime-500 px-[clamp(20px,4vw,64px)] pt-[clamp(104px,16vh,160px)] pb-12 text-ink-950">
+        <div className="mx-auto max-w-[1100px]">
+          <Link
+            href="/blog"
+            className="mb-10 inline-flex items-center gap-1.5 font-mono text-[13px] hover:opacity-70"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="size-3.5"
+              aria-hidden
             >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                style={{ width: 14, height: 14 }}
-              >
-                <path d="M19 12H5M12 19l-7-7 7-7" />
-              </svg>
-              Blog
-            </Link>
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            Bitácora
+          </Link>
+          <div className="mb-6 flex flex-wrap gap-x-6 gap-y-2 border-y-[1.5px] border-ink-950 py-3 font-mono text-[13px]">
+            <span>{post.tag}</span>
+            <span>{post.readMinutes} min de lectura</span>
+            <span>{formatDate(post.publishedAt)}</span>
           </div>
-
-          {/* Article header */}
-          <header className="border-b border-border pb-10">
-            <div className="mb-6 flex items-center gap-3">
-              <span
-                className="text-xs font-medium tracking-wide uppercase"
-                style={{ color: "#C6F24A" }}
-              >
-                Blog
-              </span>
-              <span className="text-foreground/20">·</span>
-              <span className="text-xs text-muted-foreground">
-                {post.readMinutes} min de lectura
-              </span>
-              <span className="text-foreground/20">·</span>
-              <span className="text-xs text-muted-foreground">
-                {formatDate(post.publishedAt)}
-              </span>
-            </div>
-
-            <h1 className="font-display text-3xl leading-tight text-foreground/90 md:text-4xl">
-              {post.title}
-            </h1>
-
-            <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-              {post.description}
-            </p>
-          </header>
-
+          <h1 className="m-0 text-[clamp(2.4rem,5.4vw,5.5rem)] leading-[.95] font-semibold tracking-[-0.055em] text-balance">
+            {post.title}
+          </h1>
+          <p className="mt-6 mb-0 max-w-[60ch] text-xl leading-[1.45] font-medium text-pretty">
+            {post.description}
+          </p>
+        </div>
+      </header>
+      <div className="relative z-10">
+        <main className="mx-auto w-full max-w-[720px] px-5 md:px-8">
           {/* Article body */}
           <article className="space-y-8 pt-10 pb-24">
             {post.sections.map((section, i) => (
@@ -179,7 +161,7 @@ export default async function BlogPostPage({ params }: Props) {
                               <span className="text-sm text-foreground/60">
                                 {item.label}
                               </span>
-                              <span className="text-xs font-medium tabular-nums text-foreground/40">
+                              <span className="text-xs font-medium text-foreground/40 tabular-nums">
                                 {item.value}
                                 {item.suffix ?? ""}
                               </span>
