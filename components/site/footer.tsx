@@ -60,7 +60,7 @@ export function Footer() {
       <div
         data-wordmark=""
         aria-hidden
-        className="mx-[-0.04em] mt-10 text-center text-[clamp(8rem,31vw,34rem)] leading-[.74] font-semibold tracking-[-0.075em] text-ink-800 select-none"
+        className="pointer-events-none mx-[-0.04em] mt-10 text-center text-[clamp(8rem,31vw,34rem)] leading-[.74] font-semibold tracking-[-0.075em] text-ink-800 select-none"
       >
         movo
       </div>
