@@ -1001,7 +1001,7 @@ export function PriceRevealScene({
           </span>
           <span
             style={css(
-              "font-size:184px;line-height:.9;letter-spacing:-.055em;font-weight:600;color:#0A0A0B"
+              "font-size:184px;line-height:.9;letter-spacing:-.02em;font-weight:600;color:#0A0A0B;font-variant-numeric:tabular-nums"
             )}
           >
             {fmtMoney(reveal.answer)}
@@ -1189,7 +1189,7 @@ export function PodiumScene({
       </Header>
       <div
         style={css(
-          "position:absolute;top:128px;left:72px;right:72px;bottom:0;display:grid;grid-template-columns:minmax(0,1fr) 440px;gap:72px"
+          "position:absolute;top:128px;left:72px;right:72px;bottom:0;display:grid;grid-template-columns:minmax(0,1fr) 500px;gap:64px"
         )}
       >
         <div style={css("display:flex;flex-direction:column")}>
@@ -1295,8 +1295,12 @@ export function PodiumScene({
               "border-radius:14px;border:2px solid #0A0A0B;padding:28px;display:flex;gap:24px;align-items:center"
             )}
           >
-            <Qr url={url} size={170} />
-            <span style={css("display:flex;flex-direction:column;gap:8px")}>
+            <Qr url={url} size={210} />
+            <span
+              style={css(
+                "display:flex;flex-direction:column;gap:8px;min-width:0"
+              )}
+            >
               <span
                 style={css(
                   "font-size:20px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#5A5A62"
@@ -1304,13 +1308,23 @@ export function PodiumScene({
               >
                 {paused || nextAt ? "Próxima en" : "Próxima partida"}
               </span>
-              <span
-                style={css(
-                  "font-family:var(--font-mono);font-size:64px;line-height:1;font-weight:500"
-                )}
-              >
-                {paused ? "--:--" : nextAt ? fmtClock(nextAt - now) : "Abierta"}
-              </span>
+              {paused || nextAt ? (
+                <span
+                  style={css(
+                    "font-family:var(--font-mono);font-size:64px;line-height:1;font-weight:500"
+                  )}
+                >
+                  {paused ? "--:--" : fmtClock(nextAt! - now)}
+                </span>
+              ) : (
+                <span
+                  style={css(
+                    "font-size:52px;line-height:1;letter-spacing:-.03em;font-weight:600"
+                  )}
+                >
+                  Abierta
+                </span>
+              )}
               <span style={css("font-size:22px;color:#3A3A40")}>
                 Escaneá y sumate.
               </span>
