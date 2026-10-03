@@ -25,10 +25,7 @@ interface Game {
   desc: string
 }
 
-/**
- * Cada juego muestra un módulo real de Movo. El segundo (prototipo "Movo Optimizador"
- * en Claude Design) todavía no está conectado al backend.
- */
+/** Cada juego muestra un módulo real de Movo. */
 const GAMES: Game[] = [
   {
     href: "/juegos/precios",
@@ -37,7 +34,7 @@ const GAMES: Game[] = [
     desc: "Elegí dos ciudades, mirá el precio real que calcula Movo y decinos si lo pagarías.",
   },
   {
-    href: null,
+    href: "/juegos/optimizador",
     module: "Juego 2 · Optimizador de rutas",
     title: "¿Armás una ruta mejor que la de Movo?",
     desc: "Ordená las paradas de un recorrido contra reloj y compará tus kilómetros con los del optimizador.",

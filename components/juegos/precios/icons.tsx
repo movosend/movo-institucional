@@ -123,3 +123,35 @@ export const Check = () => (
     <path d="M20 6 9 17l-5-5" />
   </Svg>
 )
+
+// --- Juego del optimizador ("Movo Optimizador") ----------------------------------------
+
+export const CheckSmall = () => (
+  <Svg size={30} strokeWidth={2.25}>
+    <path d="M20 6 9 17l-5-5" />
+  </Svg>
+)
+
+export const Clock = ({ stroke }: { stroke: string }) => (
+  <Svg
+    size={26}
+    strokeWidth={2.25}
+    stroke={stroke}
+    style={{ position: "relative" }}
+  >
+    <circle cx="12" cy="13" r="8" />
+    <path d="M12 9v4l2 2" />
+    <path d="M10 2h4" />
+  </Svg>
+)
+
+export const Grip = () => (
+  <Svg size={28} strokeWidth={2} stroke="#8A8A93">
+    <circle cx="9" cy="6" r="1" />
+    <circle cx="15" cy="6" r="1" />
+    <circle cx="9" cy="12" r="1" />
+    <circle cx="15" cy="12" r="1" />
+    <circle cx="9" cy="18" r="1" />
+    <circle cx="15" cy="18" r="1" />
+  </Svg>
+)

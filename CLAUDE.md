@@ -28,6 +28,7 @@ No test suite is configured.
 | `/el-proyecto` | `app/el-proyecto/page.tsx` | `components/el-proyecto/` |
 | `/juegos` | `app/juegos/page.tsx` | `components/juegos/hub.tsx` |
 | `/juegos/precios` | `app/juegos/precios/page.tsx` | `components/juegos/precios/` |
+| `/juegos/optimizador` | `app/juegos/optimizador/page.tsx` | `components/juegos/optimizador/` |
 
 ### Juegos (`/juegos`)
 
@@ -47,6 +48,18 @@ esas rutas; `app/juegos/layout.tsx` las marca `noindex` y sin zoom.
   partida se guarda en `shipments.pricing_game_sessions` (cola offline en localStorage si no
   hay red). `?stand=<tag>` identifica el evento en las métricas. Modo stand: 5 toques en la
   esquina superior izquierda (CSV, reintentar envío, volver al hub).
+- **Juego del optimizador**: la partida la crea el backend (`/api/juegos/optimizador/games`),
+  que resuelve el orden óptimo con OR-Tools (`movo-svc-pricing-logistics`) sobre la matriz de
+  la ciudad, cacheada en Redis 30 días, y mide la ruta del jugador con esa misma matriz. OSRM
+  público solo dibuja las líneas de la carrera; el loop de atracción y el modo sin red usan
+  la copia local de las ciudades (`lib/juegos/route-scenarios.ts`, espejo del backend). El
+  ranking del día es compartido entre iPads (`shipments.route_game_sessions`). El modo stand
+  configura tiempo del reloj, paradas, km en vivo y el **indicador de costo** (pastilla abajo
+  a la derecha: matriz en cache o facturada a Google), guardados por iPad en localStorage.
+- **Sorteo + newsletter**: los dos juegos usan el mismo copy (`components/juegos/raffle.ts`);
+  dejar el mail suscribe a la audiencia de Resend vía `/api/juegos/newsletter`
+  (`lib/newsletter.ts`, la misma función que `/api/newsletter` del home), con cola en
+  localStorage si no hay red.
 
 `app/layout.tsx` wraps all pages with `ThemeProvider` (forced dark) and the global `Footer`. The `Navbar` is rendered per-page, not in the root layout.
 
