@@ -6,6 +6,7 @@ import { Navbar } from "@/components/site/navbar"
 import { Footer } from "@/components/site/footer"
 import { ClarityScript } from "@/components/clarity-script"
 import { CookieBanner } from "@/components/cookie-banner"
+import { HideInGames } from "@/components/site/hide-in-games"
 import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
@@ -98,11 +99,17 @@ export default function RootLayout({
           }}
         />
         <div className="relative overflow-x-clip bg-ink-950 text-white">
-          <Navbar />
+          <HideInGames>
+            <Navbar />
+          </HideInGames>
           {children}
-          <Footer />
+          <HideInGames>
+            <Footer />
+          </HideInGames>
         </div>
-        <CookieBanner />
+        <HideInGames>
+          <CookieBanner />
+        </HideInGames>
         <ClarityScript />
       </body>
     </html>
