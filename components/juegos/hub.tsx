@@ -1,21 +1,13 @@
 "use client"
 
-import "leaflet/dist/leaflet.css"
 import "./juegos.css"
 
 import Link from "next/link"
-import { useEffect, useRef } from "react"
-import type * as Leaflet from "leaflet"
+import { useEffect, type ReactNode } from "react"
 
-import { CITIES } from "@/lib/juegos/cities"
 import { css } from "@/lib/juegos/css"
 import { withStand } from "@/lib/juegos/event-tag"
-import {
-  MAP_BG,
-  setupTileCache,
-  TILE_OPTIONS,
-  tileUrl,
-} from "@/lib/juegos/map-tiles"
+import { setupTileCache } from "@/lib/juegos/map-tiles"
 import { ArrowRight } from "./precios/icons"
 
 interface Game {
@@ -23,6 +15,87 @@ interface Game {
   module: string
   title: string
   desc: string
+  motif: ReactNode
+}
+
+/** Dibujo de cada juego en su tarjeta: el lobby no muestra el mapa, que es parte de los juegos. */
+function PriceMotif() {
+  return (
+    <svg
+      width="132"
+      height="64"
+      viewBox="0 0 132 64"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M10 50 C 40 50, 46 14, 76 14"
+        stroke="#C6F24A"
+        strokeWidth="2.5"
+        strokeDasharray="2 7"
+        strokeLinecap="round"
+      />
+      <circle
+        cx="10"
+        cy="50"
+        r="6"
+        fill="#0A0A0B"
+        stroke="#C6F24A"
+        strokeWidth="2.5"
+      />
+      <circle cx="76" cy="14" r="6" fill="#C6F24A" />
+      <rect x="90" y="36" width="40" height="24" rx="6" fill="#C6F24A" />
+      <text
+        x="110"
+        y="53"
+        textAnchor="middle"
+        fill="#0A0A0B"
+        fontSize="15"
+        fontWeight="700"
+        fontFamily="inherit"
+      >
+        $
+      </text>
+    </svg>
+  )
+}
+
+function RouteMotif() {
+  const stops: [number, number][] = [
+    [10, 46],
+    [38, 16],
+    [66, 40],
+    [94, 12],
+    [122, 34],
+  ]
+  return (
+    <svg
+      width="132"
+      height="64"
+      viewBox="0 0 132 64"
+      fill="none"
+      aria-hidden="true"
+    >
+      <polyline
+        points={stops.map((p) => p.join(",")).join(" ")}
+        stroke="#C6F24A"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+        strokeLinecap="round"
+      />
+      {stops.map(([x, y], i) => (
+        <circle
+          key={i}
+          cx={x}
+          cy={y}
+          r={i === 0 ? 6 : 5}
+          fill={i === 0 ? "#C6F24A" : "#0A0A0B"}
+          stroke="#C6F24A"
+          strokeWidth="2.5"
+        />
+      ))}
+    </svg>
+  )
 }
 
 /** Cada juego muestra un módulo real de Movo. */
@@ -32,78 +105,21 @@ const GAMES: Game[] = [
     module: "Juego 1 · Motor de precios",
     title: "¿Cuánto cuesta mandar algo con Movo?",
     desc: "Elegí dos ciudades, mirá el precio real que calcula Movo y decinos si lo pagarías.",
+    motif: <PriceMotif />,
   },
   {
     href: "/juegos/optimizador",
     module: "Juego 2 · Optimizador de rutas",
     title: "¿Armás una ruta mejor que la de Movo?",
     desc: "Ordená las paradas de un recorrido contra reloj y compará tus kilómetros con los del optimizador.",
+    motif: <RouteMotif />,
   },
 ]
 
-/** Mapa claro de fondo, mismo estilo que los juegos, sin interacción. */
-function HubMap() {
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    let map: Leaflet.Map | null = null
-    let cancelled = false
-    setupTileCache()
-    import("leaflet").then((mod) => {
-      const L =
-        (mod as unknown as { default?: typeof Leaflet }).default ??
-        (mod as unknown as typeof Leaflet)
-      if (cancelled || !ref.current) return
-      map = L.map(ref.current, {
-        zoomControl: false,
-        attributionControl: false,
-        dragging: false,
-        scrollWheelZoom: false,
-        doubleClickZoom: false,
-        touchZoom: false,
-        boxZoom: false,
-        keyboard: false,
-        zoomSnap: 0.25,
-      })
-      L.tileLayer(tileUrl("Base"), TILE_OPTIONS).addTo(map)
-      L.tileLayer(tileUrl("Reference"), TILE_OPTIONS).addTo(map)
-      CITIES.forEach((c) =>
-        L.circleMarker([c[2], c[3]], {
-          radius: 6,
-          color: "#0A0A0B",
-          weight: 2,
-          opacity: 0.7,
-          fillColor: "#C6F24A",
-          fillOpacity: 0.9,
-          interactive: false,
-        }).addTo(map!)
-      )
-      map.fitBounds(
-        [
-          [-55, -73.5],
-          [-21.8, -53.6],
-        ],
-        {
-          paddingTopLeft: [Math.round(window.innerWidth * 0.5), 40],
-          paddingBottomRight: [40, 40],
-        }
-      )
-    })
-    return () => {
-      cancelled = true
-      map?.remove()
-    }
-  }, [])
-
-  return (
-    <div
-      ref={ref}
-      style={css(`position:absolute;inset:0;z-index:0;background:${MAP_BG}`)}
-    />
-  )
-}
-
 export function GamesHub({ eventTag }: { eventTag?: string }) {
+  // Registra el cache de tiles antes de entrar a un juego (los mapas cargan más rápido en el stand).
+  useEffect(() => setupTileCache(), [])
+
   return (
     <div
       className="mv-game"
@@ -111,7 +127,11 @@ export function GamesHub({ eventTag }: { eventTag?: string }) {
         "position:fixed;inset:0;z-index:200;background:#0A0A0B;color:#FFFFFF;font-family:var(--font-sans);overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent"
       )}
     >
-      <HubMap />
+      <div
+        style={css(
+          "position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:32px 32px;-webkit-mask-image:radial-gradient(ellipse at 78% 50%,#000 0%,transparent 75%);mask-image:radial-gradient(ellipse at 78% 50%,#000 0%,transparent 75%)"
+        )}
+      />
 
       <div
         style={css(
@@ -166,14 +186,14 @@ export function GamesHub({ eventTag }: { eventTag?: string }) {
 
       <div
         style={css(
-          "position:absolute;top:0;bottom:0;right:32px;width:min(560px,44%);z-index:6;display:flex;flex-direction:column;justify-content:center;gap:20px"
+          "position:absolute;top:0;bottom:0;right:32px;width:min(560px,44%);z-index:6;display:flex;flex-direction:column;justify-content:center;gap:clamp(12px,2.4vh,20px)"
         )}
       >
         {GAMES.map((g, i) => {
           const card = (
             <div
               style={css(
-                `display:flex;flex-direction:column;gap:14px;padding:32px;border-radius:14px;background:rgba(10,10,11,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);animation:mvStepIn .55s cubic-bezier(.22,1,.36,1) ${0.3 + i * 0.12}s both;opacity:${g.href ? 1 : 0.72}`
+                `position:relative;display:flex;flex-direction:column;gap:clamp(8px,1.6vh,14px);padding:clamp(20px,3.6vh,32px);border-radius:14px;background:#111113;border:1px solid rgba(255,255,255,.1);animation:mvStepIn .55s cubic-bezier(.22,1,.36,1) ${0.3 + i * 0.12}s both;opacity:${g.href ? 1 : 0.72}`
               )}
             >
               <span
@@ -185,14 +205,21 @@ export function GamesHub({ eventTag }: { eventTag?: string }) {
               </span>
               <span
                 style={css(
-                  "font-size:clamp(28px,2.8vw,40px);line-height:1.08;letter-spacing:-.03em;font-weight:600;text-wrap:balance"
+                  "position:absolute;top:clamp(14px,2.4vh,22px);right:clamp(18px,2.4vh,26px);pointer-events:none"
+                )}
+              >
+                {g.motif}
+              </span>
+              <span
+                style={css(
+                  "padding-right:96px;font-size:clamp(28px,min(2.8vw,5vh),40px);line-height:1.08;letter-spacing:-.03em;font-weight:600;text-wrap:balance"
                 )}
               >
                 {g.title}
               </span>
               <span
                 style={css(
-                  "font-size:19px;line-height:1.4;color:#B4B4BC;text-wrap:pretty"
+                  "font-size:clamp(16px,2.6vh,19px);line-height:1.4;color:#B4B4BC;text-wrap:pretty"
                 )}
               >
                 {g.desc}
@@ -200,7 +227,7 @@ export function GamesHub({ eventTag }: { eventTag?: string }) {
               {g.href ? (
                 <span
                   style={css(
-                    "margin-top:6px;height:72px;border-radius:8px;background:#C6F24A;color:#0A0A0B;font-size:24px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:14px"
+                    "margin-top:6px;height:clamp(56px,8vh,72px);border-radius:8px;background:#C6F24A;color:#0A0A0B;font-size:24px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:14px"
                   )}
                 >
                   Jugar
@@ -209,7 +236,7 @@ export function GamesHub({ eventTag }: { eventTag?: string }) {
               ) : (
                 <span
                   style={css(
-                    "margin-top:6px;height:72px;border-radius:8px;border:1px dashed rgba(255,255,255,.2);color:#8A8A93;font-size:22px;font-weight:600;display:flex;align-items:center;justify-content:center"
+                    "margin-top:6px;height:clamp(56px,8vh,72px);border-radius:8px;border:1px dashed rgba(255,255,255,.2);color:#8A8A93;font-size:22px;font-weight:600;display:flex;align-items:center;justify-content:center"
                   )}
                 >
                   Próximamente
