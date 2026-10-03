@@ -29,12 +29,18 @@ No test suite is configured.
 | `/juegos` | `app/juegos/page.tsx` | `components/juegos/hub.tsx` |
 | `/juegos/precios` | `app/juegos/precios/page.tsx` | `components/juegos/precios/` |
 | `/juegos/optimizador` | `app/juegos/optimizador/page.tsx` | `components/juegos/optimizador/` |
+| `/juegos/acceso` | `app/juegos/acceso/page.tsx` | `components/juegos/pin-gate.tsx` |
 
 ### Juegos (`/juegos`)
 
 Pantallas completas para el stand de la feria (iPad), cada una conectada a un módulo real del
 backend de Movo. `components/site/hide-in-games.tsx` saca Navbar, Footer y banner de cookies en
 esas rutas; `app/juegos/layout.tsx` las marca `noindex` y sin zoom.
+
+- **PIN de acceso**: `proxy.ts` exige la cookie de `JUEGOS_PIN` (6 dígitos) en `/juegos/*` y
+  `/api/juegos/*`; sin ella las páginas redirigen a `/juegos/acceso` (teclado numérico) y la
+  API responde 401. La cookie dura 30 días y se invalida al cambiar el PIN
+  (`lib/juegos/access.ts`). Sin `JUEGOS_PIN`: abierto en dev, cerrado en producción.
 
 - **Diseño copiado del prototipo de Claude Design** (proyecto "Movo Feria", archivos
   `Movo Feria.dc.html` / `Movo Optimizador.dc.html`): los estilos van inline con `css()`

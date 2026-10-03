@@ -170,3 +170,18 @@ html:has(.mv-game) {
   --page-zoom: 1;
   zoom: 1 !important;
 }
+
+@keyframes mvShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-10px);
+  }
+  40%,
+  80% {
+    transform: translateX(10px);
+  }
+}
