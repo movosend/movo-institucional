@@ -26,6 +26,27 @@ No test suite is configured.
 | `/como-funciona` | `app/como-funciona/page.tsx` | `components/como-funciona/` |
 | `/el-equipo` | `app/el-equipo/page.tsx` | `components/el-equipo/` |
 | `/el-proyecto` | `app/el-proyecto/page.tsx` | `components/el-proyecto/` |
+| `/juegos` | `app/juegos/page.tsx` | `components/juegos/hub.tsx` |
+| `/juegos/precios` | `app/juegos/precios/page.tsx` | `components/juegos/precios/` |
+
+### Juegos (`/juegos`)
+
+Pantallas completas para el stand de la feria (iPad), cada una conectada a un módulo real del
+backend de Movo. `components/site/hide-in-games.tsx` saca Navbar, Footer y banner de cookies en
+esas rutas; `app/juegos/layout.tsx` las marca `noindex` y sin zoom.
+
+- **Diseño copiado del prototipo de Claude Design** (proyecto "Movo Feria", archivos
+  `Movo Feria.dc.html` / `Movo Optimizador.dc.html`): los estilos van inline con `css()`
+  (`lib/juegos/css.ts`) usando el mismo string del prototipo, para poder compararlos línea a
+  línea. No reinterpretar con Tailwind/shadcn. Mapa claro (ArcGIS Light Gray) con Leaflet.
+- **Backend**: el navegador habla solo con los route handlers de `app/api/juegos/*`, que
+  reenvían a `${MOVO_API_URL}/api/v1/demo/*` con `MOVO_DEMO_API_KEY` (server-side, nunca
+  `NEXT_PUBLIC_`). El gateway valida la key (`DEMO_API_KEYS`) y limita por visitante con
+  `x-movo-client-ip`.
+- **Juego de precios**: el precio sale de `movo-svc-pricing-logistics` (con desglose); cada
+  partida se guarda en `shipments.pricing_game_sessions` (cola offline en localStorage si no
+  hay red). `?stand=<tag>` identifica el evento en las métricas. Modo stand: 5 toques en la
+  esquina superior izquierda (CSV, reintentar envío, volver al hub).
 
 `app/layout.tsx` wraps all pages with `ThemeProvider` (forced dark) and the global `Footer`. The `Navbar` is rendered per-page, not in the root layout.
 
