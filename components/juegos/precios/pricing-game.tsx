@@ -23,6 +23,7 @@ import {
   TILE_OPTIONS,
   tileUrl,
 } from "@/lib/juegos/map-tiles"
+import { randomUUID } from "@/lib/uuid"
 import {
   ArrowLeft,
   ArrowRight,
@@ -987,7 +988,7 @@ export class PricingGame extends Component<Props, State> {
   }
 
   startGame = () => {
-    this.sid = crypto.randomUUID()
+    this.sid = randomUUID()
     this.sessionStart = Date.now()
     this.saved = false
     this.lastAct = Date.now()
@@ -1275,7 +1276,7 @@ export class PricingGame extends Component<Props, State> {
     try {
       let id = localStorage.getItem(LS_DEVICE)
       if (!id) {
-        id = crypto.randomUUID().slice(0, 8)
+        id = randomUUID().slice(0, 8)
         localStorage.setItem(LS_DEVICE, id)
       }
       return id

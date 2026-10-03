@@ -20,6 +20,7 @@ import {
   type RoutePlace,
   type RouteScenario,
 } from "@/lib/juegos/route-scenarios"
+import { randomUUID } from "@/lib/uuid"
 import {
   ArrowRight,
   CheckSmall,
@@ -879,7 +880,7 @@ export class RouteGame extends Component<Props, State> {
     try {
       let id = localStorage.getItem(LS_DEVICE)
       if (!id) {
-        id = crypto.randomUUID().slice(0, 8)
+        id = randomUUID().slice(0, 8)
         localStorage.setItem(LS_DEVICE, id)
       }
       return id
@@ -899,7 +900,7 @@ export class RouteGame extends Component<Props, State> {
       .slice(0, n + 2)
       .map(toPt)
     return {
-      id: crypto.randomUUID(),
+      id: randomUUID(),
       server: false,
       scenarioId: sc.id,
       city: sc.city,
