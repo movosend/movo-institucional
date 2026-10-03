@@ -22,7 +22,7 @@ export interface Timeline {
 }
 
 export const DEFAULT_TIMELINE: Timeline = {
-  lobby: 30,
+  lobby: 45,
   mc: 15,
   tf: 10,
   price: 20,
@@ -31,6 +31,14 @@ export const DEFAULT_TIMELINE: Timeline = {
   top5: 5,
   podium: 15,
 }
+
+/**
+ * El lobby espera a la gente: la cuenta (`lobby`) arranca con el primer jugador, y si
+ * alguien entra con menos de LOBBY_EXTEND_S por delante, vuelve a LOBBY_EXTEND_S, hasta
+ * LOBBY_EXTEND_MAX_S de más en total (supabase/migrations, `trivia_join`).
+ */
+export const LOBBY_EXTEND_S = 15
+export const LOBBY_EXTEND_MAX_S = 30
 
 /** Límites que acepta el modo stand para cada duración. */
 export const TIMELINE_LIMITS: Record<keyof Timeline, [number, number]> = {
@@ -99,6 +107,10 @@ export const COPY = {
   lobbyHint: "2 minutos, desde tu celular.",
   lobbyPaused: "En pausa",
   lobbyPausedHint: "La próxima partida arranca en un ratito.",
+  nameRules:
+    "Poné tu nombre real, sin malas palabras ni mensajes raros: lo ve todo el stand. Le sumamos un emoji para que te encuentres en la pantalla.",
+  lobbyWaiting: "Esperando jugadores",
+  lobbyWaitingHint: "Arranca cuando entra el primero.",
   dayTitle: "Los mejores de hoy.",
   dayEmpty: "Todavía nadie jugó hoy. Estrená el ranking.",
   podiumFooter:

@@ -78,3 +78,9 @@
     0 0 0 3px #0a0a0b,
     0 0 0 6px rgba(43, 107, 255, 0.5);
 }
+
+/* Isotipo de la marca (wordmark.tsx): en bloque, para que su borde de abajo sea la línea
+   de base de la fila y no quede el hueco de descendente de un svg en línea. */
+.mv-trivia-mark svg {
+  display: block;
+}

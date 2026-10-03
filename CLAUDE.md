@@ -85,6 +85,9 @@ partidas; la gente escanea el QR y juega desde `/trivia` (público, fuera de `pr
   (broadcast `trivia`) avisa cambios y el polling cubre si se cae (`lib/trivia/client.ts`).
 - **Mala señal**: las respuestas se guardan en localStorage y se reintentan; la velocidad la
   mide el celular y el server la acota (`app/api/trivia/answer`), con 4 s de gracia.
+- **Lobby**: espera al primer jugador; con él arranca la cuenta (45 s) y se estira si alguien
+  entra sobre el final (`trivia_join`). Cada jugador recibe un emoji fijo
+  (`lib/trivia/emojis.ts`, excepción pedida a la regla de "sin emoji") que va con su nombre.
 - **Acceso**: todo pasa por los route handlers con `SUPABASE_SERVICE_ROLE_KEY`; anon no tiene
   permisos sobre tablas ni funciones. Mail opcional al final → Resend (`lib/newsletter.ts`).
 - **TV**: el lienzo se diseña a 1920×1080 y ocupa toda la ventana (sin franjas). Modo stand con

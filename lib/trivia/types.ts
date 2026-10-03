@@ -4,6 +4,7 @@ import type { PublicQuestion } from "./engine"
 
 export interface PlayerChip {
   id: string
+  /** Con el emoji del jugador adelante ("🦊 Juli"). */
   name: string
   city: string
 }
@@ -80,6 +81,7 @@ export interface MyAnswer {
 
 export interface MyState {
   name: string
+  emoji?: string
   city: string
   inLobby: boolean
   inCurrent: boolean

@@ -4,6 +4,7 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js"
 import { NextResponse } from "next/server"
 
 import { DEFAULT_TIMELINE, type Timeline } from "./config"
+import { withEmoji } from "./emojis"
 import {
   QUESTION_COUNT,
   pickQuestions,
@@ -144,6 +145,7 @@ interface EntryRow {
   joined_at: string
   trivia_players: {
     name: string
+    emoji: string | null
     city: string
     hidden: boolean
     email: string | null
@@ -173,7 +175,7 @@ function loadGameData(gameId: string): Promise<GameData> {
       supabase
         .from("trivia_entries")
         .select(
-          "player_id, joined_at, trivia_players(name, city, hidden, email)"
+          "player_id, joined_at, trivia_players(name, emoji, city, hidden, email)"
         )
         .eq("game_id", gameId)
         .order("joined_at", { ascending: false })
@@ -217,6 +219,7 @@ export async function gameById(id: string): Promise<GameRow | null> {
 interface DayRow {
   player_id: string
   name: string
+  emoji: string | null
   city: string
   hidden: boolean
   best: number
@@ -239,9 +242,13 @@ export function invalidateDay() {
 
 // ── Estado ────────────────────────────────────────────────────────────────────
 
-const chip = (id: string, p: { name: string; city: string }): PlayerChip => ({
+/** Lo que ve la TV: el nombre ya va con su emoji ("🦊 Juli"). */
+const chip = (
+  id: string,
+  p: { name: string; emoji?: string | null; city: string }
+): PlayerChip => ({
   id,
-  name: p.name,
+  name: withEmoji(p.name, p.emoji),
   city: p.city,
 })
 
@@ -481,6 +488,7 @@ export async function buildState(playerId?: string): Promise<TriviaState> {
       const dayIndex = day.findIndex((d) => d.player_id === playerId)
       me = {
         name: profile.name,
+        emoji: profile.emoji ?? undefined,
         city: profile.city,
         inLobby: !!inLobby,
         inCurrent: !!inCurrent,

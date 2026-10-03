@@ -51,6 +51,8 @@ export function LobbyScene({
 }) {
   const left = lobby.lobbyEndsAt ? Math.max(0, lobby.lobbyEndsAt - now) : 0
   const pct = lobby.lobbyEndsAt ? 1 - left / (lobby.lobbyS * 1000) : 0
+  // Sin cuenta: en pausa (modo stand) o esperando al primer jugador.
+  const waiting = !paused && !lobby.lobbyEndsAt
   // El panel derecho rota cada 10 s entre el mapa y el ranking del día.
   const ph = Math.floor(now / 10000) % 2
   const fill = `${(((now % 10000) / 10000) * 100).toFixed(1)}%`
@@ -128,14 +130,20 @@ export function LobbyScene({
                   "font-size:22px;font-weight:600;letter-spacing:.08em;text-transform:uppercase"
                 )}
               >
-                {paused ? COPY.lobbyPaused : "Arranca en"}
+                {paused
+                  ? COPY.lobbyPaused
+                  : waiting
+                    ? COPY.lobbyWaiting
+                    : "Arranca en"}
               </span>
               <span
                 style={css(
-                  `font-family:var(--font-mono);font-size:${paused ? 96 : 148}px;line-height:.95;letter-spacing:-.05em;font-weight:500`
+                  `font-family:var(--font-mono);font-size:${paused ? 96 : 148}px;line-height:.95;letter-spacing:-.05em;font-weight:500;opacity:${waiting ? 0.3 : 1}`
                 )}
               >
-                {paused ? "--:--" : fmtClock(left)}
+                {paused
+                  ? "--:--"
+                  : fmtClock(waiting ? lobby.lobbyS * 1000 : left)}
               </span>
               <div
                 style={css(
@@ -154,7 +162,11 @@ export function LobbyScene({
               <span
                 style={css("font-size:28px;line-height:1.3;margin-top:14px")}
               >
-                {paused ? COPY.lobbyPausedHint : COPY.lobbyHint}
+                {paused
+                  ? COPY.lobbyPausedHint
+                  : waiting
+                    ? COPY.lobbyWaitingHint
+                    : COPY.lobbyHint}
               </span>
             </div>
           </div>
@@ -1290,14 +1302,14 @@ export function PodiumScene({
                   "font-size:20px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#5A5A62"
                 )}
               >
-                Próxima en
+                {paused || nextAt ? "Próxima en" : "Próxima partida"}
               </span>
               <span
                 style={css(
                   "font-family:var(--font-mono);font-size:64px;line-height:1;font-weight:500"
                 )}
               >
-                {paused || !nextAt ? "--:--" : fmtClock(nextAt - now)}
+                {paused ? "--:--" : nextAt ? fmtClock(nextAt - now) : "Abierta"}
               </span>
               <span style={css("font-size:22px;color:#3A3A40")}>
                 Escaneá y sumate.

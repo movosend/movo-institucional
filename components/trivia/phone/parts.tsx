@@ -2,6 +2,7 @@ import { css } from "@/lib/juegos/css"
 import { fmtClock } from "@/lib/trivia/engine"
 
 import { Arrow } from "../icons"
+import { Wordmark } from "../wordmark"
 
 /** Piezas comunes del celular (diseño a 390 px de ancho), copiadas del prototipo. */
 
@@ -34,27 +35,14 @@ export function Screen({
 
 export function Logo({ label }: { label?: string }) {
   return (
-    <span style={css("display:flex;align-items:center;gap:10px")}>
-      <span
-        style={css(
-          "width:24px;height:24px;border-radius:999px;border:6px solid currentColor;box-sizing:border-box"
-        )}
-      />
-      <span
-        style={css("font-size:22px;font-weight:600;letter-spacing:-.045em")}
-      >
-        movo
-      </span>
-      {label && (
-        <span
-          style={css(
-            "font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#5A5A62"
-          )}
-        >
-          {label}
-        </span>
-      )}
-    </span>
+    <Wordmark
+      size={22}
+      mark={26}
+      gap={10}
+      label={label}
+      labelSize={13}
+      labelStyle="color:#5A5A62"
+    />
   )
 }
 

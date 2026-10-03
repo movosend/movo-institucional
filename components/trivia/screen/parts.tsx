@@ -1,6 +1,8 @@
 import { css } from "@/lib/juegos/css"
 import { fmtClock } from "@/lib/trivia/engine"
 
+import { Wordmark } from "../wordmark"
+
 /** Piezas comunes de las escenas de la TV (1920×1080), copiadas del prototipo. */
 
 export function Brand({
@@ -12,32 +14,20 @@ export function Brand({
   strong?: boolean
 }) {
   return (
-    <div style={css("display:flex;align-items:center;gap:20px")}>
-      <span
-        style={css(
-          "width:44px;height:44px;border-radius:999px;border:10px solid #0A0A0B;box-sizing:border-box"
-        )}
-      />
-      <span
-        style={css("font-size:42px;font-weight:600;letter-spacing:-.045em")}
-      >
-        movo
-      </span>
-      <span
-        style={css(
-          strong
-            ? "width:2px;height:32px;background:#0A0A0B"
-            : "width:1px;height:32px;background:rgba(10,10,11,.18)"
-        )}
-      />
-      <span
-        style={css(
-          `font-size:22px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:${strong ? "#0A0A0B" : "#5A5A62"}`
-        )}
-      >
-        {label}
-      </span>
-    </div>
+    <Wordmark
+      size={42}
+      mark={48}
+      gap={20}
+      label={label}
+      labelSize={22}
+      labelStyle={`color:${strong ? "#0A0A0B" : "#5A5A62"}`}
+      separator={{
+        height: 32,
+        style: strong
+          ? "width:2px;background:#0A0A0B"
+          : "width:1px;background:rgba(10,10,11,.18)",
+      }}
+    />
   )
 }
 

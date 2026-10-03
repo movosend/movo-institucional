@@ -14,6 +14,7 @@ export interface ExportRow {
   started_at: string
   player_id: string
   name: string
+  emoji: string | null
   city: string
   province: string | null
   email: string | null

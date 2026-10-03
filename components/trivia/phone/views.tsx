@@ -43,10 +43,12 @@ const INPUT =
 // ── Ingreso ──────────────────────────────────────────────────────────────────
 
 export function NameStep({
+  status,
   initial,
   error,
   onNext,
 }: {
+  status?: React.ReactNode
   initial: string
   error?: string
   onNext: (name: string) => void
@@ -68,6 +70,7 @@ export function NameStep({
           "flex:1;padding:28px 20px 32px;display:flex;flex-direction:column;gap:24px"
         )}
       >
+        {status}
         <div style={css("display:flex;flex-direction:column;gap:10px")}>
           <Eyebrow>Paso 1 de 2</Eyebrow>
           <H1>¿Cómo te llamamos?</H1>
@@ -93,6 +96,13 @@ export function NameStep({
             : (error ??
               `Así aparecés en la pantalla. Hasta ${NAME_MAX} letras.`)}
         </span>
+        <p
+          style={css(
+            "margin:0;padding:14px 16px;border-radius:6px;background:#F1F1F3;font-size:15px;line-height:1.4;color:#3A3A40"
+          )}
+        >
+          {COPY.nameRules}
+        </p>
         <div style={css("flex:1")} />
         <Primary disabled={!clean || bad}>Seguir</Primary>
       </form>
@@ -101,11 +111,13 @@ export function NameStep({
 }
 
 export function CityStep({
+  status,
   busy,
   error,
   onBack,
   onJoin,
 }: {
+  status?: React.ReactNode
   busy: boolean
   error?: string
   onBack: () => void
@@ -141,6 +153,7 @@ export function CityStep({
           "flex:1;padding:28px 20px 32px;display:flex;flex-direction:column;gap:20px"
         )}
       >
+        {status}
         <div style={css("display:flex;flex-direction:column;gap:10px")}>
           <Eyebrow>Paso 2 de 2</Eyebrow>
           <H1>¿De dónde venís?</H1>

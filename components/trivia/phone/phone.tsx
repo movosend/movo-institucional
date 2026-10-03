@@ -21,7 +21,9 @@ import {
   useTriviaState,
   type Profile,
 } from "@/lib/trivia/client"
-import { questionLimitS } from "@/lib/trivia/engine"
+import { css } from "@/lib/juegos/css"
+import { withEmoji } from "@/lib/trivia/emojis"
+import { fmtClock, questionLimitS } from "@/lib/trivia/engine"
 import type { TriviaState } from "@/lib/trivia/types"
 
 import { Body, H1, Logo, NamePill, Primary, Screen, Bar, Muted } from "./parts"
@@ -65,6 +67,11 @@ export function TriviaPhone() {
     setJoining(false)
     if (r.ok) {
       setJoinedGame(r.gameId)
+      if (r.emoji && r.emoji !== p.emoji) {
+        const withEmoji = { ...p, emoji: r.emoji }
+        saveProfile(withEmoji)
+        setProfile(withEmoji)
+      }
       return true
     }
     if (r.status === 422) {
@@ -104,6 +111,7 @@ export function TriviaPhone() {
   if (step === "name")
     return (
       <NameStep
+        status={<NextGameStatus />}
         initial={draftName}
         error={joinError?.step === "name" ? joinError.msg : undefined}
         onNext={(name) => {
@@ -117,6 +125,7 @@ export function TriviaPhone() {
   if (step === "city" || !profile)
     return (
       <CityStep
+        status={<NextGameStatus />}
         busy={joining}
         error={joinError?.step === "city" ? joinError.msg : undefined}
         onBack={() => setStep("name")}
@@ -145,6 +154,44 @@ export function TriviaPhone() {
   )
 }
 
+/**
+ * Aviso arriba del ingreso: cuánto falta para que arranque la partida, así quien está
+ * escribiendo su nombre sabe si llega o si va a esperar la siguiente.
+ */
+function NextGameStatus() {
+  const { state } = useTriviaState({ role: "player" })
+  const now = useNow(500)
+  if (!state || !now) return null
+  const cur = state.current
+  const playing = cur && !["ended", "lobby"].includes(livePhase(cur, now).kind)
+  const ends = state.lobby.lobbyEndsAt
+  const text = state.paused
+    ? "La trivia está en pausa. Arranca en un ratito."
+    : playing
+      ? ends
+        ? `Hay una partida en curso. La próxima arranca en ~${fmtClock(ends - now)}.`
+        : "Hay una partida en curso. Entrás en la próxima."
+      : ends
+        ? `La partida arranca en ${fmtClock(ends - now)}.`
+        : "Sos el primero: la partida arranca cuando entres."
+  const live = !state.paused && !playing
+  return (
+    <span
+      role="status"
+      style={css(
+        "align-self:flex-start;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:999px;background:#F1F1F3;font-size:15px;font-weight:500;line-height:1.3;color:#27272B"
+      )}
+    >
+      <span
+        style={css(
+          `flex:none;width:8px;height:8px;border-radius:999px;background:${live ? "#C6F24A" : "#8A8A93"};box-shadow:0 0 0 2px #0A0A0B`
+        )}
+      />
+      {text}
+    </span>
+  )
+}
+
 function Play({
   profile,
   joining,
@@ -164,6 +211,8 @@ function Play({
   })
   const now = useNow(200)
   const pending = usePendingAnswers()
+  // "🦊 Juli": el emoji llega al entrar (o en el estado, si cambió de celular).
+  const name = withEmoji(profile.name, profile.emoji ?? state?.me?.emoji)
   const [final, setFinal] = useState<FinalSnapshot | null>(null)
   const [local, setLocal] = useState<
     Record<string, { choice?: number; price?: number; ms: number }>
@@ -197,7 +246,7 @@ function Play({
     if (phase.kind === "podium" && final)
       return (
         <FinalView
-          name={profile.name}
+          name={name}
           final={final}
           inNext={inLobby}
           hasEmail={me.hasEmail}
@@ -211,7 +260,7 @@ function Play({
       return (
         <PositionView
           after={phase.after}
-          name={profile.name}
+          name={name}
           rank={me.rank}
           of={of}
           score={me.score}
@@ -285,7 +334,7 @@ function Play({
               reveal={reveal}
               guess={server?.price ?? mine?.price}
               points={server?.points}
-              name={profile.name}
+              name={name}
               score={me.score}
               min={question.min}
               max={question.max}
@@ -299,7 +348,7 @@ function Play({
             picked={server?.choice ?? mine?.choice}
             ms={server?.ms ?? mine?.ms}
             points={server?.points}
-            name={profile.name}
+            name={name}
             score={me.score}
             rank={me.rank}
             prevRank={me.prevRank}
@@ -314,7 +363,7 @@ function Play({
   if (final && !inLobby)
     return (
       <FinalView
-        name={profile.name}
+        name={name}
         final={final}
         inNext={false}
         hasEmail={!!me?.hasEmail}
@@ -336,7 +385,7 @@ function Play({
             : cur.questions.length
       return (
         <InProgressView
-          name={profile.name}
+          name={name}
           q={q}
           startsIn={
             state.lobby.lobbyEndsAt ? state.lobby.lobbyEndsAt - now : null
@@ -346,7 +395,7 @@ function Play({
     }
     return (
       <LobbyView
-        name={profile.name}
+        name={name}
         city={profile.city}
         count={Math.max(state.lobby.count, 1)}
         left={
@@ -365,10 +414,10 @@ function Play({
     <Screen>
       <Bar>
         <Logo label="Trivia" />
-        <NamePill>{profile.name}</NamePill>
+        <NamePill>{name}</NamePill>
       </Bar>
       <Body pad="40px 20px 32px" gap={18}>
-        <H1>¿Jugamos, {profile.name}?</H1>
+        <H1>¿Jugamos, {name}?</H1>
         <Muted size={17}>Te sumamos a la próxima partida de la pantalla.</Muted>
         <div style={{ flex: 1 }} />
         <button
