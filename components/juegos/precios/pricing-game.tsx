@@ -23,6 +23,7 @@ import {
   TILE_OPTIONS,
   tileUrl,
 } from "@/lib/juegos/map-tiles"
+import { addProvinceLines } from "@/lib/juegos/provinces"
 import { randomUUID } from "@/lib/uuid"
 import {
   ArrowLeft,
@@ -463,6 +464,7 @@ export class PricingGame extends Component<Props, State> {
     map.setView([-38, -64], 4)
     this.cityLayer = L.layerGroup()
     this.setTiles()
+    addProvinceLines(L, map)
     this.routeLayer = L.layerGroup().addTo(map)
     map.on("click", (e: Leaflet.LeafletMouseEvent) => this.onMapClick(e.latlng))
     if (this.state.screen === "attract") this.startAttract()

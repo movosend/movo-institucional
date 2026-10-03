@@ -4,7 +4,7 @@
    si el wifi de la feria se corta un rato. Solo toca requests de tiles, nada más. */
 
 const CACHE = "movo-juegos-tiles-v1"
-const MAX_ENTRIES = 6000
+const MAX_ENTRIES = 12000
 const TILE_RE = /^https:\/\/server\.arcgisonline\.com\/ArcGIS\/rest\/services\/Canvas\/World_Light_Gray_(Base|Reference)\/MapServer\/tile\//
 
 self.addEventListener("install", () => self.skipWaiting())
