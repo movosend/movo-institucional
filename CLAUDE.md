@@ -30,6 +30,8 @@ No test suite is configured.
 | `/juegos/precios` | `app/juegos/precios/page.tsx` | `components/juegos/precios/` |
 | `/juegos/optimizador` | `app/juegos/optimizador/page.tsx` | `components/juegos/optimizador/` |
 | `/juegos/acceso` | `app/juegos/acceso/page.tsx` | `components/juegos/pin-gate.tsx` |
+| `/juegos/trivia` | `app/juegos/trivia/page.tsx` | `components/trivia/screen/` (TV) |
+| `/trivia` | `app/trivia/page.tsx` | `components/trivia/phone/` (celular, público) |
 
 ### Juegos (`/juegos`)
 
@@ -66,6 +68,27 @@ esas rutas; `app/juegos/layout.tsx` las marca `noindex` y sin zoom.
   dejar el mail suscribe a la audiencia de Resend vía `/api/juegos/newsletter`
   (`lib/newsletter.ts`, la misma función que `/api/newsletter` del home), con cola en
   localStorage si no hay red.
+
+### Trivia (`/trivia` + `/juegos/trivia`)
+
+Juego en vivo tipo Kahoot para la TV del stand. **No usa el backend de Movo**: vive en Next y en
+un proyecto de Supabase propio del evento (`supabase/migrations/`, aplicar con
+`npx supabase db push`). La TV (`/juegos/trivia`, con PIN) muestra un loop continuo de
+partidas; la gente escanea el QR y juega desde `/trivia` (público, fuera de `proxy.ts`).
+
+- **Preguntas**: banco en `lib/trivia/questions.ts` (mc, verdadero/falso y precio justo con
+  precio fijo por ruta); cada partida sortea una por lugar de `GAME_TEMPLATE`
+  (`lib/trivia/config.ts`, donde también están tiempos, puntajes y textos).
+- **Tiempo real sin websockets propios**: `lib/trivia/engine.ts` calcula la fase de una partida
+  a partir de su `started_at` y su timeline congelado, con el reloj sincronizado con el
+  server. `trivia_tick()` (Postgres) arranca partidas y crea la siguiente. Supabase Realtime
+  (broadcast `trivia`) avisa cambios y el polling cubre si se cae (`lib/trivia/client.ts`).
+- **Mala señal**: las respuestas se guardan en localStorage y se reintentan; la velocidad la
+  mide el celular y el server la acota (`app/api/trivia/answer`), con 4 s de gracia.
+- **Acceso**: todo pasa por los route handlers con `SUPABASE_SERVICE_ROLE_KEY`; anon no tiene
+  permisos sobre tablas ni funciones. Mail opcional al final → Resend (`lib/newsletter.ts`).
+- **TV**: el lienzo se diseña a 1920×1080 y ocupa toda la ventana (sin franjas). Modo stand con
+  5 toques arriba a la izquierda: pausar el loop, tiempos, ocultar nombres y CSV del día.
 
 `app/layout.tsx` wraps all pages with `ThemeProvider` (forced dark) and the global `Footer`. The `Navbar` is rendered per-page, not in the root layout.
 
