@@ -5,13 +5,33 @@ export const GUTTER = "px-[clamp(16px,3vw,40px)]"
 /** Padding vertical de sección estándar. */
 export const SECTION_Y = "py-[clamp(80px,12vh,140px)]"
 
-export function LogoMark({ size = 26 }: { size?: number }) {
+/**
+ * Isotipo de Movo (public/logo.png). Sobre fondo oscuro los anillos son blancos
+ * translúcidos; `solid` usa los grises del logo oficial, para fondos claros (lime, blanco).
+ */
+export function LogoMark({
+  size = 26,
+  solid = false,
+}: {
+  size?: number
+  solid?: boolean
+}) {
+  const rings = solid
+    ? ["#696767", "#A2A0A0", "#D6D5D5", "#FFFFFF"]
+    : ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF"]
+  const opacity = solid ? [1, 1, 1, 1] : [0.15, 0.3, 0.58, 0.9]
   return (
     <svg viewBox="0 0 48 48" width={size} height={size} aria-hidden>
-      <circle cx="24" cy="24" r="24" fill="#FFFFFF" fillOpacity="0.15" />
-      <circle cx="24" cy="24" r="22.5" fill="#FFFFFF" fillOpacity="0.30" />
-      <circle cx="24" cy="24" r="20.7" fill="#FFFFFF" fillOpacity="0.58" />
-      <circle cx="24" cy="24" r="18.6" fill="#FFFFFF" fillOpacity="0.90" />
+      {[24, 22.5, 20.7, 18.6].map((r, i) => (
+        <circle
+          key={r}
+          cx="24"
+          cy="24"
+          r={r}
+          fill={rings[i]}
+          fillOpacity={opacity[i]}
+        />
+      ))}
       <circle cx="24" cy="24" r="16.3" fill="#0A0A0B" />
     </svg>
   )
