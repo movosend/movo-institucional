@@ -260,6 +260,18 @@ export function GamesHub({ eventTag }: { eventTag?: string }) {
           )
         })}
       </div>
+
+      {/* Acceso discreto a la pantalla de la trivia, pensada para la TV del stand. */}
+      <Link
+        href="/juegos/trivia"
+        className="mv-press"
+        style={css(
+          "position:absolute;left:calc(clamp(36px,5vw,64px) - 12px);bottom:clamp(16px,3vh,28px);z-index:7;display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;color:#2A2A2E;font-size:14px;font-weight:500;text-decoration:none;animation:mvFadeUp .6s cubic-bezier(.22,1,.36,1) .6s both"
+        )}
+      >
+        Pantalla de trivia
+        <ArrowRight size={14} strokeWidth={2} />
+      </Link>
     </div>
   )
 }
