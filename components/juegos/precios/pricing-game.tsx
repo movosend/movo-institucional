@@ -11,6 +11,13 @@ import { CITIES, fmt, haversineKm, norm, type City } from "@/lib/juegos/cities"
 import { css } from "@/lib/juegos/css"
 import { withStand } from "@/lib/juegos/event-tag"
 import {
+  flushNewsletterQueue,
+  isEmail,
+  newsletterPendingCount,
+  RAFFLE_COPY,
+  subscribeFromGame,
+} from "../raffle"
+import {
   MAP_BG,
   setupTileCache,
   TILE_OPTIONS,
@@ -417,6 +424,7 @@ export class PricingGame extends Component<Props, State> {
     // Cola offline: reintenta sola cada minuto, además del botón del modo stand.
     this.retryTimer = setInterval(() => {
       if (lsGet(LS_PENDING).length) void this.flushPending(false)
+      if (newsletterPendingCount()) void flushNewsletterQueue()
     }, 60_000)
     this.prefetchAttractPrices()
   }
@@ -1248,11 +1256,12 @@ export class PricingGame extends Component<Props, State> {
 
   submitEmail = () => {
     const e = this.state.email.trim()
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e)) {
+    if (!isEmail(e)) {
       this.sfx("no")
       this.setState({ emailErr: true })
       return
     }
+    subscribeFromGame(e)
     this.setState({ email: e }, () => this.go("thanks"))
   }
 
@@ -1380,6 +1389,7 @@ export class PricingGame extends Component<Props, State> {
 
   retryPending = () => {
     void this.flushPending(true)
+    void flushNewsletterQueue()
   }
 
   downloadCsv = () => {
@@ -1477,7 +1487,9 @@ export class PricingGame extends Component<Props, State> {
       sliderMaxStr = fmt(base * mx)
       altBaseStr = fmt(base)
     }
-    const pending = s.admin ? lsGet(LS_PENDING).length : 0
+    const pending = s.admin
+      ? lsGet(LS_PENDING).length + newsletterPendingCount()
+      : 0
     const total = s.admin ? lsGet(LS_ALL).length : 0
     const breakdownStr = q
       ? [`base ${fmt(q.base)}`, `distancia ${fmt(q.dist)}`, `peso ${fmt(q.w)}`]
@@ -2583,22 +2595,21 @@ export class PricingGame extends Component<Props, State> {
                         "font-size:15px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#C6F24A"
                       )}
                     >
-                      Último paso
+                      {RAFFLE_COPY.eyebrow}
                     </span>
                     <h1
                       style={css(
                         "margin:0;font-size:clamp(48px,5.2vw,76px);line-height:1;letter-spacing:-.04em;font-weight:600"
                       )}
                     >
-                      Sumate al sorteo
+                      {RAFFLE_COPY.title}
                     </h1>
                     <p
                       style={css(
                         "margin:0;font-size:24px;line-height:1.4;color:#B4B4BC;text-wrap:pretty"
                       )}
                     >
-                      Dejanos tu mail. Lo usamos solo para el sorteo y para
-                      avisarte cuando Movo llegue a tu ciudad.
+                      {RAFFLE_COPY.body}
                     </p>
                   </div>
                   <div
@@ -2615,7 +2626,7 @@ export class PricingGame extends Component<Props, State> {
                           emailErr: false,
                         })
                       }
-                      placeholder="tu@mail.com"
+                      placeholder={RAFFLE_COPY.emailPlaceholder}
                       autoComplete="off"
                       autoCapitalize="none"
                       autoCorrect="off"
@@ -2628,7 +2639,7 @@ export class PricingGame extends Component<Props, State> {
                     />
                     {s.emailErr && (
                       <span style={css("font-size:19px;color:#E5484D")}>
-                        Revisá el mail, parece que falta algo.
+                        {RAFFLE_COPY.invalid}
                       </span>
                     )}
                     <button
@@ -2638,7 +2649,7 @@ export class PricingGame extends Component<Props, State> {
                         "height:88px;border-radius:8px;border:0;background:#C6F24A;color:#0A0A0B;font-family:inherit;font-size:28px;font-weight:600;cursor:pointer"
                       )}
                     >
-                      Anotarme
+                      {RAFFLE_COPY.submit}
                     </button>
                     <button
                       onClick={this.skipEmail}
@@ -2646,7 +2657,7 @@ export class PricingGame extends Component<Props, State> {
                         "height:72px;border-radius:8px;border:1px solid rgba(255,255,255,.16);background:transparent;color:#FFFFFF;font-family:inherit;font-size:22px;font-weight:600;cursor:pointer"
                       )}
                     >
-                      Ahora no
+                      {RAFFLE_COPY.skip}
                     </button>
                   </div>
                 </div>
@@ -2686,7 +2697,7 @@ export class PricingGame extends Component<Props, State> {
                     </p>
                     {!!s.email && (
                       <p style={css("margin:0;font-size:20px;color:#8A8A93")}>
-                        Quedaste anotado en el sorteo con {s.email}.
+                        {RAFFLE_COPY.joined(s.email)}
                       </p>
                     )}
                     <div
