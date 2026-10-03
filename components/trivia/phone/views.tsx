@@ -1253,3 +1253,21 @@ export function OfflineView() {
     </Screen>
   )
 }
+
+/** La pantalla del stand está apagada: no se puede entrar (ver `trivia_screen_live`). */
+export function ClosedView() {
+  return (
+    <Screen>
+      <Bar>
+        <Logo label="Trivia" />
+      </Bar>
+      <Body pad="40px 20px 32px" gap={18}>
+        <Clock size={40} color="#0A0A0B" width={1.75} />
+        <H1>{COPY.closedTitle}</H1>
+        <p style={css("margin:0;font-size:19px;line-height:1.4;color:#3A3A40")}>
+          {COPY.closedBody}
+        </p>
+      </Body>
+    </Screen>
+  )
+}

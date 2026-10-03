@@ -98,6 +98,8 @@ export interface MyState {
 export interface TriviaState {
   serverNow: number
   paused: boolean
+  /** La pantalla del stand está encendida: sin ella no se puede entrar ni arranca nada. */
+  open: boolean
   lobby: LobbyGame
   current: LiveGame | null
   day: DayBoard

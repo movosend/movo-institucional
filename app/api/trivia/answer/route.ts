@@ -12,6 +12,7 @@ import {
 import {
   apiError,
   broadcast,
+  closeIfAllAnswered,
   db,
   gameById,
   unavailable,
@@ -101,6 +102,10 @@ export async function POST(request: Request) {
       throw error
     }
     broadcast("answer", { q: qi })
+    // Si era la última respuesta que faltaba, la pregunta cierra sin esperar el reloj.
+    await closeIfAllAnswered(game, qi).catch((e) =>
+      console.error("[trivia] close early:", e)
+    )
     return NextResponse.json({ ok: true })
   } catch (e) {
     console.error("[trivia] answer:", e)

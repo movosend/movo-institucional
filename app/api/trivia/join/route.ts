@@ -19,10 +19,6 @@ import {
 } from "@/lib/trivia/server"
 
 /**
- * Suma al jugador a la partida en lobby. Si hay una partida en curso, el lobby es el de la
- * próxima: el celular muestra "Hay una partida en curso" hasta que arranque la suya.
- */
-/**
  * Emoji del jugador: el que ya tiene, o uno al azar que no use nadie de la sala. Queda
  * guardado, así es el mismo en todas sus partidas.
  */
@@ -57,6 +53,11 @@ async function ensureEmoji(
   return emoji
 }
 
+/**
+ * Suma al jugador a la partida en lobby. Si hay una partida en curso, el lobby es el de la
+ * próxima: el celular muestra "Hay una partida en curso" hasta que arranque la suya. Con la
+ * pantalla del stand apagada no se puede entrar.
+ */
 export async function POST(request: Request) {
   const body = await readJsonObject(request)
   if (!body) return badRequest()
@@ -79,6 +80,16 @@ export async function POST(request: Request) {
   const supabase = db()
   if (!supabase) return unavailable()
   try {
+    // El tick asegura que haya lobby (y arranca la partida si su cuenta ya venció);
+    // trivia_join anota al jugador y arranca o estira la cuenta regresiva.
+    const t = await tick()
+    if (!t.open)
+      return apiError(
+        "TRIVIA_CLOSED",
+        "La trivia no está habilitada ahora.",
+        409
+      )
+
     const { error: playerError } = await supabase
       .from("trivia_players")
       .upsert({
@@ -90,9 +101,6 @@ export async function POST(request: Request) {
       })
     if (playerError) throw playerError
 
-    // El tick asegura que haya lobby (y arranca la partida si su cuenta ya venció);
-    // trivia_join anota al jugador y arranca o estira la cuenta regresiva.
-    const t = await tick()
     const emoji = await ensureEmoji(supabase, playerId, t.lobby.id)
     const { data: gameId, error } = await supabase.rpc("trivia_join", {
       p_player: playerId,

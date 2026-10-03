@@ -40,6 +40,14 @@ export const DEFAULT_TIMELINE: Timeline = {
 export const LOBBY_EXTEND_S = 15
 export const LOBBY_EXTEND_MAX_S = 30
 
+/**
+ * La trivia solo está abierta con la pantalla del stand encendida: la TV avisa cada
+ * SCREEN_PING_S y, si pasan SCREEN_TIMEOUT_S sin aviso, se cierra
+ * (supabase/migrations, `trivia_screen_live`; los dos valores tienen que coincidir).
+ */
+export const SCREEN_PING_S = 8
+export const SCREEN_TIMEOUT_S = 25
+
 /** Límites que acepta el modo stand para cada duración. */
 export const TIMELINE_LIMITS: Record<keyof Timeline, [number, number]> = {
   lobby: [10, 180],
@@ -111,6 +119,9 @@ export const COPY = {
     "Poné tu nombre real, sin malas palabras ni mensajes raros: lo ve todo el stand. Le sumamos un emoji para que te encuentres en la pantalla.",
   lobbyWaiting: "Esperando jugadores",
   lobbyWaitingHint: "Arranca cuando entra el primero.",
+  closedTitle: "La trivia no está habilitada ahora.",
+  closedBody:
+    "Se juega en el stand de Movo, con la pantalla encendida. Cuando esté lista, te sumamos solo.",
   dayTitle: "Los mejores de hoy.",
   dayEmpty: "Todavía nadie jugó hoy. Estrená el ranking.",
   podiumFooter:

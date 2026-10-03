@@ -3,7 +3,7 @@
 import "@/components/juegos/juegos.css"
 import "../trivia.css"
 
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 
 import {
   flushAnswers,
@@ -31,6 +31,7 @@ import {
   ChoiceResult,
   ChoiceView,
   CityStep,
+  ClosedView,
   FinalView,
   InProgressView,
   LobbyView,
@@ -110,36 +111,44 @@ export function TriviaPhone() {
 
   if (step === "name")
     return (
-      <NameStep
-        status={<NextGameStatus />}
-        initial={draftName}
-        error={joinError?.step === "name" ? joinError.msg : undefined}
-        onNext={(name) => {
-          setDraftName(name)
-          setJoinError(undefined)
-          setStep("city")
-        }}
+      <Entry
+        render={(status) => (
+          <NameStep
+            status={status}
+            initial={draftName}
+            error={joinError?.step === "name" ? joinError.msg : undefined}
+            onNext={(name) => {
+              setDraftName(name)
+              setJoinError(undefined)
+              setStep("city")
+            }}
+          />
+        )}
       />
     )
 
   if (step === "city" || !profile)
     return (
-      <CityStep
-        status={<NextGameStatus />}
-        busy={joining}
-        error={joinError?.step === "city" ? joinError.msg : undefined}
-        onBack={() => setStep("name")}
-        onJoin={async (city, province) => {
-          const p: Profile = {
-            id: profile?.id ?? newPlayerId(),
-            name: draftName,
-            city,
-            province,
-          }
-          saveProfile(p)
-          setProfile(p)
-          if (await join(p)) setStep("play")
-        }}
+      <Entry
+        render={(status) => (
+          <CityStep
+            status={status}
+            busy={joining}
+            error={joinError?.step === "city" ? joinError.msg : undefined}
+            onBack={() => setStep("name")}
+            onJoin={async (city, province) => {
+              const p: Profile = {
+                id: profile?.id ?? newPlayerId(),
+                name: draftName,
+                city,
+                province,
+              }
+              saveProfile(p)
+              setProfile(p)
+              if (await join(p)) setStep("play")
+            }}
+          />
+        )}
       />
     )
 
@@ -154,13 +163,25 @@ export function TriviaPhone() {
   )
 }
 
+/** Ingreso (nombre y ciudad): con la pantalla del stand apagada no se puede entrar. */
+function Entry({ render }: { render: (status: ReactNode) => ReactNode }) {
+  const { state } = useTriviaState({ role: "player" })
+  const now = useNow(500)
+  if (state && !state.open) return <ClosedView />
+  return render(<NextGameStatus state={state} now={now} />)
+}
+
 /**
  * Aviso arriba del ingreso: cuánto falta para que arranque la partida, así quien está
  * escribiendo su nombre sabe si llega o si va a esperar la siguiente.
  */
-function NextGameStatus() {
-  const { state } = useTriviaState({ role: "player" })
-  const now = useNow(500)
+function NextGameStatus({
+  state,
+  now,
+}: {
+  state: TriviaState | null
+  now: number
+}) {
   if (!state || !now) return null
   const cur = state.current
   const playing = cur && !["ended", "lobby"].includes(livePhase(cur, now).kind)
@@ -226,6 +247,17 @@ function Play({
     if (podium) setFinal(podium)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [podiumKey])
+
+  // Si entró con la trivia cerrada, lo sumamos solo cuando se abre (salvo que ya haya
+  // jugado: quien terminó y no tocó "jugar de nuevo" puede haberse ido).
+  const open = state?.open
+  const prevOpen = useRef(open)
+  useEffect(() => {
+    const was = prevOpen.current
+    prevOpen.current = open
+    if (was === false && open && !final && !state?.me?.inLobby) onJoin()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open])
 
   if (!state || !now) return offline ? <OfflineView /> : <Screen>{null}</Screen>
 
@@ -358,6 +390,9 @@ function Play({
       }
     }
   }
+
+  // ── Pantalla del stand apagada ──
+  if (!state.open) return <ClosedView />
 
   // ── Terminó su partida y todavía no se anotó en la próxima ──
   if (final && !inLobby)
