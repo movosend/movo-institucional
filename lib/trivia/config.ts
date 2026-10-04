@@ -103,6 +103,9 @@ export const ANSWER_GRACE_S = 4
 /** Ciudad de la feria: centro del mapa de "La red de hoy". */
 export const FAIR_CITY = "Córdoba"
 
+/** Techo del cupo de la sala (lo que el server lee de una partida). */
+export const MAX_PLAYERS_LIMIT = 500
+
 export const NAME_MAX = 12
 
 /** URL del QR. En desarrollo, si no está configurada, se usa el origen actual. */
@@ -113,6 +116,7 @@ export const COPY = {
   lobbyTitle: "Escaneá\ny jugá.",
   lobbyCall: "Sumate a la próxima",
   lobbyHint: "2 minutos, desde tu celular.",
+  lobbyManualHint: "Arranca cuando el stand dé la salida.",
   lobbyPaused: "En pausa",
   lobbyPausedHint: "La próxima partida arranca en un ratito.",
   nameRules:

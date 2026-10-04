@@ -83,6 +83,8 @@ interface TickResult {
   now: string
   paused: boolean
   open: boolean
+  manualLobby: boolean
+  manualSlides: boolean
   timeline: Timeline
   lobby: GameRow
   current: GameRow | null
@@ -198,6 +200,10 @@ function loadGameData(gameId: string): Promise<GameData> {
 }
 
 const gameRowCache = cached<GameRow | null>(1000)
+
+export function invalidateGames() {
+  gameRowCache.clear()
+}
 
 /**
  * Partida por id. Cache corta: si todos responden antes de tiempo, la partida se adelanta
@@ -423,6 +429,7 @@ async function liveGame(
       id: game.id,
       number: game.number,
       startedAt: Date.parse(game.started_at!),
+      holdMs: game.hold_ms ?? null,
       timeline: game.timeline,
       questions,
       players: data.entries.length,
@@ -473,6 +480,8 @@ export async function buildState(playerId?: string): Promise<TriviaState> {
     serverNow: now,
     paused: t.paused,
     open: t.open,
+    manualLobby: t.manualLobby,
+    manualSlides: t.manualSlides,
     lobby: {
       id: t.lobby.id,
       number: t.lobby.number,

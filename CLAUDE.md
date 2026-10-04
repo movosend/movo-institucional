@@ -92,6 +92,9 @@ partidas; la gente escanea el QR y juega desde `/trivia` (público, fuera de `pr
   permisos sobre tablas ni funciones. Mail opcional al final → Resend (`lib/newsletter.ts`).
 - **TV**: el lienzo se diseña a 1920×1080 y ocupa toda la ventana (sin franjas). Modo stand con
   5 toques arriba a la izquierda: pausar el loop, tiempos, ocultar nombres y CSV del día.
+- **Control del stand**: `components/trivia/control/control-panel.tsx`, el mismo componente como panel
+  sobre la TV y como ventana propia en `/juegos/trivia/control` (otra pantalla, tablet o celular;
+  no manda el ping de la pantalla). Cambios optimistas y tiempos que se guardan solos.
 
 `app/layout.tsx` wraps all pages with `ThemeProvider` (forced dark) and the global `Footer`. The `Navbar` is rendered per-page, not in the root layout.
 

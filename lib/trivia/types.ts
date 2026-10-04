@@ -40,6 +40,8 @@ export interface LiveGame {
   id: string
   number: number
   startedAt: number
+  /** Pantallas manuales: ms del reloj de la partida donde se frena (`GameRow.hold_ms`). */
+  holdMs: number | null
   timeline: Timeline
   questions: PublicQuestion[]
   players: number
@@ -100,6 +102,10 @@ export interface TriviaState {
   paused: boolean
   /** La pantalla del stand está encendida: sin ella no se puede entrar ni arranca nada. */
   open: boolean
+  /** El stand inicia las partidas (sin cuenta regresiva en el lobby). */
+  manualLobby: boolean
+  /** El stand pasa las preguntas y pantallas a mano. */
+  manualSlides: boolean
   lobby: LobbyGame
   current: LiveGame | null
   day: DayBoard

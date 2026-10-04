@@ -248,6 +248,7 @@ export function LobbyView({
   count,
   left,
   paused,
+  manual,
   cities,
 }: {
   name: string
@@ -255,6 +256,8 @@ export function LobbyView({
   count: number
   left: number | null
   paused: boolean
+  /** Lobby manual: arranca cuando el stand lo indica. */
+  manual: boolean
   cities: DayBoard["cities"]
 }) {
   return (
@@ -283,7 +286,11 @@ export function LobbyView({
           )}
         >
           <span style={css("font-size:17px;color:#3A3A40")}>
-            {paused ? "En pausa" : "Arranca en"}
+            {paused
+              ? "En pausa"
+              : manual
+                ? "Arranca con el stand"
+                : "Arranca en"}
           </span>
           <span
             style={css(

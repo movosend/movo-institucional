@@ -1,5 +1,6 @@
 "use client"
 
+import { audioCtx, initAudio } from "@/lib/juegos/audio"
 import "leaflet/dist/leaflet.css"
 import "../juegos.css"
 
@@ -269,7 +270,6 @@ export class PricingGame extends Component<Props, State> {
   private panelEl: HTMLDivElement | null = null
   private inputEl: HTMLInputElement | null = null
   private trackEl: HTMLDivElement | null = null
-  private ac: AudioContext | null = null
   private routes: Record<string, [number, number][]> = {}
   private attractPrices: Record<string, number> = {}
   private mounted = false
@@ -304,14 +304,20 @@ export class PricingGame extends Component<Props, State> {
   quote(): Quote | null {
     const { serverQuote: sq, origin, dest } = this.state
     if (!sq || !origin || !dest) return null
+    // El desglose puede venir null o incompleto (pricing desplegado sin `includeBreakdown`,
+    // versiones desfasadas): cada campo se valida y cae a un valor neutro, nunca NaN.
     const b = sq.breakdown
-    const km = b ? b.distanceKm : haversineKm(origin, dest) * ROAD_FACTOR
-    const base = b?.base ?? 0
-    const dist = b?.distance ?? 0
-    const w = b?.weight ?? 0
+    const num = (v: unknown, fallback: number) =>
+      typeof v === "number" && Number.isFinite(v) ? v : fallback
+    const km = num(b?.distanceKm, haversineKm(origin, dest) * ROAD_FACTOR)
+    const base = num(b?.base, 0)
+    const dist = num(b?.distance, 0)
+    const w = num(b?.weight, 0)
     const sub = base + dist + w
-    const fx = b ? sub * (b.packageFactor - 1) : 0
-    const demand = b ? sub * b.packageFactor * (b.demandMultiplier - 1) : 0
+    const packageFactor = num(b?.packageFactor, 1)
+    const demandMultiplier = num(b?.demandMultiplier, 1)
+    const fx = sub * (packageFactor - 1)
+    const demand = sub * packageFactor * (demandMultiplier - 1)
     return {
       km,
       base,
@@ -394,6 +400,7 @@ export class PricingGame extends Component<Props, State> {
   // --- Ciclo de vida ------------------------------------------------------------------
 
   componentDidMount() {
+    initAudio()
     this.lastAct = Date.now()
     this.mounted = true
     window.addEventListener("resize", this.onResize)
@@ -830,14 +837,8 @@ export class PricingGame extends Component<Props, State> {
   tone(seq: [number, number, OscillatorType?, number?][]) {
     if (!this.state.soundOn) return
     try {
-      const W = window as unknown as {
-        AudioContext?: typeof AudioContext
-        webkitAudioContext?: typeof AudioContext
-      }
-      const Ctx = W.AudioContext || W.webkitAudioContext
-      if (!Ctx) return
-      const ctx = this.ac || (this.ac = new Ctx())
-      if (ctx.state === "suspended") ctx.resume()
+      const ctx = audioCtx()
+      if (!ctx) return
       let t = ctx.currentTime
       seq.forEach(([f, d, type = "sine", v = 0.12]) => {
         const o = ctx.createOscillator()
@@ -1428,7 +1429,6 @@ export class PricingGame extends Component<Props, State> {
 
   onAnyTouch = () => {
     this.lastAct = Date.now()
-    if (this.ac && this.ac.state === "suspended") this.ac.resume()
   }
 
   // --- Render -------------------------------------------------------------------------

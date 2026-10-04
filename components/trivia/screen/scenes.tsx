@@ -40,19 +40,22 @@ export function LobbyScene({
   lobby,
   day,
   paused,
+  manual,
   now,
   url,
 }: {
   lobby: LobbyGame
   day: DayBoard
   paused: boolean
+  /** Lobby manual: no hay cuenta, el stand inicia la partida. */
+  manual: boolean
   now: number
   url: string
 }) {
   const left = lobby.lobbyEndsAt ? Math.max(0, lobby.lobbyEndsAt - now) : 0
   const pct = lobby.lobbyEndsAt ? 1 - left / (lobby.lobbyS * 1000) : 0
   // Sin cuenta: en pausa (modo stand) o esperando al primer jugador.
-  const waiting = !paused && !lobby.lobbyEndsAt
+  const waiting = !paused && !manual && !lobby.lobbyEndsAt
   // El panel derecho rota cada 10 s entre el mapa y el ranking del día.
   const ph = Math.floor(now / 10000) % 2
   const fill = `${(((now % 10000) / 10000) * 100).toFixed(1)}%`
@@ -132,9 +135,13 @@ export function LobbyScene({
               >
                 {paused
                   ? COPY.lobbyPaused
-                  : waiting
-                    ? COPY.lobbyWaiting
-                    : "Arranca en"}
+                  : manual
+                    ? lobby.count === 1
+                      ? "Jugador en la sala"
+                      : "Jugadores en la sala"
+                    : waiting
+                      ? COPY.lobbyWaiting
+                      : "Arranca en"}
               </span>
               <span
                 style={css(
@@ -143,30 +150,36 @@ export function LobbyScene({
               >
                 {paused
                   ? "--:--"
-                  : fmtClock(waiting ? lobby.lobbyS * 1000 : left)}
+                  : manual
+                    ? String(lobby.count)
+                    : fmtClock(waiting ? lobby.lobbyS * 1000 : left)}
               </span>
-              <div
-                style={css(
-                  "height:12px;border-radius:999px;background:rgba(10,10,11,.14);overflow:hidden;margin-top:8px"
-                )}
-              >
+              {!manual && (
                 <div
-                  style={{
-                    ...css(
-                      "height:100%;background:#0A0A0B;transition:width .2s linear"
-                    ),
-                    width: `${Math.max(0, Math.min(1, pct)) * 100}%`,
-                  }}
-                />
-              </div>
+                  style={css(
+                    "height:12px;border-radius:999px;background:rgba(10,10,11,.14);overflow:hidden;margin-top:8px"
+                  )}
+                >
+                  <div
+                    style={{
+                      ...css(
+                        "height:100%;background:#0A0A0B;transition:width .2s linear"
+                      ),
+                      width: `${Math.max(0, Math.min(1, pct)) * 100}%`,
+                    }}
+                  />
+                </div>
+              )}
               <span
                 style={css("font-size:28px;line-height:1.3;margin-top:14px")}
               >
                 {paused
                   ? COPY.lobbyPausedHint
-                  : waiting
-                    ? COPY.lobbyWaitingHint
-                    : COPY.lobbyHint}
+                  : manual
+                    ? COPY.lobbyManualHint
+                    : waiting
+                      ? COPY.lobbyWaitingHint
+                      : COPY.lobbyHint}
               </span>
             </div>
           </div>

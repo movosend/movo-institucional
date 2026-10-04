@@ -192,9 +192,11 @@ function NextGameStatus({
       ? ends
         ? `Hay una partida en curso. La próxima arranca en ~${fmtClock(ends - now)}.`
         : "Hay una partida en curso. Entrás en la próxima."
-      : ends
-        ? `La partida arranca en ${fmtClock(ends - now)}.`
-        : "Sos el primero: la partida arranca cuando entres."
+      : state.manualLobby
+        ? "La partida la arranca el stand en un momento."
+        : ends
+          ? `La partida arranca en ${fmtClock(ends - now)}.`
+          : "Sos el primero: la partida arranca cuando entres."
   const live = !state.paused && !playing
   return (
     <span
@@ -439,6 +441,7 @@ function Play({
             : null
         }
         paused={state.paused}
+        manual={state.manualLobby}
         cities={state.day.cities}
       />
     )
