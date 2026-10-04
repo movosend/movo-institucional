@@ -12,6 +12,7 @@ import {
   podiumMs,
   publicQuestion,
   questionOf,
+  questionWindow,
   revealedCount,
   phaseAt,
   type GameRow,
@@ -81,6 +82,7 @@ function cached<T>(ttlMs: number) {
 interface TickResult {
   now: string
   paused: boolean
+  open: boolean
   timeline: Timeline
   lobby: GameRow
   current: GameRow | null
@@ -195,23 +197,44 @@ function loadGameData(gameId: string): Promise<GameData> {
   })
 }
 
-const gameRowCache = new Map<string, GameRow>()
+const gameRowCache = cached<GameRow | null>(1000)
 
-/** Partida por id. Una vez arrancada no cambia, así que queda en memoria. */
-export async function gameById(id: string): Promise<GameRow | null> {
-  const hit = gameRowCache.get(id)
-  if (hit) return hit
-  const { data, error } = await db()!
-    .from("trivia_games")
-    .select("*")
-    .eq("id", id)
-    .maybeSingle()
+/**
+ * Partida por id. Cache corta: si todos responden antes de tiempo, la partida se adelanta
+ * (`closeIfAllAnswered`) y otra instancia puede haberla movido.
+ */
+export function gameById(id: string): Promise<GameRow | null> {
+  return gameRowCache.get(id, async () => {
+    const { data, error } = await db()!
+      .from("trivia_games")
+      .select("*")
+      .eq("id", id)
+      .maybeSingle()
+    if (error) throw error
+    return (data as GameRow) ?? null
+  })
+}
+
+/** Pausa corta entre la última respuesta y la revelación, para que se vea que entró. */
+const CLOSE_EARLY_BUFFER_MS = 1500
+
+/**
+ * Si todos los jugadores ya respondieron la pregunta `q`, adelanta la partida para que la
+ * revelación llegue sin esperar el resto del tiempo (`trivia_close_question`).
+ */
+export async function closeIfAllAnswered(game: GameRow, q: number) {
+  const { data, error } = await db()!.rpc("trivia_close_question", {
+    p_game: game.id,
+    p_started_at: game.started_at,
+    p_q: q,
+    p_q_end: new Date(questionWindow(game, q).end).toISOString(),
+    p_buffer_ms: CLOSE_EARLY_BUFFER_MS,
+  })
   if (error) throw error
-  if (data?.started_at) {
-    if (gameRowCache.size > 100) gameRowCache.clear()
-    gameRowCache.set(id, data as GameRow)
-  }
-  return (data as GameRow) ?? null
+  if (!data) return
+  gameRowCache.clear()
+  invalidateTick()
+  broadcast("game")
 }
 
 // ── Ranking del día ───────────────────────────────────────────────────────────
@@ -449,6 +472,7 @@ export async function buildState(playerId?: string): Promise<TriviaState> {
   const state: TriviaState = {
     serverNow: now,
     paused: t.paused,
+    open: t.open,
     lobby: {
       id: t.lobby.id,
       number: t.lobby.number,

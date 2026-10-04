@@ -7,6 +7,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react"
 
 import { css } from "@/lib/juegos/css"
 import { livePhase, useNow, useTriviaState } from "@/lib/trivia/client"
+import { SCREEN_PING_S } from "@/lib/trivia/config"
 import { questionLimitS } from "@/lib/trivia/engine"
 import { SFX, enableSound } from "@/lib/trivia/sfx"
 import type { TriviaState } from "@/lib/trivia/types"
@@ -44,6 +45,38 @@ function useStage() {
   return { scale, w: vw / scale, h: vh / scale }
 }
 
+/**
+ * La trivia solo está abierta mientras esta pantalla está a la vista: avisa al server cada
+ * SCREEN_PING_S y, al cerrarse o quedar en segundo plano, la cierra al instante.
+ */
+function useScreenPing(onOpen: () => void) {
+  const onOpenRef = useRef(onOpen)
+  useEffect(() => {
+    onOpenRef.current = onOpen
+  })
+  useEffect(() => {
+    const ping = () => {
+      if (document.visibilityState !== "visible") return
+      void fetch("/api/juegos/trivia/screen", { method: "POST" })
+        .then((r) => r.ok && onOpenRef.current())
+        .catch(() => {})
+    }
+    const leave = () =>
+      navigator.sendBeacon("/api/juegos/trivia/screen?leave=1")
+    const onVisibility = () =>
+      document.visibilityState === "visible" ? ping() : leave()
+    ping()
+    const id = setInterval(ping, SCREEN_PING_S * 1000)
+    document.addEventListener("visibilitychange", onVisibility)
+    window.addEventListener("pagehide", leave)
+    return () => {
+      clearInterval(id)
+      document.removeEventListener("visibilitychange", onVisibility)
+      window.removeEventListener("pagehide", leave)
+    }
+  }, [])
+}
+
 function useFullscreen() {
   return useSyncExternalStore(
     (cb) => {
@@ -71,7 +104,7 @@ function Scene({
       <LobbyScene
         lobby={state.lobby}
         day={state.day}
-        paused={state.paused}
+        paused={state.paused || !state.open}
         now={now}
         url={url}
       />
@@ -83,7 +116,7 @@ function Scene({
         game={game}
         day={state.day}
         nextAt={state.lobby.lobbyEndsAt}
-        paused={state.paused}
+        paused={state.paused || !state.open}
         now={now}
         url={url}
       />
@@ -104,7 +137,7 @@ function Scene({
       <LobbyScene
         lobby={state.lobby}
         day={state.day}
-        paused={state.paused}
+        paused={state.paused || !state.open}
         now={now}
         url={url}
       />
@@ -175,6 +208,9 @@ function sceneKey(state: TriviaState | null, now: number) {
 
 export function TriviaTV() {
   const { state, offline, refresh } = useTriviaState({ role: "tv" })
+  useScreenPing(() => {
+    if (state && !state.open) refresh()
+  })
   const now = useNow(100)
   const url = useTriviaUrl()
   const stage = useStage()
