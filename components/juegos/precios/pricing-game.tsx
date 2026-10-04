@@ -1,5 +1,6 @@
 "use client"
 
+import { audioCtx, initAudio } from "@/lib/juegos/audio"
 import "leaflet/dist/leaflet.css"
 import "../juegos.css"
 
@@ -269,7 +270,6 @@ export class PricingGame extends Component<Props, State> {
   private panelEl: HTMLDivElement | null = null
   private inputEl: HTMLInputElement | null = null
   private trackEl: HTMLDivElement | null = null
-  private ac: AudioContext | null = null
   private routes: Record<string, [number, number][]> = {}
   private attractPrices: Record<string, number> = {}
   private mounted = false
@@ -400,6 +400,7 @@ export class PricingGame extends Component<Props, State> {
   // --- Ciclo de vida ------------------------------------------------------------------
 
   componentDidMount() {
+    initAudio()
     this.lastAct = Date.now()
     this.mounted = true
     window.addEventListener("resize", this.onResize)
@@ -836,14 +837,8 @@ export class PricingGame extends Component<Props, State> {
   tone(seq: [number, number, OscillatorType?, number?][]) {
     if (!this.state.soundOn) return
     try {
-      const W = window as unknown as {
-        AudioContext?: typeof AudioContext
-        webkitAudioContext?: typeof AudioContext
-      }
-      const Ctx = W.AudioContext || W.webkitAudioContext
-      if (!Ctx) return
-      const ctx = this.ac || (this.ac = new Ctx())
-      if (ctx.state === "suspended") ctx.resume()
+      const ctx = audioCtx()
+      if (!ctx) return
       let t = ctx.currentTime
       seq.forEach(([f, d, type = "sine", v = 0.12]) => {
         const o = ctx.createOscillator()
@@ -1434,7 +1429,6 @@ export class PricingGame extends Component<Props, State> {
 
   onAnyTouch = () => {
     this.lastAct = Date.now()
-    if (this.ac && this.ac.state === "suspended") this.ac.resume()
   }
 
   // --- Render -------------------------------------------------------------------------

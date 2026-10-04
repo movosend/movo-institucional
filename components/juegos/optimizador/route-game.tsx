@@ -1,5 +1,6 @@
 "use client"
 
+import { audioCtx, initAudio } from "@/lib/juegos/audio"
 import "leaflet/dist/leaflet.css"
 import "../juegos.css"
 
@@ -378,7 +379,6 @@ export class RouteGame extends Component<Props, State> {
   private mapEl: HTMLDivElement | null = null
   private panelEl: HTMLDivElement | null = null
   private cardEls: (HTMLDivElement | null)[] = []
-  private ac: AudioContext | null = null
   private game: Game | null = null
   private geoCache: Record<string, Geo> = {}
   private mounted = false
@@ -412,6 +412,7 @@ export class RouteGame extends Component<Props, State> {
   // --- Ciclo de vida ------------------------------------------------------------------
 
   componentDidMount() {
+    initAudio()
     this.mounted = true
     this.lastAct = Date.now()
     this.setState({ cfg: loadConfig() })
@@ -788,14 +789,8 @@ export class RouteGame extends Component<Props, State> {
   tone(seq: [number, number, OscillatorType?, number?][]) {
     if (!this.state.soundOn) return
     try {
-      const W = window as unknown as {
-        AudioContext?: typeof AudioContext
-        webkitAudioContext?: typeof AudioContext
-      }
-      const Ctx = W.AudioContext || W.webkitAudioContext
-      if (!Ctx) return
-      const ctx = this.ac || (this.ac = new Ctx())
-      if (ctx.state === "suspended") void ctx.resume()
+      const ctx = audioCtx()
+      if (!ctx) return
       let t = ctx.currentTime
       seq.forEach(([f, d, type = "triangle", v = 0.12]) => {
         const o = ctx.createOscillator()
@@ -1556,7 +1551,6 @@ export class RouteGame extends Component<Props, State> {
 
   onAnyTouch = () => {
     this.lastAct = Date.now()
-    if (this.ac && this.ac.state === "suspended") void this.ac.resume()
   }
 
   setConfig(patch: Partial<Config>) {

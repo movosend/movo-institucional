@@ -4,13 +4,15 @@
  * Efectos cortos de la TV, generados con WebAudio (sin archivos). El navegador exige un
  * gesto antes de sonar: la TV muestra "Activar sonido" hasta el primer clic.
  */
+import { audioCtx, initAudio } from "@/lib/juegos/audio"
+
 let ctx: AudioContext | null = null
 
 export function enableSound(): boolean {
   try {
-    ctx ??= new AudioContext()
-    void ctx.resume()
-    return true
+    initAudio()
+    ctx = audioCtx()
+    return ctx != null
   } catch {
     return false
   }
@@ -24,6 +26,7 @@ function tone(
   dur: number,
   { type = "sine", gain = 0.18 }: { type?: OscillatorType; gain?: number } = {}
 ) {
+  const ctx = audioCtx()
   if (!ctx) return
   const t = ctx.currentTime + at
   const osc = ctx.createOscillator()
