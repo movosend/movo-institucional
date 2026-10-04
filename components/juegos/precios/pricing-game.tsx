@@ -304,14 +304,20 @@ export class PricingGame extends Component<Props, State> {
   quote(): Quote | null {
     const { serverQuote: sq, origin, dest } = this.state
     if (!sq || !origin || !dest) return null
+    // El desglose puede venir null o incompleto (pricing desplegado sin `includeBreakdown`,
+    // versiones desfasadas): cada campo se valida y cae a un valor neutro, nunca NaN.
     const b = sq.breakdown
-    const km = b ? b.distanceKm : haversineKm(origin, dest) * ROAD_FACTOR
-    const base = b?.base ?? 0
-    const dist = b?.distance ?? 0
-    const w = b?.weight ?? 0
+    const num = (v: unknown, fallback: number) =>
+      typeof v === "number" && Number.isFinite(v) ? v : fallback
+    const km = num(b?.distanceKm, haversineKm(origin, dest) * ROAD_FACTOR)
+    const base = num(b?.base, 0)
+    const dist = num(b?.distance, 0)
+    const w = num(b?.weight, 0)
     const sub = base + dist + w
-    const fx = b ? sub * (b.packageFactor - 1) : 0
-    const demand = b ? sub * b.packageFactor * (b.demandMultiplier - 1) : 0
+    const packageFactor = num(b?.packageFactor, 1)
+    const demandMultiplier = num(b?.demandMultiplier, 1)
+    const fx = sub * (packageFactor - 1)
+    const demand = sub * packageFactor * (demandMultiplier - 1)
     return {
       km,
       base,
