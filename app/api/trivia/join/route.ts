@@ -107,7 +107,15 @@ export async function POST(request: Request) {
       p_extend_s: LOBBY_EXTEND_S,
       p_extend_max_s: LOBBY_EXTEND_MAX_S,
     })
-    if (error) throw error
+    if (error) {
+      if (error.message.includes("sala llena"))
+        return apiError(
+          "ROOM_FULL",
+          "La sala está llena. Probá en la próxima partida.",
+          409
+        )
+      throw error
+    }
     invalidateTick()
     broadcast("room")
     return NextResponse.json({ ok: true, gameId: gameId as string, emoji })

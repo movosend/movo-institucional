@@ -105,6 +105,7 @@ function Scene({
         lobby={state.lobby}
         day={state.day}
         paused={state.paused || !state.open}
+        manual={state.manualLobby}
         now={now}
         url={url}
       />
@@ -138,6 +139,7 @@ function Scene({
         lobby={state.lobby}
         day={state.day}
         paused={state.paused || !state.open}
+        manual={state.manualLobby}
         now={now}
         url={url}
       />
@@ -206,6 +208,24 @@ function sceneKey(state: TriviaState | null, now: number) {
     : p.kind
 }
 
+/** Lo que el stand puede pedir desde el teclado (`/api/juegos/trivia/admin`). */
+async function sendControl(action: "start" | "next"): Promise<string | null> {
+  try {
+    const r = await fetch("/api/juegos/trivia/admin", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ action }),
+    })
+    if (r.ok) return null
+    const body = (await r.json().catch(() => null)) as {
+      error?: { message?: string }
+    } | null
+    return body?.error?.message ?? "No se pudo. Probá de nuevo."
+  } catch {
+    return "Sin conexión. Probá de nuevo."
+  }
+}
+
 export function TriviaTV() {
   const { state, offline, refresh } = useTriviaState({ role: "tv" })
   useScreenPing(() => {
@@ -231,6 +251,42 @@ export function TriviaTV() {
     return () => clearTimeout(hideTimer.current)
   }, [])
   const taps = useRef<number[]>([])
+
+  // Controles manuales del stand (se activan en el modo stand): Enter inicia la partida
+  // desde el lobby y Espacio, → o Av Pág pasan a la siguiente pantalla (los clickers de
+  // presentación mandan alguna de esas).
+  const [flash, setFlash] = useState<string | null>(null)
+  const flashTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
+  const control = useRef<(action: "start" | "next") => void>(() => {})
+  useEffect(() => {
+    control.current = (action) => {
+      void sendControl(action).then((error) => {
+        refresh()
+        if (!error) return
+        setFlash(error)
+        clearTimeout(flashTimer.current)
+        flashTimer.current = setTimeout(() => setFlash(null), 3000)
+      })
+    }
+  })
+  const manualLobby = state?.manualLobby ?? false
+  const manualSlides = state?.manualSlides ?? false
+  useEffect(() => {
+    if (stand || (!manualLobby && !manualSlides)) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.repeat || e.metaKey || e.ctrlKey || e.altKey) return
+      if (manualLobby && e.key === "Enter") control.current("start")
+      else if (
+        manualSlides &&
+        (e.key === " " || e.key === "ArrowRight" || e.key === "PageDown")
+      )
+        control.current("next")
+      else return
+      e.preventDefault()
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [stand, manualLobby, manualSlides])
 
   // Sonidos al cambiar de escena, cuando entra alguien y en los últimos 3 s.
   const key = sceneKey(state, now)
@@ -321,6 +377,33 @@ export function TriviaTV() {
             Sin conexión, reintentando
           </span>
         )}
+        {flash && (
+          <span
+            style={css(
+              "padding:6px 12px;border-radius:999px;background:#E5484D;color:#FFFFFF"
+            )}
+          >
+            {flash}
+          </span>
+        )}
+        {controls && manualLobby && (
+          <span
+            style={css(
+              "padding:6px 12px;border-radius:999px;background:rgba(10,10,11,.75);color:#FFFFFF"
+            )}
+          >
+            Enter: iniciar partida
+          </span>
+        )}
+        {controls && manualSlides && (
+          <span
+            style={css(
+              "padding:6px 12px;border-radius:999px;background:rgba(10,10,11,.75);color:#FFFFFF"
+            )}
+          >
+            Espacio o →: siguiente
+          </span>
+        )}
         {controls && !fullscreen && (
           <button
             onClick={() => void document.documentElement.requestFullscreen?.()}
@@ -344,9 +427,10 @@ export function TriviaTV() {
 
       {stand && (
         <StandPanel
+          state={state}
+          now={now}
           onClose={() => setStand(false)}
           onChange={refresh}
-          paused={state?.paused ?? false}
         />
       )}
     </div>

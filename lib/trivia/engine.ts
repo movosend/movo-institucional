@@ -26,6 +26,11 @@ export interface GameRow {
   play_ms: number
   podium_ms: number
   question_ids: string[]
+  /**
+   * Pantallas manuales: instante del reloj de la partida (ms desde started_at) donde se
+   * frena hasta que el stand pasa a la siguiente (`manualHold`). null = corre solo.
+   */
+  hold_ms?: number | null
 }
 
 export type Phase =
@@ -87,6 +92,48 @@ export function segments(t: Timeline): Segment[] {
 export const playMs = (t: Timeline) => segments(t).at(-1)!.to
 export const podiumMs = (t: Timeline) => t.podium * 1000
 
+/** Ms de reloj de la partida en un instante: se frena en `hold_ms` si está en manual. */
+export function clockAt(game: GameRow, now: number): number {
+  const t = now - Date.parse(game.started_at!)
+  return game.hold_ms == null ? t : Math.min(t, game.hold_ms)
+}
+
+/**
+ * Pantallas manuales: las preguntas corren y cierran solas; la partida se frena al final de
+ * cada pantalla que no es pregunta (revelación, top 5, podio) hasta que el stand pasa a la
+ * siguiente. Devuelve el `hold_ms` de la primera de esas pantallas a partir de `from`
+ * (índice de segmento): su fin menos 1 ms, para quedarse en ella.
+ */
+const holdFrom = (segs: Segment[], from: number) => {
+  const j = segs.findIndex((s, i) => i >= from && s.kind !== "question")
+  return j < 0 ? null : segs[j].to - 1
+}
+
+/** `hold_ms` con el que se prende lo manual en el instante `now` (partida en curso). */
+export function manualHold(game: GameRow, now: number) {
+  const segs = segments(game.timeline)
+  const t = clockAt(game, now)
+  const i = segs.findIndex((s) => t < s.to)
+  return i < 0 ? null : holdFrom(segs, i)
+}
+
+/**
+ * Siguiente paso de una partida en manual, para `trivia_advance`: fin del segmento actual,
+ * `hold_ms` que corresponde después de avanzar (null si el actual es el podio: la partida
+ * termina) e inicio del podio, en ms desde started_at. undefined si ya terminó.
+ */
+export function manualStep(game: GameRow, now: number) {
+  const segs = segments(game.timeline)
+  const t = clockAt(game, now)
+  const i = segs.findIndex((s) => t < s.to)
+  if (i < 0) return undefined
+  return {
+    curTo: segs[i].to,
+    nextHold: holdFrom(segs, i + 1),
+    podiumFrom: segs.at(-1)!.from,
+  }
+}
+
 /** Ventana de una pregunta, en ms epoch. */
 export function questionWindow(game: GameRow, q: number) {
   const start = Date.parse(game.started_at!)
@@ -103,7 +150,7 @@ export function phaseAt(game: GameRow, now: number): Phase {
       endsAt: game.lobby_ends_at ? Date.parse(game.lobby_ends_at) : null,
     }
   const start = Date.parse(game.started_at)
-  const t = now - start
+  const t = clockAt(game, now)
   for (const s of segments(game.timeline)) {
     if (t < s.to) {
       const span = { start: start + s.from, end: start + s.to }
@@ -118,7 +165,7 @@ export function phaseAt(game: GameRow, now: number): Phase {
 /** Preguntas ya cerradas (con respuesta revelada) en un instante: 0 a QUESTION_COUNT. */
 export function revealedCount(game: GameRow, now: number): number {
   if (!game.started_at) return 0
-  const t = now - Date.parse(game.started_at)
+  const t = clockAt(game, now)
   return segments(game.timeline).filter(
     (s) => s.kind === "question" && t >= s.to
   ).length

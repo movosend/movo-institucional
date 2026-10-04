@@ -72,6 +72,7 @@ export function liveRow(g: LiveGame): GameRow {
     play_ms: 0,
     podium_ms: 0,
     question_ids: [],
+    hold_ms: g.holdMs,
   }
 }
 
