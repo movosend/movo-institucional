@@ -9,7 +9,13 @@ import { css } from "@/lib/juegos/css"
 import { livePhase, useNow, useTriviaState } from "@/lib/trivia/client"
 import { SCREEN_PING_S } from "@/lib/trivia/config"
 import { questionLimitS } from "@/lib/trivia/engine"
-import { SFX, enableSound } from "@/lib/trivia/sfx"
+import {
+  SFX,
+  applySoundSettings,
+  duckMusic,
+  enableSound,
+} from "@/lib/trivia/sfx"
+import { useMarkTvAlive, useSoundSettings } from "@/lib/trivia/sound-settings"
 import type { TriviaState } from "@/lib/trivia/types"
 
 import { WifiOff } from "../icons"
@@ -288,27 +294,73 @@ export function TriviaTV() {
     return () => window.removeEventListener("keydown", onKey)
   }, [stand, manualLobby, manualSlides])
 
-  // Sonidos al cambiar de escena, cuando entra alguien y en los últimos 3 s.
+  // Sonido: ajustes del modo stand (por TV) y efectos al cambiar de escena, cuando entra
+  // alguien, cuando llegan respuestas y en las cuentas regresivas.
+  useMarkTvAlive()
+  const soundSettings = useSoundSettings()
+  const lastVolume = useRef(soundSettings.volume)
+  useEffect(() => {
+    applySoundSettings(soundSettings)
+    if (sound && soundSettings.volume !== lastVolume.current) SFX.preview()
+    lastVolume.current = soundSettings.volume
+  }, [soundSettings, sound])
+
   const key = sceneKey(state, now)
   const lastKey = useRef(key)
   const lastCount = useRef(state?.lobby.count ?? 0)
   const lastSecond = useRef(0)
+  const lastLobbySecond = useRef(0)
+  const lastAnswered = useRef({ key: "", n: 0, all: false })
   useEffect(() => {
     if (!sound || !state) return
-    if (key !== lastKey.current) {
-      if (key.startsWith("question")) SFX.question()
-      else if (key.startsWith("reveal")) SFX.reveal()
+    const prev = lastKey.current
+    if (key !== prev) {
+      if (key === "question:0" && !prev.startsWith("question")) SFX.start()
+      else if (key.startsWith("question")) SFX.question()
+      else if (key.startsWith("reveal"))
+        SFX.reveal(prev === key.replace("reveal", "question"))
+      else if (key === "top5") SFX.top5()
       else if (key === "podium") SFX.podium()
       lastKey.current = key
     }
-    if (state.lobby.count > lastCount.current) SFX.join()
+    if (state.lobby.count > lastCount.current) SFX.join(state.lobby.count - 1)
     lastCount.current = state.lobby.count
-    if (state.current) {
-      const p = livePhase(state.current, now)
-      if (p.kind === "question") {
-        const s = Math.ceil((p.end - now) / 1000)
-        if (s <= 3 && s > 0 && s !== lastSecond.current) SFX.tick()
-        lastSecond.current = s
+
+    const game = state.current
+    const p = livePhase(game, now)
+    duckMusic(
+      !!game && p.kind !== "lobby" && p.kind !== "ended" && p.kind !== "podium"
+    )
+
+    // Cuenta del lobby (la del arranque automático).
+    const endsAt = state.lobby.lobbyEndsAt
+    const inLobby =
+      !game || p.kind === "lobby" || p.kind === "ended" || p.kind === "podium"
+    if (inLobby && endsAt && !state.manualLobby && !state.paused) {
+      const s = Math.ceil((endsAt - now) / 1000)
+      if (s <= 5 && s > 0 && s !== lastLobbySecond.current) SFX.lobbyTick(s)
+      lastLobbySecond.current = s
+    } else lastLobbySecond.current = 0
+
+    if (game && p.kind === "question") {
+      const s = Math.ceil((p.end - now) / 1000)
+      if (s <= 5 && s > 0 && s !== lastSecond.current) SFX.tick(s)
+      lastSecond.current = s
+
+      // Respuestas: un "pop" por cada una que llega (hasta 3 por actualización).
+      const n = game.answered[p.q] ?? 0
+      const qKey = `${game.id}:${p.q}`
+      const seen = lastAnswered.current
+      if (seen.key !== qKey) lastAnswered.current = { key: qKey, n, all: false }
+      else if (n > seen.n) {
+        const frac = game.players ? n / game.players : 0
+        for (let i = 0; i < Math.min(3, n - seen.n); i++)
+          SFX.answer(frac, i * 0.07)
+        seen.n = n
+        if (game.players > 1 && n >= game.players && !seen.all) {
+          seen.all = true
+          SFX.allAnswered(0.2)
+        }
       }
     }
   }, [key, now, sound, state])

@@ -11,6 +11,11 @@ import {
   type Timeline,
 } from "@/lib/trivia/config"
 import { QUESTION_COUNT, fmtPoints } from "@/lib/trivia/engine"
+import {
+  setSoundSettings,
+  useSoundSettings,
+  useTvHere,
+} from "@/lib/trivia/sound-settings"
 import type { TriviaState } from "@/lib/trivia/types"
 
 /**
@@ -212,6 +217,8 @@ export function ControlPanel({
   const [query, setQuery] = useState("")
   const [timesOpen, setTimesOpen] = useState(false)
   const [saved, setSaved] = useState(false)
+  const sound = useSoundSettings()
+  const tvHere = useTvHere()
 
   const inflight = useRef(0)
   const lastAct = useRef(0)
@@ -624,6 +631,76 @@ export function ControlPanel({
           </span>
         </div>
       </section>
+
+      {(onPopOut || tvHere) && (
+        <section style={css(CARD)}>
+          <span style={LABEL}>Sonido de la TV</span>
+          <SwitchRow
+            title="Silenciar"
+            hint="Se guarda en esta pantalla; desde otro dispositivo no aplica."
+            on={sound.muted}
+            onChange={(on) => setSoundSettings({ muted: on })}
+          />
+          <div
+            style={css(
+              "display:flex;align-items:center;justify-content:space-between;gap:16px"
+            )}
+          >
+            <div style={css("display:flex;flex-direction:column;gap:2px")}>
+              <span style={css("font-size:17px;font-weight:600")}>Volumen</span>
+              <span
+                style={css(`font-size:14px;color:${MUTED};line-height:1.35`)}
+              >
+                La TV suena una muestra con cada cambio.
+              </span>
+            </div>
+            <span
+              style={css("flex:none;display:flex;align-items:center;gap:4px")}
+            >
+              <button
+                onClick={() =>
+                  setSoundSettings({
+                    volume: Math.max(
+                      0.1,
+                      Math.round(sound.volume * 10 - 1) / 10
+                    ),
+                  })
+                }
+                aria-label="Menos volumen"
+                className="mv-press"
+                style={{ ...btn("secondary", 44), width: 44, padding: 0 }}
+              >
+                −
+              </button>
+              <span
+                style={css(
+                  "min-width:56px;text-align:center;font-family:var(--font-mono);font-size:19px;font-weight:500"
+                )}
+              >
+                {Math.round(sound.volume * 100)}%
+              </span>
+              <button
+                onClick={() =>
+                  setSoundSettings({
+                    volume: Math.min(1, Math.round(sound.volume * 10 + 1) / 10),
+                  })
+                }
+                aria-label="Más volumen"
+                className="mv-press"
+                style={{ ...btn("secondary", 44), width: 44, padding: 0 }}
+              >
+                +
+              </button>
+            </span>
+          </div>
+          <SwitchRow
+            title="Música de fondo"
+            hint="Loop suave en el lobby y el podio; baja durante las preguntas."
+            on={sound.music}
+            onChange={(on) => setSoundSettings({ music: on })}
+          />
+        </section>
+      )}
 
       <section style={css(CARD)}>
         <div

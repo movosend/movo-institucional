@@ -92,6 +92,11 @@ partidas; la gente escanea el QR y juega desde `/trivia` (público, fuera de `pr
   permisos sobre tablas ni funciones. Mail opcional al final → Resend (`lib/newsletter.ts`).
 - **TV**: el lienzo se diseña a 1920×1080 y ocupa toda la ventana (sin franjas). Modo stand con
   5 toques arriba a la izquierda: pausar el loop, tiempos, ocultar nombres y CSV del día.
+- **Sonido**: todo sintetizado con WebAudio en `lib/trivia/sfx.ts` (bus con compresor y
+  reverb, música generativa opcional en el lobby). Volumen, silencio y música se guardan por
+  TV (`lib/trivia/sound-settings.ts`) y el control los cambia si está en el mismo navegador.
+  El podio escalonado usa `PODIUM_DELAYS` (`config.ts`) para la animación y el sonido. El
+  celular solo vibra (`lib/trivia/haptics.ts`, Android; iPhone no tiene `navigator.vibrate`).
 - **Control del stand**: `components/trivia/control/control-panel.tsx`, el mismo componente como panel
   sobre la TV y como ventana propia en `/juegos/trivia/control` (otra pantalla, tablet o celular;
   no manda el ping de la pantalla). Cambios optimistas y tiempos que se guardan solos.
