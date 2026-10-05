@@ -27,7 +27,7 @@ export const TILE_OPTIONS: TileLayerOptions = {
   crossOrigin: true,
 }
 
-const WARM_FLAG = "movo-juegos-tiles-warm-v2"
+const WARM_FLAG = "movo-juegos-tiles-warm-v3"
 
 type Bounds = { s: number; n: number; w: number; e: number }
 
@@ -83,7 +83,7 @@ function warmTiles(): [number, number, number][] {
 /**
  * Registra el service worker que cachea los tiles (`public/juegos-tiles-sw.js`) y, la
  * primera vez en cada dispositivo, precalienta Argentina y las ciudades del optimizador
- * (~3.400 tiles, unas decenas de MB) en segundo plano, de a poco para no competir con el
+ * (~4.300 tiles, unas decenas de MB) en segundo plano, de a poco para no competir con el
  * mapa visible. El service worker solo existe en HTTPS (o localhost): abierto por la IP de
  * la red local no hay cache y cada tile se pide a ArcGIS.
  */
