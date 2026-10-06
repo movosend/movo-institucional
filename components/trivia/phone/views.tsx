@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { serverNow } from "@/lib/trivia/client"
 
 import { css } from "@/lib/juegos/css"
 import { COPY, NAME_MAX, SCORING } from "@/lib/trivia/config"
 import { isOffensive } from "@/lib/trivia/badwords"
+import { HAPTIC } from "@/lib/trivia/haptics"
 import {
   OPTION_KEYS,
   QUESTION_COUNT,
@@ -753,6 +754,13 @@ export function ChoiceResult({
 }) {
   const ok = picked !== undefined && picked === reveal.answer
   const left = QUESTION_COUNT - (q + 1)
+  useEffect(() => {
+    if (ok) HAPTIC.correct()
+    else if (picked === undefined) HAPTIC.timeout()
+    else HAPTIC.wrong()
+    // Solo al aparecer el resultado de cada pregunta.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [q])
   const answerText =
     question.type === "tf"
       ? reveal.answer === 0
@@ -773,7 +781,7 @@ export function ChoiceResult({
         {ok ? (
           <span
             style={css(
-              "width:64px;height:64px;border-radius:999px;background:#0A0A0B;display:flex;align-items:center;justify-content:center"
+              "width:64px;height:64px;border-radius:999px;background:#0A0A0B;display:flex;align-items:center;justify-content:center;animation:mvPop .36s cubic-bezier(.22,1,.36,1) both"
             )}
           >
             <Check size={34} color="#C6F24A" width={2.5} />
@@ -781,7 +789,7 @@ export function ChoiceResult({
         ) : (
           <span
             style={css(
-              `width:64px;height:64px;border-radius:999px;border:2px solid ${picked === undefined ? "#8A8A93" : "#E5484D"};box-sizing:border-box;display:flex;align-items:center;justify-content:center`
+              `width:64px;height:64px;border-radius:999px;border:2px solid ${picked === undefined ? "#8A8A93" : "#E5484D"};box-sizing:border-box;display:flex;align-items:center;justify-content:center;${picked === undefined ? "" : "animation:mvShake .36s ease-in-out"}`
             )}
           >
             {picked === undefined ? (
@@ -842,6 +850,13 @@ export function PriceResult({
   const pos = (v: number) =>
     ((Math.min(Math.max(v, min), max) - min) / (max - min)) * 100
   const diff = guess === undefined ? 0 : guess - real
+  useEffect(() => {
+    if (guess === undefined) HAPTIC.timeout()
+    else if (diff === 0) HAPTIC.perfect()
+    else if (points) HAPTIC.correct()
+    else HAPTIC.wrong()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [q])
   const title =
     guess === undefined
       ? "No llegaste a elegir precio."

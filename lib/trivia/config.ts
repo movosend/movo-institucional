@@ -140,3 +140,9 @@ export const COPY = {
   emailInvalid: "Revisá el mail, parece que falta algo.",
   emailDone: (email: string) => `Listo, te escribimos a ${email}.`,
 } as const
+
+/**
+ * Cuándo entra cada escalón del podio en la TV (3.º, 2.º, 1.º), en segundos desde que
+ * aparece la escena. El sonido (`SFX.podium`) va sincronizado con esto.
+ */
+export const PODIUM_DELAYS = [0.3, 1.1, 2.6] as const

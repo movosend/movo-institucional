@@ -1,7 +1,7 @@
 "use client"
 
 import { css } from "@/lib/juegos/css"
-import { COPY, SCORING } from "@/lib/trivia/config"
+import { COPY, PODIUM_DELAYS, SCORING } from "@/lib/trivia/config"
 import {
   OPTION_KEYS,
   QUESTION_COUNT,
@@ -1223,7 +1223,7 @@ export function PodiumScene({
                 <div
                   key={c.s.id}
                   style={css(
-                    `display:flex;flex-direction:column;gap:20px;animation:mvFadeUp .5s cubic-bezier(.22,1,.36,1) ${[0.3, 0.6, 0][i]}s both`
+                    `display:flex;flex-direction:column;gap:20px;animation:mvFadeUp .5s cubic-bezier(.22,1,.36,1) ${[PODIUM_DELAYS[1], PODIUM_DELAYS[2], PODIUM_DELAYS[0]][i]}s both`
                   )}
                 >
                   <span

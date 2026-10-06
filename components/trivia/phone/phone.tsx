@@ -23,6 +23,7 @@ import {
 } from "@/lib/trivia/client"
 import { css } from "@/lib/juegos/css"
 import { withEmoji } from "@/lib/trivia/emojis"
+import { HAPTIC } from "@/lib/trivia/haptics"
 import { fmtClock, questionLimitS } from "@/lib/trivia/engine"
 import type { TriviaState } from "@/lib/trivia/types"
 
@@ -261,6 +262,15 @@ function Play({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
+  // Vibra cuando sale una pregunta nueva (para quien dejó de mirar el celular).
+  const live =
+    state?.me?.inCurrent && now ? livePhase(state.current, now) : null
+  const questionKey =
+    live?.kind === "question" ? `${state?.current?.id}:${live.q}` : ""
+  useEffect(() => {
+    if (questionKey) HAPTIC.question()
+  }, [questionKey])
+
   if (!state || !now) return offline ? <OfflineView /> : <Screen>{null}</Screen>
 
   const me = state.me
@@ -329,6 +339,7 @@ function Play({
             Math.round(serverNow() - Math.max(phase.start, shownAt))
           )
           setLocal((m) => ({ ...m, [key]: { ...a, ms } }))
+          HAPTIC.sent()
           sendAnswer({ gameId: cur.id, playerId: profile.id, q, ms, ...a })
         }
         if (question.type === "price")
