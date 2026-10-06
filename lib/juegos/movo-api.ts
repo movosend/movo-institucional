@@ -84,8 +84,18 @@ export async function forwardToMovo(
         cache: "no-store",
       }
     )
-    const payload: unknown = await response.json().catch(() => null)
-    if (payload === null) return unavailable(502)
+    const text = await response.text().catch(() => "")
+    let payload: unknown = null
+    try {
+      payload = JSON.parse(text)
+    } catch {}
+    if (payload === null) {
+      console.error(
+        `[juegos] Backend de Movo respondió ${response.status} sin JSON en ${init.method} ${path}:`,
+        text.slice(0, 300)
+      )
+      return unavailable(502)
+    }
     return NextResponse.json(payload, { status: response.status })
   } catch (error) {
     console.error("[juegos] Backend de Movo:", error)
